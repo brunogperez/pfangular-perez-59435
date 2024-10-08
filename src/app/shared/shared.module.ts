@@ -12,9 +12,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { UserFullNamePipe } from './pipes/user-full-name.pipe';
 import { AgePipe } from './pipes/age.pipe';
+import { FontSizeDirective } from './directives/font-size.directive';
 
 @NgModule({
-  declarations: [UserFullNamePipe, AgePipe],
+  declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
   imports: [CommonModule],
   exports: [
     ReactiveFormsModule,
@@ -29,6 +30,7 @@ import { AgePipe } from './pipes/age.pipe';
     MatTableModule,
     UserFullNamePipe,
     AgePipe,
+    FontSizeDirective,
   ],
 })
 export class SharedModule {}

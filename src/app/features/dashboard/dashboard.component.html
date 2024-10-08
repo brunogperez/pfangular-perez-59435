@@ -1,32 +1,30 @@
 <mat-drawer-container class="example-container" autosize>
   <!-- SECCION IZQUIERDA (PARTE INTERIOR DEL SIDEBAR) -->
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <p>Auto-resizing sidenav</p>
-    @if (showFiller) {
-    <p>Lorem, ipsum dolor sit amet consectetur.</p>
-    }
-    <button (click)="showFiller = !showFiller" mat-raised-button>
-      Toggle extra text
-    </button>
+    <button mat-button><mat-icon>home</mat-icon> Inicio</button>
+    <button mat-button><mat-icon>people</mat-icon> Alumnos</button>
+    <button mat-button><mat-icon>add</mat-icon> Nuevo Alumno</button>
+    <button mat-button><mat-icon>bar_chart</mat-icon> Reportes</button>
+    <button mat-button><mat-icon>settings</mat-icon> Configuración</button>
+    <button mat-button><mat-icon>file_download</mat-icon> Exportar</button>
+    <button mat-button><mat-icon>person</mat-icon> Usuarios</button>
+    <button mat-button><mat-icon>help</mat-icon> Soporte</button>
+    <button mat-button><mat-icon>info</mat-icon> Acerca de</button>
+    <button mat-button><mat-icon>logout</mat-icon> Cerrar Sesión</button>
   </mat-drawer>
 
   <!-- SECCION DERECHA DEL CONTENIDO -->
   <div class="example-sidenav-content">
     <!-- TOOLBAR A CUSTOMIZAR -->
     <mat-toolbar>
-      <button
-        (click)="drawer.toggle()"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with menu icon"
-      >
+      <button (click)="drawer.toggle()" mat-icon-button class="example-icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>Instituto Cultural Mendoza</span>
-      <span class="example-spacer"></span>
+      <img
+        src="http://didiosistemas.com.ar:8025/img/logo.png"
+        alt="Logo Instituto Cultural Mendoza"
+      />
     </mat-toolbar>
-
-
 
     <!-- USERS COMPONENT -->
     <app-users />

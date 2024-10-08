@@ -60,62 +60,7 @@ const ELEMENT_DATA: User[] = [
     birthdate: new Date('1972-03-21'),
     createdAt: new Date('2023-01-07'),
   },
-  {
-    id: 'o5p6',
-    firstName: 'Ashley',
-    lastName: 'Taylor',
-    email: 'ashley.taylor@example.com',
-    birthdate: new Date('1990-05-29'),
-    createdAt: new Date('2023-01-08'),
-  },
-  {
-    id: 'q7r8',
-    firstName: 'Brian',
-    lastName: 'Lee',
-    email: 'brian.lee@example.com',
-    birthdate: new Date('1983-12-11'),
-    createdAt: new Date('2023-01-09'),
-  },
-  {
-    id: 's9t0',
-    firstName: 'Megan',
-    lastName: 'White',
-    email: 'megan.white@example.com',
-    birthdate: new Date('1977-10-07'),
-    createdAt: new Date('2023-01-10'),
-  },
-  {
-    id: 'u1v2',
-    firstName: 'James',
-    lastName: 'Harris',
-    email: 'james.harris@example.com',
-    birthdate: new Date('1986-01-14'),
-    createdAt: new Date('2023-01-11'),
-  },
-  {
-    id: 'w3x4',
-    firstName: 'Lauren',
-    lastName: 'Clark',
-    email: 'lauren.clark@example.com',
-    birthdate: new Date('1994-08-22'),
-    createdAt: new Date('2023-01-12'),
-  },
-  {
-    id: 'y5z6',
-    firstName: 'Daniel',
-    lastName: 'Lewis',
-    email: 'daniel.lewis@example.com',
-    birthdate: new Date('1973-06-03'),
-    createdAt: new Date('2023-01-13'),
-  },
-  {
-    id: 'a7b8',
-    firstName: 'Nicole',
-    lastName: 'Walker',
-    email: 'nicole.walker@example.com',
-    birthdate: new Date('1998-04-19'),
-    createdAt: new Date('2023-01-14'),
-  },
+
 ];
 
 @Component({
