@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
 import { User } from '../models';
+import { nameValidator } from '../../../../shared/utils/custom-validators';
 
 interface UserDialogData {
   editUser?: User;
@@ -21,12 +22,19 @@ export class UserDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data?: UserDialogData
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      firstName: [null, [nameValidator]],
+      lastName: [null, [nameValidator]],
+      email: [null, [Validators.required, Validators.email]],
       birthdate: [null, [Validators.required]],
     });
     this.patchForm();
+  }
+
+  get firstNameControl() {
+    return this.userForm.get('firstName');
+  }
+  get lastNameControl() {
+    return this.userForm.get('lastName');
   }
 
   private get isEditing() {

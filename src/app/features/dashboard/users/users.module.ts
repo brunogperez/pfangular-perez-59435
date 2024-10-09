@@ -10,9 +10,10 @@ import { UsersComponent } from './users.component';
 //import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../../../shared/shared.module';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import { ControlErrorsComponent } from './control-errors/control-errors.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserDialogComponent],
+  declarations: [UsersComponent, UserDialogComponent, ControlErrorsComponent],
   imports: [CommonModule, UsersRoutingModule, SharedModule],
   exports: [UsersComponent],
 })

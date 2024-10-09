@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { DashboardModule } from './features/dashboard/dashboard.module';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, DashboardModule],

@@ -1,0 +1,9 @@
+@if (validationErrors?.['required']) {
+<mat-error appFontSize fontSize="10px">Este campo es requerido</mat-error>
+} @if (validationErrors?.['minlength']) {
+<mat-error appFontSize fontSize="10px">
+  Este campo requiere mínimo {{validationErrors?.['minlength']?.requiredLength}} caracteres
+</mat-error>
+} @if (validationErrors?.['pattern']) {
+<mat-error appFontSize fontSize="10px">Este campo solo admite letras</mat-error>
+}
