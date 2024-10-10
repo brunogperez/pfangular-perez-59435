@@ -11,6 +11,7 @@
           [validationErrors]="firstNameControl?.errors"
         />
       </mat-form-field>
+
       <mat-form-field class="col-6">
         <mat-label>Apellido</mat-label>
         <input matInput formControlName="lastName" type="text" />
@@ -20,11 +21,13 @@
         />
       </mat-form-field>
     </div>
+
     <mat-form-field class="col-12">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" />
       <mat-error>Este campo es requerido</mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Choose a date</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="birthdate" />
@@ -34,8 +37,9 @@
         [for]="picker"
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error>Este campo es requerido</mat-error>
     </mat-form-field>
-  </form>
+   </form>
   <div mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancelar</button>
     <button (click)="onSave()" mat-button>Guardar</button>

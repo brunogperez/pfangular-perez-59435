@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { UserFullNamePipe } from './pipes/user-full-name.pipe';
 import { AgePipe } from './pipes/age.pipe';
 import { FontSizeDirective } from './directives/font-size.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
@@ -31,6 +33,8 @@ import { FontSizeDirective } from './directives/font-size.directive';
     UserFullNamePipe,
     AgePipe,
     FontSizeDirective,
+    MatProgressSpinnerModule,
+    MatDividerModule,
   ],
 })
 export class SharedModule {}
