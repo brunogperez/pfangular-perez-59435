@@ -36,6 +36,9 @@ export class UserDialogComponent {
   get lastNameControl() {
     return this.userForm.get('lastName');
   }
+  get emailControl() {
+    return this.userForm.get('email');
+  }
 
   private get isEditing() {
     return !!this.data?.editUser;

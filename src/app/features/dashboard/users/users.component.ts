@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { User } from './models';
 import { UsersService } from '../../../core/services/users.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users',
@@ -48,6 +49,42 @@ export class UsersComponent implements OnInit {
   }
 
   onDelete(id: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.usersService.removeUserById(id).subscribe({
+          next: (users) => {
+            this.dataSource = users;
+            Swal.fire(
+              '¡Eliminado!',
+              'El usuario ha sido eliminado.',
+              'success'
+            );
+          },
+          error: (err) => {
+            this.isLoading = false;
+            Swal.fire(
+              'Error',
+              'Hubo un problema al eliminar el usuario.',
+              'error'
+            );
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
+      }
+    });
+  }
+
+ /*  onDelete(id: string) {
     this.isLoading = true;
     this.usersService.removeUserById(id).subscribe({
       next: (users) => {
@@ -60,7 +97,7 @@ export class UsersComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  }
+  } */
 
   openDialog(editUser?: User): void {
     this.matDialog
