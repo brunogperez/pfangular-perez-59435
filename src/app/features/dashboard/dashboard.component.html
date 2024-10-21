@@ -1,16 +1,12 @@
 <mat-drawer-container class="example-container" autosize>
   <!-- SECCION IZQUIERDA (PARTE INTERIOR DEL SIDEBAR) -->
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <button mat-button><mat-icon>home</mat-icon> Inicio</button>
-    <button mat-button><mat-icon>people</mat-icon> Alumnos</button>
-    <button mat-button><mat-icon>add</mat-icon> Nuevo Alumno</button>
-    <button mat-button><mat-icon>bar_chart</mat-icon> Reportes</button>
-    <button mat-button><mat-icon>settings</mat-icon> Configuración</button>
-    <button mat-button><mat-icon>file_download</mat-icon> Exportar</button>
-    <button mat-button><mat-icon>person</mat-icon> Usuarios</button>
-    <button mat-button><mat-icon>help</mat-icon> Soporte</button>
-    <button mat-button><mat-icon>info</mat-icon> Acerca de</button>
-    <button mat-button><mat-icon>logout</mat-icon> Cerrar Sesión</button>
+    <mat-nav-list>
+      <a mat-list-item routerLink="home"> Inicio</a>
+      <a mat-list-item routerLink="users"> Alumnos</a>
+      <a mat-list-item routerLink=""> Configuración</a>
+      <a mat-list-item (click)="logout()"> Cerrar Sesión</a>
+    </mat-nav-list>
   </mat-drawer>
 
   <!-- SECCION DERECHA DEL CONTENIDO -->
@@ -27,6 +23,6 @@
     </mat-toolbar>
 
     <!-- USERS COMPONENT -->
-    <app-users />
+    <router-outlet />
   </div>
 </mat-drawer-container>

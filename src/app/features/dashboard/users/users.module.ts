@@ -11,9 +11,10 @@ import { UsersComponent } from './users.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { ControlErrorsComponent } from './control-errors/control-errors.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserDialogComponent, ControlErrorsComponent],
+  declarations: [UsersComponent, UserDialogComponent, ControlErrorsComponent, UserDetailComponent],
   imports: [CommonModule, UsersRoutingModule, SharedModule],
   exports: [UsersComponent],
 })

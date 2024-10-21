@@ -15,6 +15,7 @@ import { AgePipe } from './pipes/age.pipe';
 import { FontSizeDirective } from './directives/font-size.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
@@ -35,6 +36,7 @@ import { MatDividerModule } from '@angular/material/divider';
     FontSizeDirective,
     MatProgressSpinnerModule,
     MatDividerModule,
+    MatProgressBarModule,
   ],
 })
 export class SharedModule {}

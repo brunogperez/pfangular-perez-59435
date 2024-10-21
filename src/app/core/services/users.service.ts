@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { User } from '../../features/dashboard/users/models';
+
 
 let DATABASE: User[] = [
   {
@@ -73,8 +74,12 @@ export class UsersService {
         observer.next(DATABASE);
         //observer.error('Error al cargar la base de datos')
         observer.complete();
-      }, 2000);
+      }, 1000);
     });
+  }
+
+  getUserById(id: string): Observable<User | undefined> {
+    return this.getUsers().pipe(map((user) => user.find((u) => u.id === id)));
   }
 
   updateUserById(id: string, update: Partial<User>) {

@@ -4,6 +4,7 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { User } from './models';
 import { UsersService } from '../../../core/services/users.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +27,9 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -84,20 +87,9 @@ export class UsersComponent implements OnInit {
     });
   }
 
- /*  onDelete(id: string) {
-    this.isLoading = true;
-    this.usersService.removeUserById(id).subscribe({
-      next: (users) => {
-        this.dataSource = users;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
-  } */
+  goToDetail(id: string): void {
+    this.router.navigate([id, 'detail'], { relativeTo: this.activatedRoute });
+  }
 
   openDialog(editUser?: User): void {
     this.matDialog

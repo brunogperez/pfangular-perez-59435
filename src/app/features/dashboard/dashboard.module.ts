@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 //import { MatIconModule } from '@angular/material/icon';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from '../../shared/shared.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -20,7 +21,8 @@ import { SharedModule } from '../../shared/shared.module';
     MatSidenavModule,
     MatToolbarModule,
     SharedModule,
-    UsersModule
+    UsersModule,
+    MatListModule,
   ],
   exports: [DashboardComponent],
 })

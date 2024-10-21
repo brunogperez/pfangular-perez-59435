@@ -1,0 +1,16 @@
+@if(isLoading){
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<p class="text-center my-5">CARGANDO...</p>
+}@else {
+<div class="my-auto d-flex justify-content-center">
+  <div class="align-items-center text-center ">
+    <p>{{ user?.id }}</p>
+
+    <p>{{ user?.firstName }}</p>
+
+    <p>{{ user?.lastName }}</p>
+
+    <p>{{ user?.email }}</p>
+  </div>
+</div>
+}
