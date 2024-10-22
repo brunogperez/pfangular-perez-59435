@@ -72,7 +72,7 @@ export class UsersService {
     return new Observable((observer) => {
       setInterval(() => {
         observer.next(DATABASE);
-        //observer.error('Error al cargar la base de datos')
+        
         observer.complete();
       }, 1000);
     });
@@ -96,6 +96,6 @@ export class UsersService {
 
   removeUserById(id: string): Observable<User[]> {
     DATABASE = DATABASE.filter((user) => user.id != id);
-    return of(DATABASE).pipe(delay(500)); //return new Observable()
+    return of(DATABASE).pipe(delay(500)); 
   }
 }

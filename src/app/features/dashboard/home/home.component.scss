@@ -1,0 +1,63 @@
+
+.dashboard {
+  padding: 10vh;
+}
+.course-info {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  margin-bottom: 20px;
+}
+.progress-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(#58d68d 66%, #ccc 66%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  font-size: 24px;
+}
+.course-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.course-details {
+  margin-left: 20px;
+}
+.button {
+  padding: 10px 20px;
+  background-color: #58d68d;
+  border: none;
+  border-radius: 4px;
+  color: black;
+  cursor: pointer;
+}
+.learning-path {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.learning-path h3 {
+  color: #f1c40f;
+}
+.learning-path-button {
+  background-color: #f1c40f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: black;
+  cursor: pointer;
+}
+.extra-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.extra-info div {
+  text-align: center;
+}

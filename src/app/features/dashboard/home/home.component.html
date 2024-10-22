@@ -1,1 +1,63 @@
-<p>home works!</p>
+<div class="dashboard">
+  <mat-card class="course-info">
+    <div
+      class="course-header"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <!-- Progress Circle -->
+        <mat-progress-spinner
+          [mode]="'determinate'"
+          [value]="66"
+          diameter="80"
+          strokeWidth="8"
+          color="primary"
+        >
+        </mat-progress-spinner>
+        <span class="progress-text" style="margin-left: 20px; font-size: 24px"
+          >66%<br />Cursando</span
+        >
+      </div>
+      <div class="course-details">
+        <h2>Angular - 100% En Vivo</h2>
+        <p><mat-icon>group</mat-icon> Comisión 59435</p>
+        <p><mat-icon>event</mat-icon> Del 09/09/24 al 06/11/24</p>
+        <p><mat-icon>schedule</mat-icon> Lunes y Miércoles - 20:30 a 22:30h</p>
+      </div>
+      <div>
+        <p><mat-icon>check_circle</mat-icon> Estás al día con tu cursada</p>
+        <p>Tu próxima clase es el 21/10/24</p>
+        <button mat-raised-button color="primary">Ir al Curso</button>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="learning-path">
+    <h3>Ruta de Aprendizaje: Desarrollador web Full Stack</h3>
+    <mat-divider></mat-divider>
+    <span matBadge="Programación" matBadgeColor="primary"></span>
+    <span matBadge="Principal" matBadgeColor="accent"></span>
+    <p>
+      Como Desarrollador web Full Stack podrás crear una aplicación web completa
+      y funcional. Aprenderás todo sobre frontend y backend, incluyendo gestión
+      de bases de datos.
+    </p>
+    <button mat-raised-button color="accent">Ir a la ruta</button>
+  </mat-card>
+
+  <div class="extra-info" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <mat-icon>web</mat-icon>
+      <p>Webinars</p>
+    </div>
+    <div>
+      <mat-icon>card_giftcard</mat-icon>
+      <p>Beneficios</p>
+    </div>
+    <div>
+      <mat-icon>signal_cellular_alt</mat-icon>
+      <p>Estado de la Plataforma</p>
+    </div>
+  </div>
+</div>

@@ -6,10 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 
 /* IMPORTS PROPIOS DEL PROYECTO */
 import { MatSidenavModule } from '@angular/material/sidenav';
-//import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-//import { MatIconModule } from '@angular/material/icon';
-import { UsersModule } from './users/users.module';
 import { SharedModule } from '../../shared/shared.module';
 import { MatListModule } from '@angular/material/list';
 
@@ -21,7 +18,6 @@ import { MatListModule } from '@angular/material/list';
     MatSidenavModule,
     MatToolbarModule,
     SharedModule,
-    UsersModule,
     MatListModule,
   ],
   exports: [DashboardComponent],

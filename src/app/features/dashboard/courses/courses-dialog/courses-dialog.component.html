@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>
+  {{ data?.editCourse == undefined ? "Crear" : "Editar" }} curso
+</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="courseForm">
+    
+      <mat-form-field class="col-12">
+        <mat-label>Nombre del curso</mat-label>
+        <input matInput formControlName="name" type="text" />
+        <!--    <app-control-errors
+          *ngIf="firstNameControl?.touched"
+          [validationErrors]="firstNameControl?.errors"
+        /> -->
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>Duración</mat-label>
+        <input matInput formControlName="duration" type="text" />
+        <!--      <app-control-errors
+          *ngIf="lastNameControl?.touched"
+          [validationErrors]="lastNameControl?.errors"
+        /> -->
+      </mat-form-field>
+    
+
+    <mat-form-field class="col-12">
+      <mat-label>Dificultad</mat-label>
+      <input matInput type="text" formControlName="level" />
+      <!--       <app-control-errors
+        *ngIf="emailControl?.touched"
+        [validationErrors]="emailControl?.errors"
+      /> -->
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>Descripción</mat-label>
+      <input matInput type="text" formControlName="description" />
+      <!--       <app-control-errors
+        *ngIf="emailControl?.touched"
+        [validationErrors]="emailControl?.errors"
+      /> -->
+    </mat-form-field>
+  </form>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button (click)="onSave()" mat-button>Guardar</button>
+  </div>
+</div>
