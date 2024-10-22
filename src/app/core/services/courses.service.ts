@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { delay, map, Observable, of } from 'rxjs';
+import { delay, map, Observable, of, pipe } from 'rxjs';
 import { Course } from '../../features/dashboard/courses/models/index';
 
 let COURSES_DB: Course[] = [
-  {
+  /* {
     id: 'OEO66Dp0',
     name: 'Web Development',
     duration: '5 months',
@@ -122,7 +122,7 @@ let COURSES_DB: Course[] = [
     level: 'Intermediate',
     description:
       'Gain practical skills in manual quality assurance testing to ensure software functionality and performance meet the required standards.',
-  },
+  }, */
   {
     id: 'FGH89Dj3',
     name: 'Angular',
@@ -130,18 +130,77 @@ let COURSES_DB: Course[] = [
     level: 'Intermediate',
     description:
       'Learn to build powerful and scalable web applications using Angular, one of the most popular front-end frameworks.',
+    classes: [
+      {
+        id: 1,
+        name: 'Introducción y configuración de herramientas',
+        date: new Date('2024-09-09'),
+      },
+      {
+        id: 2,
+        name: 'Componentes y Elementos de un proyecto Angular',
+        date: new Date('2024-09-11'),
+      },
+      { id: 3, name: 'Typescript', date: new Date('2024-09-16') },
+      {
+        id: 4,
+        name: 'Interpolación y Directivas',
+        date: new Date('2024-09-18'),
+      },
+      {
+        id: 5,
+        name: 'Comunicación entre componentes',
+        date: new Date('2024-09-23'),
+      },
+      {
+        id: 6,
+        name: 'Formularios en Angular / Reactive Forms',
+        date: new Date('2024-09-25'),
+      },
+      { id: 7, name: 'Angular Material', date: new Date('2024-09-30') },
+      {
+        id: 8,
+        name: 'Pipes y Directivas Personalizadas',
+        date: new Date('2024-10-02'),
+      },
+      { id: 9, name: 'Servicios y RxJS', date: new Date('2024-10-07') },
+      {
+        id: 10,
+        name: 'Introducción a la programación reactiva con RxJS',
+        date: new Date('2024-10-09'),
+      },
+      { id: 11, name: 'Router', date: new Date('2024-10-14') },
+      { id: 12, name: 'Módulos', date: new Date('2024-10-16') },
+      {
+        id: 13,
+        name: 'Lazy Loading de módulos y Guards',
+        date: new Date('2024-10-21'),
+      },
+      { id: 14, name: 'Llamadas API REST', date: new Date('2024-10-23') },
+      {
+        id: 15,
+        name: 'Tests unitarios en Angular',
+        date: new Date('2024-10-28'),
+      },
+      {
+        id: 16,
+        name: 'Patrón de diseño Redux con NgRx',
+        date: new Date('2024-10-30'),
+      },
+      { id: 17, name: 'Feature Store en NgRx', date: new Date('2024-11-04') },
+      { id: 18, name: 'Effects en NgRx', date: new Date('2024-11-06') },
+    ],
   },
 ];
 
-
 @Injectable({ providedIn: 'root' })
-export class CoursesServices {
+export class CoursesService {
   getCourses(): Observable<Course[]> {
     return of(COURSES_DB).pipe(delay(500));
   }
 
-  getUserById(id: string): Observable<Course | undefined> {
-    return this.getCourses().pipe(map((user) => user.find((u) => u.id === id)));
+  getCourseById(id: string): Observable<Course | undefined> {
+    return this.getCourses().pipe(map((course) => course.find((u) => u.id === id)));
   }
 
   removeCourseById(id: string): Observable<Course[]> {
@@ -153,13 +212,11 @@ export class CoursesServices {
     COURSES_DB = COURSES_DB.map((course) =>
       course.id === id ? { ...course, ...update } : course
     );
-    return of(COURSES_DB).pipe(delay(500));
-
-    /* return new Observable<Course[]>((observer) => {
+    return new Observable<Course[]>((observer) => {
       setInterval(() => {
         observer.next(COURSES_DB);
         observer.complete();
       }, 500);
-    }); */
+    });
   }
 }

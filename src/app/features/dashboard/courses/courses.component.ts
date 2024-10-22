@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesServices } from '../../../core/services/courses.service';
+import { CoursesService } from '../../../core/services/courses.service';
 import { Course } from './models';
 import { MatDialog } from '@angular/material/dialog';
-import { CoursesDialogComponent } from './courses-dialog/courses-dialog.component';
+import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
 import Swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -11,8 +12,6 @@ import Swal from 'sweetalert2';
   styleUrl: './courses.component.scss',
 })
 export class CoursesComponent implements OnInit {
-  
-
   isLoading = false;
 
   dataSource: Course[] = [];
@@ -20,8 +19,10 @@ export class CoursesComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'duration', 'level', 'actions'];
 
   constructor(
-    private coursesService: CoursesServices,
-    private matDialog: MatDialog
+    private coursesService: CoursesService,
+    private matDialog: MatDialog,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +37,10 @@ export class CoursesComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  goToDetail(id: string): void {
+    this.router.navigate([id, 'detail'], { relativeTo: this.activatedRoute });
   }
 
   openModal(editCourse?: Course): void {
@@ -84,11 +89,7 @@ export class CoursesComponent implements OnInit {
         this.coursesService.removeCourseById(id).subscribe({
           next: (course) => {
             this.dataSource = course;
-            Swal.fire(
-              '¡Eliminado!',
-              'El curso ha sido eliminado.',
-              'success'
-            );
+            Swal.fire('¡Eliminado!', 'El curso ha sido eliminado.', 'success');
           },
           error: (err) => {
             this.isLoading = false;

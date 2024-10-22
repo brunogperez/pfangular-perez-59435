@@ -16,6 +16,10 @@ import { FontSizeDirective } from './directives/font-size.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatListModule } from '@angular/material/list';
+
 
 @NgModule({
   declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
@@ -37,6 +41,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatProgressBarModule,
+    MatExpansionModule,
+    MatBadgeModule,
+    MatListModule,
   ],
 })
 export class SharedModule {}

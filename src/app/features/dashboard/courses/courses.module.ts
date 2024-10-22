@@ -4,18 +4,11 @@ import { CommonModule } from '@angular/common';
 import { CoursesRoutingModule } from './courses-routing.module';
 import { CoursesComponent } from './courses.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { CoursesDialogComponent } from './courses-dialog/courses-dialog.component';
-
+import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
 
 @NgModule({
-  declarations: [
-    CoursesComponent,
-    CoursesDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    CoursesRoutingModule,
-    SharedModule
-  ]
+  declarations: [CoursesComponent, CoursesDialogComponent, CourseDetailComponent],
+  imports: [CommonModule, CoursesRoutingModule, SharedModule],
 })
-export class CoursesModule { }
+export class CoursesModule {}

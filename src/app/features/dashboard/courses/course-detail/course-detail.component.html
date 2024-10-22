@@ -1,0 +1,33 @@
+<div class="container">
+  <mat-card class="course-status">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <h1>{{ course?.name }}</h1>
+        <mat-divider> </mat-divider>
+        <h3>{{ course?.description }}</h3>
+      </div>
+      <div fxLayoutAlign="Right">
+        <button mat-raised-button color="primary">
+          <mat-icon>folder_open</mat-icon> Material del Curso
+        </button>
+      </div>
+    </div>
+
+    <div class="m-2">
+      <h3>Programa</h3>
+      <mat-divider></mat-divider>
+
+      <ng-container *ngFor="let classItem of classList" class="my-4">
+        <mat-card appearance="outlined" class="p-3 col-12 m-3 d-flex justify-content-between flex-row">
+          <div>
+            <mat-icon matListItemIcon>radio_button_checked</mat-icon>
+            Clase {{ classItem.id }} - {{ classItem.name }}
+          </div>
+          <div>
+            <button mat-button>Incribir alumno</button>
+          </div>
+        </mat-card>
+      </ng-container>
+    </div>
+  </mat-card>
+</div>

@@ -40,19 +40,7 @@ export class CoursesDialogComponent {
     return !!this.data?.editCourse;
   }
 
-  get ameControl() {
-    return this.courseForm.get('name');
-  }
-  get durationControl() {
-    return this.courseForm.get('duration');
-  }
-  get levelControl() {
-    return this.courseForm.get('level');
-  }
 
-  get descriptionControl() {
-    return this.courseForm.get('description');
-  }
 
   onSave(): void {
     if (this.courseForm.invalid) {

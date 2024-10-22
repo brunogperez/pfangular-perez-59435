@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { delay, map, Observable, of } from 'rxjs';
 import { User } from '../../features/dashboard/users/models';
 
-
 let DATABASE: User[] = [
   {
     id: 'a1b2',
@@ -72,7 +71,7 @@ export class UsersService {
     return new Observable((observer) => {
       setInterval(() => {
         observer.next(DATABASE);
-        
+
         observer.complete();
       }, 1000);
     });
@@ -87,15 +86,13 @@ export class UsersService {
       user.id === id ? { ...user, ...update } : user
     );
     return new Observable<User[]>((observer) => {
-      setInterval(() => {
-        observer.next(DATABASE);
-        observer.complete();
-      }, 500);
+      observer.next(DATABASE);
+      observer.complete();
     });
   }
 
   removeUserById(id: string): Observable<User[]> {
     DATABASE = DATABASE.filter((user) => user.id != id);
-    return of(DATABASE).pipe(delay(500)); 
+    return of(DATABASE).pipe(delay(500));
   }
 }

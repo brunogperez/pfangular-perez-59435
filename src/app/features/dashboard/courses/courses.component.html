@@ -42,7 +42,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let course">
-          <button mat-icon-button class="m-1">
+          <button mat-icon-button class="m-1" (click)="goToDetail(course.id)">
             <mat-icon>visibility</mat-icon>
           </button>
           <button mat-icon-button class="m-1" (click)="openModal(course)">

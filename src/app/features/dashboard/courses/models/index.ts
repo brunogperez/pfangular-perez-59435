@@ -3,5 +3,12 @@ export interface Course {
   name: string;
   duration: string;
   level: string;
-  description: string
+  description: string;
+  classes: ClassItem[];
+}
+
+export interface ClassItem {
+  id: number;
+  name: string;
+  date: Date;
 }
