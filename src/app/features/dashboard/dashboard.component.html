@@ -11,16 +11,29 @@
 
   <!-- SECCION DERECHA DEL CONTENIDO -->
   <div class="example-sidenav-content">
-    <!-- TOOLBAR A CUSTOMIZAR -->
-    <mat-toolbar>
-      <button (click)="drawer.toggle()" mat-icon-button class="example-icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <img
-        src="https://www.coderhouse.com/imgs/ch.svg"
-        alt="Logo Instituto Cultural Mendoza"
-      />
-    </mat-toolbar>
+    <div>
+      <mat-toolbar class="d-flex justify-content-between w-100 h-100 p-3">
+        <div>
+          <button
+            (click)="drawer.toggle()"
+            mat-icon-button
+            class="example-icon"
+          >
+            <mat-icon>menu</mat-icon>
+          </button>
+          <img
+            src="https://www.coderhouse.com/imgs/ch.svg"
+            alt="Logo Instituto Cultural Mendoza"
+          />
+        </div>
+        <div class="d-flex gap-3 align-items-center" *ngIf="authUser$ | async; let authUser">
+       <mat-icon>
+        person
+       </mat-icon>
+          <p>{{authUser.firstName}} {{authUser.lastName}}</p>
+        </div>
+      </mat-toolbar>
+    </div>
 
     <!-- USERS COMPONENT -->
     <router-outlet />
