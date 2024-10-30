@@ -4,5 +4,6 @@ export interface User {
   lastName: string;
   email: string;
   birthdate: Date;
+  password: string;
   createdAt: Date;
 }
