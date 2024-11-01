@@ -7,24 +7,12 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-
-const FAKE_USER: User = {
-  email: 'tutor@mail.com',
-  firstName: 'Sofía',
-  lastName: 'Altamirano',
-  id: generateRandomString(8),
-  createdAt: new Date(),
-  birthdate: new Date('1995-02-17'),
-  password: '123123',
-  token: 'laksdnfoj123nr23o4rijeugbn34ogjn3',
-};
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _authUser$ = new BehaviorSubject<null | User>(null);
   public authUser$ = this._authUser$.asObservable();
 
-  private apiURL = environment.apiBaseURL
+  private apiURL = environment.apiBaseURL;
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
@@ -53,13 +41,6 @@ export class AuthService {
           }
         })
       );
-
-    /*  if (data.email != FAKE_USER.email || data.password != FAKE_USER.password) {
-      return throwError(() => new Error('Los datos son inválidos'));
-    }
-    this._authUser$.next(FAKE_USER);
-    localStorage.setItem('token', FAKE_USER.token);
-    return of(FAKE_USER); */
   }
 
   logout() {
@@ -79,14 +60,5 @@ export class AuthService {
           return !!user;
         })
       );
-
-    /*const isValid = localStorage.getItem('token') === FAKE_USER.token;
-
-    if (isValid) {
-      this._authUser$.next(FAKE_USER);
-    } else {
-      this._authUser$.next(null);
-    }
-    return of(isValid); */
   }
 }

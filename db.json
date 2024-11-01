@@ -1,26 +1,6 @@
 {
   "users": [
     {
-      "id": "a1b2",
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "john.doe@example.com",
-      "birthdate": "1985-06-15T00:00:00.000Z",
-      "createdAt": "2023-01-01T00:00:00.000Z",
-      "password": "aB3cD1fG",
-      "token": "aB2cD3eF4gH5iJ6kL7"
-    },
-    {
-      "id": "c3d4",
-      "firstName": "Jane",
-      "lastName": "Smith",
-      "email": "jane.smith@example.com",
-      "birthdate": "1992-11-23T00:00:00.000Z",
-      "createdAt": "2023-01-02T00:00:00.000Z",
-      "password": "4eF5gH7j",
-      "token": "mN8oP9qR1sT2uV3wX4"
-    },
-    {
       "id": "e5f6",
       "firstName": "Michael",
       "lastName": "Johnson",
@@ -79,6 +59,579 @@
       "createdAt": "2023-01-01T00:00:00.000Z",
       "password": "123123",
       "token": "aB2cD3eF4gH5iJ6kasdasadasdasd"
+    },
+    {
+      "id": "JNVL",
+      "firstName": "Bruno",
+      "lastName": "Perez",
+      "email": "brunoperez@mail.com",
+      "birthdate": "1991-10-24T02:00:00.000Z",
+      "createdAt": "2024-11-01T18:30:42.590Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "OEO66Dp0",
+      "name": "Web Development",
+      "duration": "5 months",
+      "level": "Beginner",
+      "description": "Learn to build websites from scratch, mastering HTML, CSS, and JavaScript to create interactive and responsive pages.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Web Development",
+          "date": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "HTML Basics",
+          "date": "2024-01-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "CSS Fundamentals",
+          "date": "2024-01-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "JavaScript for Beginners",
+          "date": "2024-01-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "wCNLG2Gk",
+      "name": "JavaScript",
+      "duration": "2 months",
+      "level": "Intermediate",
+      "description": "Master JavaScript to add interactivity to your web projects and build client-side dynamic applications.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to JavaScript",
+          "date": "2024-02-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Variables and Functions",
+          "date": "2024-02-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "DOM Manipulation",
+          "date": "2024-02-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Advanced JavaScript",
+          "date": "2024-02-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "8jcFtqja",
+      "name": "ReactJS",
+      "duration": "2 months",
+      "level": "Intermediate",
+      "description": "Learn the fundamentals of ReactJS to build modern and efficient user interfaces with reusable components.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "React Basics",
+          "date": "2024-03-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Components and Props",
+          "date": "2024-03-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "State and Lifecycle",
+          "date": "2024-03-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Hooks in React",
+          "date": "2024-03-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "9oEVVcA5",
+      "name": "Backend with Node.js",
+      "duration": "4 months",
+      "level": "Advanced",
+      "description": "Develop robust servers and APIs using Node.js and Express to create scalable and efficient backend applications.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Node.js",
+          "date": "2024-04-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Express.js Setup",
+          "date": "2024-04-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Building APIs",
+          "date": "2024-04-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Database Integration",
+          "date": "2024-04-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "F6kHCiNg",
+      "name": "Python",
+      "duration": "2 months",
+      "level": "Beginner",
+      "description": "Discover the versatility of Python, a powerful language for automation, data analysis, and software development.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Python",
+          "date": "2024-05-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Data Types and Variables",
+          "date": "2024-05-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Control Structures",
+          "date": "2024-05-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Functions in Python",
+          "date": "2024-05-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "TFRFwyR0",
+      "name": "Data Analytics",
+      "duration": "5 months",
+      "level": "Beginner",
+      "description": "Learn how to analyze and visualize data to make informed decisions using tools like Excel, SQL, and Tableau.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Data Analytics",
+          "date": "2024-06-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Data Cleaning and Preparation",
+          "date": "2024-06-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Data Visualization",
+          "date": "2024-06-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Using Tableau",
+          "date": "2024-06-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "E9bb4jy3",
+      "name": "UX/UI Design",
+      "duration": "5 months",
+      "level": "Beginner",
+      "description": "Gain the basics of user-centered design, learning to create intuitive interfaces and effective digital experiences.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to UX/UI",
+          "date": "2024-07-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "User Research",
+          "date": "2024-07-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Wireframing",
+          "date": "2024-07-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Prototyping",
+          "date": "2024-07-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "ScWZzdpi",
+      "name": "Machine Learning",
+      "duration": "3 months",
+      "level": "Advanced",
+      "description": "Discover key concepts of Machine Learning and how to implement predictive models to solve real-world problems.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Machine Learning",
+          "date": "2024-08-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Supervised Learning",
+          "date": "2024-08-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Unsupervised Learning",
+          "date": "2024-08-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Neural Networks",
+          "date": "2024-08-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "BHbGCCkX",
+      "name": "Cybersecurity",
+      "duration": "4 months",
+      "level": "Advanced",
+      "description": "Learn to protect digital systems by mastering security protocols, risk management, and identifying vulnerabilities.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Cybersecurity",
+          "date": "2024-09-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Network Security",
+          "date": "2024-09-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Penetration Testing",
+          "date": "2024-09-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Risk Management",
+          "date": "2024-09-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "GC3fQFUj",
+      "name": "UX/UI Design with Figma",
+      "duration": "3 months",
+      "level": "Intermediate",
+      "description": "Enhance your design skills by learning how to create interactive prototypes and user interfaces using Figma.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Figma",
+          "date": "2024-10-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Designing with Figma",
+          "date": "2024-10-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Prototyping with Figma",
+          "date": "2024-10-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Advanced Figma Techniques",
+          "date": "2024-10-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "KJH1aU98",
+      "name": "UX Writing",
+      "duration": "2 months",
+      "level": "Intermediate",
+      "description": "Learn how to create user-centered content that enhances digital experiences by focusing on tone, clarity, and usability.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to UX Writing",
+          "date": "2024-11-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Tone and Voice",
+          "date": "2024-11-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Writing for Interfaces",
+          "date": "2024-11-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Advanced UX Writing",
+          "date": "2024-11-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "LJU12kP3",
+      "name": "Digital Marketing",
+      "duration": "3 months",
+      "level": "Beginner",
+      "description": "Get introduced to marketing strategies, SEO, social media, and more, to promote products and services effectively online.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Digital Marketing",
+          "date": "2024-12-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "SEO Fundamentals",
+          "date": "2024-12-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Social Media Marketing",
+          "date": "2024-12-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Email Marketing Strategies",
+          "date": "2024-12-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "YHY76Tr9",
+      "name": "Crypto & Blockchain",
+      "duration": "3 months",
+      "level": "Intermediate",
+      "description": "Dive into the world of cryptocurrency and blockchain technology, exploring their potential applications and impact.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Crypto",
+          "date": "2024-12-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Blockchain Technology",
+          "date": "2024-12-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Smart Contracts",
+          "date": "2024-12-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Future of Blockchain",
+          "date": "2024-12-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "ERT74Qh4",
+      "name": "Product Management",
+      "duration": "4 months",
+      "level": "Advanced",
+      "description": "Master the art of managing the lifecycle of a product, from concept to launch, with a focus on agile methodologies.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to Product Management",
+          "date": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Agile Methodologies",
+          "date": "2024-01-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Product Roadmaps",
+          "date": "2024-01-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Product Launch",
+          "date": "2024-01-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "PIO43Vm1",
+      "name": "QA Testing (Manual)",
+      "duration": "3 months",
+      "level": "Intermediate",
+      "description": "Gain practical skills in manual quality assurance testing to ensure software functionality and performance meet the required standards.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to QA",
+          "date": "2024-02-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Testing Strategies",
+          "date": "2024-02-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Writing Test Cases",
+          "date": "2024-02-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Manual Testing Tools",
+          "date": "2024-02-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "PIO43Vm1",
+      "name": "QA Testing (Manual)",
+      "duration": "3 months",
+      "level": "Intermediate",
+      "description": "Gain practical skills in manual quality assurance testing to ensure software functionality and performance meet the required standards.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introduction to QA",
+          "date": "2024-02-01T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Testing Strategies",
+          "date": "2024-02-03T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Writing Test Cases",
+          "date": "2024-02-05T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Manual Testing Tools",
+          "date": "2024-02-07T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "FGH89Dj3",
+      "name": "Angular",
+      "duration": "3 months",
+      "level": "Intermediate",
+      "description": "Learn to build powerful and scalable web applications using Angular, one of the most popular front-end frameworks.",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Introducción y configuración de herramientas",
+          "date": "2024-09-09T00:00:00.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Componentes y Elementos de un proyecto Angular",
+          "date": "2024-09-11T00:00:00.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Typescript",
+          "date": "2024-09-16T00:00:00.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Interpolación y Directivas",
+          "date": "2024-09-18T00:00:00.000Z"
+        },
+        {
+          "id": 5,
+          "name": "Comunicación entre componentes",
+          "date": "2024-09-23T00:00:00.000Z"
+        },
+        {
+          "id": 6,
+          "name": "Formularios en Angular / Reactive Forms",
+          "date": "2024-09-25T00:00:00.000Z"
+        },
+        {
+          "id": 7,
+          "name": "Angular Material",
+          "date": "2024-09-30T00:00:00.000Z"
+        },
+        {
+          "id": 8,
+          "name": "Pipes y Directivas Personalizadas",
+          "date": "2024-10-02T00:00:00.000Z"
+        },
+        {
+          "id": 9,
+          "name": "Servicios y RxJS",
+          "date": "2024-10-07T00:00:00.000Z"
+        },
+        {
+          "id": 10,
+          "name": "Introducción a la programación reactiva con RxJS",
+          "date": "2024-10-09T00:00:00.000Z"
+        },
+        {
+          "id": 11,
+          "name": "Router",
+          "date": "2024-10-14T00:00:00.000Z"
+        },
+        {
+          "id": 12,
+          "name": "Módulos",
+          "date": "2024-10-16T00:00:00.000Z"
+        },
+        {
+          "id": 13,
+          "name": "Lazy Loading de módulos y Guards",
+          "date": "2024-10-21T00:00:00.000Z"
+        },
+        {
+          "id": 14,
+          "name": "Llamadas API REST",
+          "date": "2024-10-23T00:00:00.000Z"
+        },
+        {
+          "id": 15,
+          "name": "Tests unitarios en Angular",
+          "date": "2024-10-28T00:00:00.000Z"
+        },
+        {
+          "id": 16,
+          "name": "Patrón de diseño Redux con NgRx",
+          "date": "2024-10-30T00:00:00.000Z"
+        },
+        {
+          "id": 17,
+          "name": "Feature Store en NgRx",
+          "date": "2024-11-04T00:00:00.000Z"
+        },
+        {
+          "id": 18,
+          "name": "Effects en NgRx",
+          "date": "2024-11-06T00:00:00.000Z"
+        }
+      ]
     }
   ]
 }

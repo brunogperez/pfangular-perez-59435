@@ -53,7 +53,9 @@ export class CoursesComponent implements OnInit {
             if (editCourse) {
               this.handleUpdate(editCourse.id, res);
             } else {
-              this.dataSource = [...this.dataSource, res];
+              this.coursesService.createCourse(res).subscribe({
+                next: () => this.loadCourses(),
+              });
             }
           }
         },
