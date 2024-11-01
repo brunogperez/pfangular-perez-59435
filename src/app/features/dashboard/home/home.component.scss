@@ -1,6 +1,7 @@
 
 .dashboard {
   padding: 10vh;
+  min-height: 60%;
 }
 .course-info {
   border: 1px solid #ccc;
@@ -56,7 +57,7 @@
 .extra-info {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 2vh 5vw;
 }
 .extra-info div {
   text-align: center;

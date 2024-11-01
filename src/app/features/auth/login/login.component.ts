@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -51,6 +52,11 @@ export class LoginComponent {
           console.log(err);
           if (err instanceof Error) {
             alert(err)
+          }
+          if(err instanceof HttpErrorResponse){
+            if(err.status === 0){
+            alert(err.statusText);
+            }
           }
         },
       });

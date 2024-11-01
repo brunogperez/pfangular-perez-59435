@@ -27,11 +27,14 @@
             alt="Logo Instituto Cultural Mendoza"
           />
         </div>
-        <div class="d-flex gap-3 align-items-center" *ngIf="authUser$ | async; let authUser">
-       <mat-icon>
-        person
-       </mat-icon>
-          <p>{{authUser.firstName}} {{authUser.lastName}}</p>
+        <div
+          class="d-flex gap-3 align-items-center"
+          *ngIf="authUser$ | async; let authUser"
+        >
+          <mat-icon> person </mat-icon>
+          <p class="my-auto">
+            {{ authUser.firstName }} {{ authUser.lastName }}
+          </p>
         </div>
       </mat-toolbar>
     </div>
