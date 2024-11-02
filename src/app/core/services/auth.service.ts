@@ -37,7 +37,7 @@ export class AuthService {
           if (user) {
             return user;
           } else {
-            throw throwError(() => new Error('Los datos son inválidos'));
+            throw new Error('Los datos son inválidos');
           }
         })
       );

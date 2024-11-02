@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -28,8 +27,8 @@ export class LoginComponent {
     private router:Router
   ) {
     this.loginForm = this.formBuilder.group({
-      email: [null, Validators.required, Validators.email],
-      password: [null, Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 
@@ -39,27 +38,31 @@ export class LoginComponent {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
 
+  doLogin(): void {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (result) => {
+        this.router.navigate(['dashboard', 'home']);
+      },
+      error: (err) => {
+        console.error(err);
+        if (err instanceof Error) {
+          alert(err.message);
+        }
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 0) {
+            alert('No se pudo conectar con el servidor');
+          }
+        }
+      },
+    });
+  }
+
+
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.router.navigate(['dashboard','home'])
-        },
-        error: (err) => {
-          console.log(err);
-          if (err instanceof Error) {
-            alert(err)
-          }
-          if(err instanceof HttpErrorResponse){
-            if(err.status === 0){
-            alert(err.statusText);
-            }
-          }
-        },
-      });
+    this.doLogin()
     }
   }
 }
