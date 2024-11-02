@@ -58,13 +58,15 @@
       "birthdate": "1985-06-15T00:00:00.000Z",
       "createdAt": "2023-01-01T00:00:00.000Z",
       "password": "123123",
-      "token": "aB2cD3eF4gH5iJ6kasdasadasdasd"
+      "token": "aB2cD3eF4gH5iJ6kasdasadasdasd",
+      "role":"admin"
     },
     {
       "id": "JNVL",
       "firstName": "Bruno",
       "lastName": "Perez",
       "email": "brunoperez@mail.com",
+      "password":"123123",
       "birthdate": "1991-10-24T02:00:00.000Z",
       "createdAt": "2024-11-01T18:30:42.590Z"
     }
