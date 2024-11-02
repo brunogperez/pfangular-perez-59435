@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '../models';
 import { generateRandomString } from '../../../../shared/utils';
+import { Observable } from 'rxjs';
+import { CoursesService } from '../../../../core/services/courses.service';
 
 interface CourseModalData {
   editCourse?: Course;
 }
-
 @Component({
   selector: 'app-courses-dialog',
   templateUrl: './courses-dialog.component.html',
@@ -16,7 +17,20 @@ interface CourseModalData {
 export class CoursesDialogComponent {
   courseForm: FormGroup;
 
+  durations: Array<'2 months' | '3 months' | '4 months' | '5 months'> = [
+    '2 months',
+    '3 months',
+    '4 months',
+    '5 months',
+  ];
+
+  levels: Array<'Intermediate' | 'Advanced' | 'Beginner'> = [
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+  ];
   constructor(
+    private coursesService: CoursesService,
     private matDialogRef: MatDialogRef<CoursesDialogComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data?: CourseModalData
@@ -39,8 +53,6 @@ export class CoursesDialogComponent {
   private get isEditing() {
     return !!this.data?.editCourse;
   }
-
-
 
   onSave(): void {
     if (this.courseForm.invalid) {
