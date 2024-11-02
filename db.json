@@ -69,6 +69,17 @@
       "createdAt": "2024-11-01T18:30:42.590Z"
     }
   ],
+  "students": [
+    {
+      "id": "G5fy",
+      "firstName": "asdasd",
+      "lastName": "asdasd",
+      "email": "assaasdasdas@mail.com",
+      "birthdate": "2024-11-06T03:00:00.000Z",
+      "createdAt": "2024-11-02T19:54:57.757Z",
+      "token": "hwiPmwzcVbhtl9h"
+    }
+  ],
   "courses": [
     {
       "id": "OEO66Dp0",

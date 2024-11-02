@@ -1,45 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UserDialogComponent } from './user-dialog/user-dialog.component';
-import { User } from './models';
-import { UsersService } from '../../../core/services/users.service';
+import { StudentsDialogComponent } from './student-dialog/student-dialog.component';
+import { Student } from './models';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StudentsService } from '../../../core/services/students.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss',
+  selector: 'app-students',
+  templateUrl: './students.component.html',
+  styleUrl: './students.component.scss',
 })
-export class UsersComponent implements OnInit {
+export class StudentsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
     'email',
+    'birthdate',
     'createdAt',
     'actions',
   ];
 
-  dataSource: User[] = [];
+  dataSource: Student[] = [];
 
   isLoading = false;
 
   constructor(
     private matDialog: MatDialog,
-    private usersService: UsersService,
+    private studentsService: StudentsService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadStudents();
   }
 
-  loadUsers(): void {
+  loadStudents(): void {
     this.isLoading = true;
-    this.usersService.getUsers().subscribe({
-      next: (users) => {
-        this.dataSource = users;
+    this.studentsService.getStudents().subscribe({
+      next: (students) => {
+        this.dataSource = students;
       },
       error: (err) => {
         this.isLoading = false;
@@ -61,20 +62,16 @@ export class UsersComponent implements OnInit {
     }).then((result: any) => {
       if (result.isConfirmed) {
         this.isLoading = true;
-        this.usersService.removeUserById(id).subscribe({
-          next: (users) => {
-            this.dataSource = users;
-            Swal.fire(
-              '¡Eliminado!',
-              'El usuario ha sido eliminado.',
-              'success'
-            );
+        this.studentsService.removeStudentById(id).subscribe({
+          next: (students) => {
+            this.dataSource = students;
+            Swal.fire('¡Eliminado!', 'El alumno ha sido eliminado.', 'success');
           },
           error: (err) => {
             this.isLoading = false;
             Swal.fire(
               'Error',
-              'Hubo un problema al eliminar el usuario.',
+              'Hubo un problema al eliminar el alumno.',
               'error'
             );
           },
@@ -90,18 +87,18 @@ export class UsersComponent implements OnInit {
     this.router.navigate([id, 'detail'], { relativeTo: this.activatedRoute });
   }
 
-  openDialog(editUser?: User): void {
+  openDialog(editStudent?: Student): void {
     this.matDialog
-      .open(UserDialogComponent, { data: { editUser } })
+      .open(StudentsDialogComponent, { data: { editStudent } })
       .afterClosed()
       .subscribe({
         next: (res) => {
           if (!!res) {
-            if (editUser) {
-              this.handleUpdate(editUser.id, res);
+            if (editStudent) {
+              this.handleUpdate(editStudent.id, res);
             } else {
-              this.usersService.createUser(res).subscribe({
-                next: () => this.loadUsers(),
+              this.studentsService.createStudent(res).subscribe({
+                next: () => this.loadStudents(),
               });
             }
           }
@@ -109,11 +106,11 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  handleUpdate(id: string, update: User): void {
+  handleUpdate(id: string, update: Student): void {
     this.isLoading = true;
-    this.usersService.updateUserById(id, update).subscribe({
-      next: (users) => {
-        this.dataSource = users;
+    this.studentsService.updateStudentById(id, update).subscribe({
+      next: (students) => {
+        this.dataSource = students;
       },
       error: (err) => {
         this.isLoading = false;
