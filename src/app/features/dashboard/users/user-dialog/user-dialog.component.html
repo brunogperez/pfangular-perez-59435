@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-  {{ data?.editUser == undefined ? "Crear" : "Editar" }} alumno
+  {{ data?.editUser == undefined ? "Crear" : "Editar" }} usuario
 </h1>
 
 <div mat-dialog-content>
@@ -32,17 +32,13 @@
         [validationErrors]="emailControl?.errors"
       />
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Choose your birthdate</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="birthdate" />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error>Este campo es requerido</mat-error>
+    <mat-form-field class="col-12">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="email" formControlName="password" />
+      <app-control-errors
+        *ngIf="passwordControl?.touched"
+        [validationErrors]="passwordControl?.errors"
+      />
     </mat-form-field>
   </form>
   <div mat-dialog-actions>

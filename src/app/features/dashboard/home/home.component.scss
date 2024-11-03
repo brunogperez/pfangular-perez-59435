@@ -1,4 +1,3 @@
-
 .dashboard {
   padding: 10vh;
   min-height: 60%;
@@ -56,9 +55,8 @@
 }
 .extra-info {
   display: flex;
-  justify-content: space-between;
-  padding: 2vh 5vw;
 }
 .extra-info div {
   text-align: center;
+  margin-inline: 10vw;
 }

@@ -1,74 +1,23 @@
 {
   "users": [
     {
-      "id": "e5f6",
-      "firstName": "Michael",
-      "lastName": "Johnson",
-      "email": "michael.johnson@example.com",
-      "birthdate": "1978-04-30T00:00:00.000Z",
-      "createdAt": "2023-01-03T00:00:00.000Z",
-      "password": "k9L8mN2p",
-      "token": "zY5xW6vU7tQ8sP9dJ1"
-    },
-    {
-      "id": "g7h8",
-      "firstName": "Emily",
-      "lastName": "Davis",
-      "email": "emily.davis@example.com",
-      "birthdate": "1995-07-12T00:00:00.000Z",
-      "createdAt": "2023-01-04T00:00:00.000Z",
-      "password": "Q3r4T6u8",
-      "token": "pF3qE4rT5uV6wY7xL8"
-    },
-    {
-      "id": "i9j0",
-      "firstName": "David",
-      "lastName": "Miller",
-      "email": "david.miller@example.com",
-      "birthdate": "1980-09-05T00:00:00.000Z",
-      "createdAt": "2023-01-05T00:00:00.000Z",
-      "password": "W1z5A8e2",
-      "token": "cR7xY8zP1qT2vE3nW4"
-    },
-    {
-      "id": "k1l2",
-      "firstName": "Jessica",
-      "lastName": "Garcia",
-      "email": "jessica.garcia@example.com",
-      "birthdate": "1988-02-17T00:00:00.000Z",
-      "createdAt": "2023-01-06T00:00:00.000Z",
-      "password": "X3Y1z2V4",
-      "token": "vD6eF5pT2rW3xJ4yN8"
-    },
-    {
-      "id": "m3n4",
-      "firstName": "Chris",
-      "lastName": "Martinez",
-      "email": "chris.martinez@example.com",
-      "birthdate": "1972-03-21T00:00:00.000Z",
-      "createdAt": "2023-01-07T00:00:00.000Z",
-      "password": "F7g8H9j0",
-      "token": "hT4vG5qN1rS2yX3wL6"
-    },
-    {
       "id": "0f87",
       "firstName": "Paula",
       "lastName": "Martinez",
       "email": "paulamartinez@mail.com",
-      "birthdate": "1985-06-15T00:00:00.000Z",
       "createdAt": "2023-01-01T00:00:00.000Z",
       "password": "123123",
       "token": "aB2cD3eF4gH5iJ6kasdasadasdasd",
-      "role":"admin"
+      "role": "admin"
     },
     {
       "id": "JNVL",
       "firstName": "Bruno",
       "lastName": "Perez",
       "email": "brunoperez@mail.com",
-      "password":"123123",
-      "birthdate": "1991-10-24T02:00:00.000Z",
-      "createdAt": "2024-11-01T18:30:42.590Z"
+      "password": "123123",
+      "createdAt": "2024-11-01T18:30:42.590Z",
+      "role": "user"
     }
   ],
   "students": [

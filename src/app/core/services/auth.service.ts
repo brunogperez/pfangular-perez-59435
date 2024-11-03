@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthData } from '../../features/auth/models';
-import { BehaviorSubject, map, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../../features/dashboard/users/models';
-import { generateRandomString } from '../../shared/utils';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -60,5 +59,9 @@ export class AuthService {
           return !!user;
         })
       );
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.authUser$.pipe(map((user) => !!user && user.role === 'admin'));
   }
 }

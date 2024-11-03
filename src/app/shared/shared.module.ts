@@ -19,7 +19,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
-
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
@@ -44,6 +44,7 @@ import { MatListModule } from '@angular/material/list';
     MatExpansionModule,
     MatBadgeModule,
     MatListModule,
+    MatGridListModule,
   ],
 })
 export class SharedModule {}

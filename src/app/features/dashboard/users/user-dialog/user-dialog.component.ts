@@ -22,9 +22,10 @@ export class UserDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data?: UserDialogData
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: [null, [nameValidator]],
+      firstName: [null, [Validators.required,nameValidator]],
       lastName: [null, [nameValidator]],
       email: [null, [Validators.required, Validators.email]],
+      password:[null, [Validators.required, Validators.minLength(8)]]
     });
     this.patchForm();
   }
@@ -37,6 +38,9 @@ export class UserDialogComponent {
   }
   get emailControl() {
     return this.userForm.get('email');
+  }
+  get passwordControl() {
+    return this.userForm.get('password');
   }
 
   private get isEditing() {
@@ -57,6 +61,9 @@ export class UserDialogComponent {
         ...this.userForm.value,
         id: this.isEditing ? this.data!.editUser!.id : generateRandomString(4),
         createdAt: this.isEditing ? this.data!.editUser!.createdAt : new Date(),
+        token: this.isEditing
+          ? this.data!.editUser!.token
+          : generateRandomString(16),
       });
     }
   }
