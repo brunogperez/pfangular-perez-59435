@@ -1,0 +1,80 @@
+<div class="m-auto">
+  <h2 class="text-center">Inscripciones</h2>
+  <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label> Nombre </mat-label>
+      <input matInput formControlName="studentId" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Categoria </mat-label>
+      <mat-select formControlName="courseId">
+        <mat-option [value]="course.id" *ngFor="let course of courses$ | async">
+          {{ course.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" mat-flat-button>Guardar</button>
+  </form>
+</div>
+
+<!-- <p>{{ inscription$ | async | json }}</p> -->
+
+<div class="text-center">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Buscar alumno</mat-label>
+      <input matInput type="search" name="" id="" (input)="search($event)" />
+    </mat-form-field>
+  </form>
+</div>
+<mat-divider></mat-divider>
+<ng-container>
+  <div class="m-3 p-2 border border-2 rounded-4">
+    <table mat-table [dataSource]="students$" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let student">{{ student.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let student">{{ student | userFullName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let student">{{ student.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="birthdate">
+        <th mat-header-cell *matHeaderCellDef>Birthdate - Edad</th>
+        <td mat-cell *matCellDef="let student">
+          {{ student.birthdate | date }} - (Edad {{ student.birthdate | age }})
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Created Date</th>
+        <td mat-cell *matCellDef="let student">
+          {{ student.createdAt | date }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let student">
+          <button mat-flat-button class="m-1">Inscribir a un curso</button>
+          <!--  <button mat-icon-button class="m-1" (click)="openDialog(student)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="m-1" (click)="onDelete(student.id)">
+            <mat-icon>delete</mat-icon>
+          </button>  -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</ng-container>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { Course, ClassItem } from '../models';
+import { Inscription } from '../../inscriptions/models/index';
 
 
 
@@ -31,7 +32,7 @@ export class CourseDetailComponent implements OnInit {
           this.course = course;
           this.isLoading = false;
           this.classList = course?.classes || [];
-          console.log(this.classList);
+          console.log(course)
         },
       });
   }

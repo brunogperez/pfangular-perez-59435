@@ -19,7 +19,10 @@ export class CoursesService {
   }
 
   getCourseById(id: string): Observable<Course | undefined> {
-    return this.httpClient.get<Course>(`${this.apiBaseURL}/courses/${id}`);
+    const result = this.httpClient.get<Course>(
+      `${this.apiBaseURL}/courses/${id}?_embed=inscriptions`
+    );
+    return result;
   }
 
   updateCourseById(id: string, update: Partial<Course>) {

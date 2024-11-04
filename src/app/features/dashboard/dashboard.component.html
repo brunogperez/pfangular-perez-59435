@@ -6,7 +6,7 @@
       <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>
       <a mat-list-item routerLink="students">Alumnos</a>
       <a mat-list-item routerLink="courses">Cursos</a>
-      <a mat-list-item routerLink="classes">Inscripciones</a>
+      <a mat-list-item routerLink="inscriptions">Inscripciones</a>
       <a mat-list-item (click)="logout()"> Cerrar Sesión</a>
     </mat-nav-list>
   </mat-drawer>
@@ -29,10 +29,13 @@
           />
         </div>
         <div
-          class="d-flex gap-3 align-items-center"
+          class="d-flex gap-3 align-items-center mx-5"
           *ngIf="authUser$ | async; let authUser"
         >
           <mat-icon> person </mat-icon>
+          <p class="my-auto textColor" *ngIf="isAdmin$ | async">
+            {{ authUser.role | uppercase }}
+          </p>
           <p class="my-auto">
             {{ authUser.firstName }} {{ authUser.lastName }}
           </p>
@@ -40,7 +43,6 @@
       </mat-toolbar>
     </div>
 
-    <!-- USERS COMPONENT -->
     <router-outlet />
   </div>
 </mat-drawer-container>

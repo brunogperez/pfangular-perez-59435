@@ -24,9 +24,9 @@ const routes: Routes = [
       import('./courses/courses.module').then((m) => m.CoursesModule),
   },
   {
-    path: 'classes',
+    path: 'inscriptions',
     loadChildren: () =>
-      import('./classes/classes.module').then((m) => m.ClassesModule),
+      import('./inscriptions/inscriptions.module').then((m) => m.InscriptionsModule),
   },
   {
     path: '**',

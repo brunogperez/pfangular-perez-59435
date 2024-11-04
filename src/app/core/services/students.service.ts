@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { concatMap, delay, map, Observable, of } from 'rxjs';
-import { User } from '../../features/dashboard/users/models';
-import { HttpClient } from '@angular/common/http';
+import { concatMap, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { generateRandomString } from '../../shared/utils';
 import { Student } from '../../features/dashboard/students/models';
 
@@ -28,6 +27,14 @@ export class StudentsService {
 
   getStudentById(id: string): Observable<Student | undefined> {
     return this.httpClient.get<Student>(`${this.apiBaseURL}/students/${id}`);
+  }
+
+  searchStudents(name: string): Observable<Student[]> {
+    const APISEARCH = `${this.apiBaseURL}/students?firstName=${name}`;
+
+    return this.httpClient
+      .get<Student[]>(APISEARCH)
+      .pipe(map((res: Student[]) => res));
   }
 
   updateStudentById(id: string, update: Partial<Student>) {

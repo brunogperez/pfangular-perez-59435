@@ -29,6 +29,42 @@
       "birthdate": "2024-11-06T03:00:00.000Z",
       "createdAt": "2024-11-02T19:54:57.757Z",
       "token": "hwiPmwzcVbhtl9h"
+    },
+    {
+      "id": "ZYNd",
+      "firstName": "asdasd",
+      "lastName": "asdasd",
+      "email": "asdasd@mail.com",
+      "birthdate": "2024-11-13T03:00:00.000Z",
+      "createdAt": "2024-11-03T17:49:37.274Z",
+      "token": "AEbFWdJx6PVJjJb"
+    },
+    {
+      "id": "7Yww",
+      "firstName": "vbvbvb",
+      "lastName": "vbvbvb",
+      "email": "vbvbvbbv@mail.com",
+      "birthdate": "2024-11-18T03:00:00.000Z",
+      "createdAt": "2024-11-03T17:49:49.718Z",
+      "token": "RbLDTNQOjK0B3hw"
+    },
+    {
+      "id": "HN3m",
+      "firstName": "asd",
+      "lastName": "sdasd",
+      "email": "asdasd@mail.com",
+      "birthdate": "2024-11-05T03:00:00.000Z",
+      "createdAt": "2024-11-04T13:44:49.826Z",
+      "token": "VSWZDWUL0GELfOZ"
+    },
+    {
+      "id": "Y9f6",
+      "firstName": "breunosadfnsjdgn",
+      "lastName": "asdasd",
+      "email": "asdasdasdasdaqsdasd@mail.com",
+      "birthdate": "2017-11-23T03:00:00.000Z",
+      "createdAt": "2024-11-04T13:45:36.049Z",
+      "token": "Iw971gV4yLreoLd"
     }
   ],
   "courses": [
@@ -594,6 +630,23 @@
           "date": "2024-11-06T00:00:00.000Z"
         }
       ]
+    }
+  ],
+  "inscriptions": [
+    {
+      "id": "8aXW",
+      "studentId": "G5fy",
+      "courseId": "wCNLG2Gk"
+    },
+    {
+      "id": "wLw7",
+      "studentId": "G5fy",
+      "courseId": "wCNLG2Gk"
+    },
+    {
+      "id": "iyuX",
+      "studentId": "G5fy",
+      "courseId": "OEO66Dp0"
     }
   ]
 }

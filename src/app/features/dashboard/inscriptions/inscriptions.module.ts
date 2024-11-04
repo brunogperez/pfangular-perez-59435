@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ClassesRoutingModule } from './classes-routing.module';
-import { ClassesComponent } from './classes.component';
+import { InscriptionsRoutingModule } from './inscriptions-routing.module';
+import { InscriptionsComponent } from './inscriptions.component';
 import { SharedModule } from '../../../shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    ClassesComponent
+    InscriptionsComponent
   ],
   imports: [
     CommonModule,
-    ClassesRoutingModule,
+    InscriptionsRoutingModule,
     SharedModule
   ]
 })
-export class ClassesModule { }
+export class InscriptionsModule { }
