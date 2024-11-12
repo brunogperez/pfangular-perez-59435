@@ -17,6 +17,12 @@ export class InscriptionService {
       `${this.apiBaseURL}/inscriptions`
     );
   }
+  getInscriptionsById(studentId: string): Observable<Inscription[]> {
+    const APISEARCH = `${this.apiBaseURL}/inscriptions?studentId=${studentId}`;
+    return this.httpClient
+      .get<Inscription[]>(APISEARCH)
+      .pipe(map((res: Inscription[]) => res));
+  }
 
   /*   deleteById(id: string): Observable<Inscription[]> {
     return this.httpClient
@@ -29,7 +35,7 @@ export class InscriptionService {
       `${this.apiBaseURL}/inscriptions`,
       {
         ...data,
-        id: generateRandomString(4),
+        id: generateRandomString(8),
       }
     );
   }
@@ -45,5 +51,13 @@ export class InscriptionService {
           )
         )
       );
+  }
+
+  isStudentEnrolled(studentId: string, courseId: string): Observable<boolean> {
+    return this.httpClient
+      .get<Inscription[]>(
+        `${this.apiBaseURL}/inscriptions?studentId=${studentId}&courseId=${courseId}`
+      )
+      .pipe(map((inscriptions) => inscriptions.length > 0));
   }
 }

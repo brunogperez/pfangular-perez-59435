@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
 import { Student } from '../models';
 import { nameValidator } from '../../../../shared/utils/custom-validators';
+import Swal from 'sweetalert2';
 
 interface StudentDialogData {
   editStudent?: Student;
@@ -57,9 +58,18 @@ export class StudentsDialogComponent {
     } else {
       this.matDialogRef.close({
         ...this.studentForm.value,
-        id: this.isEditing ? this.data!.editStudent!.id : generateRandomString(4),
-        createdAt: this.isEditing ? this.data!.editStudent!.createdAt : new Date(),
+        id: this.isEditing
+          ? this.data!.editStudent!.id
+          : generateRandomString(25),
+        createdAt: this.isEditing
+          ? this.data!.editStudent!.createdAt
+          : new Date(),
       });
+      Swal.fire(
+        'Buen trabajo!',
+        `El alumno ha sido ${this.isEditing ? 'editado' : 'creado'} exitosamente.`,
+        'success'
+      );
     }
   }
 }

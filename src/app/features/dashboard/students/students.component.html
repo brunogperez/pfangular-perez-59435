@@ -34,9 +34,9 @@
       </ng-container>
 
       <ng-container matColumnDef="birthdate">
-        <th mat-header-cell *matHeaderCellDef>Birthdate - Edad</th>
+        <th mat-header-cell *matHeaderCellDef>Edad</th>
         <td mat-cell *matCellDef="let student">
-          {{ student.birthdate | date }} - (Edad {{ student.birthdate | age }})
+          {{ student.birthdate | age }} años
         </td>
       </ng-container>
 

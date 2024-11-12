@@ -5,6 +5,7 @@ import { Course } from '../models';
 import { generateRandomString } from '../../../../shared/utils';
 import { Observable } from 'rxjs';
 import { CoursesService } from '../../../../core/services/courses.service';
+import Swal from 'sweetalert2';
 
 interface CourseModalData {
   editCourse?: Course;
@@ -64,6 +65,13 @@ export class CoursesDialogComponent {
           ? this.data!.editCourse!.id
           : generateRandomString(8),
       });
+      Swal.fire(
+        'Buen trabajo!',
+        `El curso ha sido ${
+          this.isEditing ? 'editado' : 'creado'
+        } exitosamente.`,
+        'success'
+      );
     }
   }
 }

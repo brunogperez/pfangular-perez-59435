@@ -6,9 +6,10 @@
   <div class="align-items-center d-flex gap-4 p-5 dCards">
     <div class="col-4">
       <div class="col-12">
-        <mat-card class="border border-4 col-3 rounded-circle p-5 m-auto">
-          <div class="card-content m-auto">
+        <mat-card class="col-3 p-5 m-auto">
+          <div class="card-content m-auto text-center">
             <mat-icon class="m-auto"> person </mat-icon>
+            <p class="text-center">Próximamente...</p>
           </div>
         </mat-card>
       </div>
@@ -24,7 +25,7 @@
   </div>
   <div class="p-5">
     <mat-card class="col-12 p-5 border border-4 course-content">
-      <div class="m-auto">CURSOS INSCRIPTOS</div>
+      <div class="m-auto">{{inscriptions | json}}</div>
     </mat-card>
   </div>
 </div>

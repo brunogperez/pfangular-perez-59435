@@ -21,9 +21,10 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@ngrx/store": "^18.1.1",
+    "@sweetalert2/theme-dark": "^5.0.18",
     "bootstrap": "^5.3.3",
     "rxjs": "~7.8.0",
-    "sweetalert2": "^11.14.3",
+    "sweetalert2": "^11.14.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },

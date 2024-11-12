@@ -17,7 +17,6 @@ export class StudentsService {
     return this.httpClient.post<Student>(`${this.apiBaseURL}/students`, {
       ...data,
       createdAt: new Date().toISOString(),
-      token: generateRandomString(15),
     });
   }
 

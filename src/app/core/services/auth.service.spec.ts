@@ -20,7 +20,7 @@ const mockUser: User = {
   email: 'fakeuser@mail.com',
   password: '123123',
   createdAt: new Date(),
-  birthdate: new Date(),
+  role: 'admin',
   token: 'nj2k345bk2nj34n234nj2knokljn2okl3',
 };
 
@@ -131,7 +131,7 @@ describe('AuthService', () => {
         email: 'fakeuser@mail.com',
         password: '123123',
         createdAt: new Date(),
-        birthdate: new Date(),
+        role: 'user',
         token: 'nj2k345bk2nj34n234nj2knokljn2okl3',
       },
     ];
@@ -150,7 +150,6 @@ describe('AuthService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockUsers); // Ahora enviamos un array en vez de un objeto único
   });
-
 
   it('Debe retornar FALSE si el usuario no está autenticado', () => {
     const mockUsers: User[] = [];

@@ -7,7 +7,7 @@
       <a mat-list-item routerLink="students">Alumnos</a>
       <a mat-list-item routerLink="courses">Cursos</a>
       <a mat-list-item routerLink="inscriptions">Inscripciones</a>
-      <a mat-list-item (click)="logout()"> Cerrar Sesión</a>
+      <!-- <a mat-list-item (click)="logout()"> Cerrar Sesión</a> -->
     </mat-nav-list>
   </mat-drawer>
 
@@ -25,7 +25,7 @@
           </button>
           <img
             src="https://www.coderhouse.com/imgs/ch.svg"
-            alt="Logo Instituto Cultural Mendoza"
+            alt="Logo de Coderhouse"
           />
         </div>
         <div
@@ -37,8 +37,13 @@
             {{ authUser.role | uppercase }}
           </p>
           <p class="my-auto">
-            {{ authUser.firstName }} {{ authUser.lastName }}
+            {{ authUser.firstName | titlecase }}
+            {{ authUser.lastName | titlecase }}
           </p>
+          <button mat-flat-button class="logout" (click)="logout()">
+            <mat-icon> logout </mat-icon>
+            <p class="m-auto">Logout</p>
+          </button>
         </div>
       </mat-toolbar>
     </div>

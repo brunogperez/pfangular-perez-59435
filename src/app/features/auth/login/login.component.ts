@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   hideIcon: 'visibility_off' | 'visibility' = 'visibility_off';
   passwordType: 'password' | 'text' = 'password';
 
@@ -24,12 +24,20 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router:Router
+    private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.deleteToken(); 
+  }
+
+  deleteToken(): void {
+    localStorage.removeItem('token'); 
   }
 
   togglePassword(): void {
@@ -57,12 +65,11 @@ export class LoginComponent {
     });
   }
 
-
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-    this.doLogin()
+      this.doLogin();
     }
   }
 }

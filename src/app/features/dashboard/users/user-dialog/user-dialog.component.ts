@@ -4,6 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
 import { User } from '../models';
 import { nameValidator } from '../../../../shared/utils/custom-validators';
+import { UsersService } from '../../../../core/services/users.service';
+import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 interface UserDialogData {
   editUser?: User;
@@ -19,13 +22,15 @@ export class UserDialogComponent {
   constructor(
     private matDialogRef: MatDialogRef<UserDialogComponent>,
     private formBuilder: FormBuilder,
+
     @Inject(MAT_DIALOG_DATA) public data?: UserDialogData
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: [null, [Validators.required,nameValidator]],
+      firstName: [null, [Validators.required, nameValidator]],
       lastName: [null, [nameValidator]],
       email: [null, [Validators.required, Validators.email]],
-      password:[null, [Validators.required, Validators.minLength(8)]]
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      role: [null, [Validators.required]],
     });
     this.patchForm();
   }
@@ -41,6 +46,9 @@ export class UserDialogComponent {
   }
   get passwordControl() {
     return this.userForm.get('password');
+  }
+  get roleControl() {
+    return this.userForm.get('role');
   }
 
   private get isEditing() {
@@ -59,12 +67,19 @@ export class UserDialogComponent {
     } else {
       this.matDialogRef.close({
         ...this.userForm.value,
-        id: this.isEditing ? this.data!.editUser!.id : generateRandomString(4),
+        id: this.isEditing ? this.data!.editUser!.id : generateRandomString(25),
         createdAt: this.isEditing ? this.data!.editUser!.createdAt : new Date(),
         token: this.isEditing
           ? this.data!.editUser!.token
           : generateRandomString(16),
       });
+      Swal.fire(
+        'Buen trabajo!',
+        `El usuario ha sido ${
+          this.isEditing ? 'editado' : 'creado'
+        } exitosamente.`,
+        'success'
+      );
     }
   }
 }
