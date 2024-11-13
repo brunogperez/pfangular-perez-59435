@@ -1410,30 +1410,5 @@
     }
   ],
   "inscriptions": [
-    {
-      "id": "NWGTSH4w",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "OEO66Dp0"
-    },
-    {
-      "id": "F5hidKsS",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "wCNLG2Gk"
-    },
-    {
-      "id": "6nwUNLR0",
-      "studentId": "Vtes",
-      "courseId": "wCNLG2Gk"
-    },
-    {
-      "id": "adIjKHV1",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "FGH89Dj3"
-    },
-    {
-      "id": "goFoWaOk",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "8jcFtqja"
-    }
   ]
 }

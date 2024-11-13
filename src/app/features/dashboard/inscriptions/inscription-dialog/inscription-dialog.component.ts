@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { Course } from '../../courses/models';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
+import { Store } from '@ngrx/store';
+import { InscriptionActions } from '../store/inscription.actions';
 
 interface InscriptionDialogData {
   inscription?: Inscription;
@@ -28,11 +30,12 @@ export class InscriptionDialogComponent {
     private formBuilder: FormBuilder,
     private coursesService: CoursesService,
     private inscriptionService: InscriptionService,
+    private store: Store,
     @Inject(MAT_DIALOG_DATA) public data?: InscriptionDialogData
   ) {
     this.courses$ = this.coursesService.getCourses();
     this.inscriptionForm = this.formBuilder.group({
-      studentId: [{ value: '12345', disabled: true }],
+      studentId: [{ value: '', disabled: true }],
       courseId: [null, Validators.required],
     });
     this.inscriptionForm.patchValue({
@@ -65,6 +68,12 @@ export class InscriptionDialogComponent {
               'info'
             );
           } else {
+            this.store.dispatch(
+              InscriptionActions.createInscription({
+                studentId,
+                courseId,
+              })
+            );
             this.inscriptionService.createInscription(formValues).subscribe({
               next: () => {
                 this.inscriptionService.getInscriptions();

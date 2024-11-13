@@ -15,6 +15,13 @@ import { Student } from '../students/models';
 import { StudentsService } from '../../../core/services/students.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InscriptionDialogComponent } from './inscription-dialog/inscription-dialog.component';
+import { Store } from '@ngrx/store';
+import { InscriptionActions } from './store/inscription.actions';
+import {
+  selectorCourseOptions,
+  selectorInscriptions,
+  selectorStudentOptions,
+} from './store/inscription.selectors';
 
 @Component({
   selector: 'app-inscriptions',
@@ -39,18 +46,29 @@ export class InscriptionsComponent implements OnInit {
   courses$: Observable<Course[]>;
   students$!: Observable<Student[]>;
 
+  isncriptionsStore$: Observable<Inscription[]>;
+  coursesStore$: Observable<Course[]>;
+  studentsStore$!: Observable<Student[]>;
   constructor(
     private inscriptionService: InscriptionService,
     private coursesService: CoursesService,
     private studentService: StudentsService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store
   ) {
+    this.isncriptionsStore$ = this.store.select(selectorInscriptions);
+    this.coursesStore$ = this.store.select(selectorCourseOptions);
+    this.studentsStore$ = this.store.select(selectorStudentOptions);
+
     this.inscription$ = this.inscriptionService.getInscriptions();
     this.courses$ = this.coursesService.getCourses();
   }
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.store.dispatch(InscriptionActions.loadInscriptions());
+    this.store.dispatch(InscriptionActions.loadCourseOptions());
+    this.store.dispatch(InscriptionActions.loadStrudentOptions());
     this.searchTerm$
       .pipe(
         startWith(''),
