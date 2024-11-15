@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { generateRandomString } from '../../shared/utils';
-import { map, Observable } from 'rxjs';
+import { concatMap, map, Observable } from 'rxjs';
 import { Inscription } from '../../features/dashboard/inscriptions/models';
 import { environment } from '../../../environments/environment';
 import { Student } from '../../features/dashboard/students/models';
@@ -14,7 +14,7 @@ export class InscriptionService {
 
   getInscriptions(): Observable<Inscription[]> {
     return this.httpClient.get<Inscription[]>(
-      `${this.apiBaseURL}/inscriptions`
+      `${this.apiBaseURL}/inscriptions` ///////////////////////
     );
   }
   getInscriptionsById(studentId: string): Observable<Inscription[]> {
@@ -23,14 +23,25 @@ export class InscriptionService {
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
-
-  /*   deleteById(id: string): Observable<Inscription[]> {
+  getInscriptionsByCourse(courseId: string): Observable<Inscription[]> {
+    const APISEARCH = `${this.apiBaseURL}/inscriptions?courseId=${courseId}`;
     return this.httpClient
-      .delete<Inscription>(`${this.apiBaseURL}/in/${id}`)
-      .pipe(concatMap(() => this.getInscriptions()));
-  } */
+      .get<Inscription[]>(APISEARCH)
+      .pipe(map((res: Inscription[]) => res));
+  }
+  getInscriptionsByCourseAndStudent(
+    courseId: string,
+    studentId: string
+  ): Observable<Inscription[]> {
+    const APISEARCH = `${this.apiBaseURL}/inscriptions?studentId=${studentId}&courseId=${courseId}`;
+    return this.httpClient
+      .get<Inscription[]>(APISEARCH)
+      .pipe(map((res: Inscription[]) => res));
+  }
 
-  createInscription(data: Omit<Inscription, 'id'>): Observable<Inscription> {
+  createInscription(
+    data: Omit<Inscription, 'id' | 'student' | 'course'>
+  ): Observable<Inscription> {
     return this.httpClient.post<Inscription>(
       `${this.apiBaseURL}/inscriptions`,
       {
@@ -38,6 +49,12 @@ export class InscriptionService {
         id: generateRandomString(8),
       }
     );
+  }
+
+  deleteInscription(id: string): Observable<Inscription[]> {
+    return this.httpClient
+      .delete<Inscription>(`${this.apiBaseURL}/inscriptions/${id}`)
+      .pipe(concatMap(() => this.getInscriptions()));
   }
 
   searchStudents(name: string): Observable<Student[]> {

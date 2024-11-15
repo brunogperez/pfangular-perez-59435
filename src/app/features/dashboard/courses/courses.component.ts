@@ -1,10 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from '../../../core/services/courses.service';
+
 import { Course } from './models';
 import { MatDialog } from '@angular/material/dialog';
 import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectCourse } from './store/course.selectors';
+import { CourseActions } from './store/course.actions';
+
+import { InscriptionActions } from '../inscriptions/store/inscription.actions';
+import { Inscription } from '../inscriptions/models';
+import { selectorInscriptions } from '../inscriptions/store/inscription.selectors';
+import { User } from '../users/models';
+import { selectAuthUser } from '../../../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-courses',
@@ -12,31 +22,29 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrl: './courses.component.scss',
 })
 export class CoursesComponent implements OnInit {
-  isLoading = false;
-
-  dataSource: Course[] = [];
-
   displayedColumns: string[] = ['id', 'name', 'duration', 'level', 'actions'];
 
+  isLoading = false;
+  user$: Observable<User | null>;
+  isAdmin$: Observable<boolean>;
+  inscriptions$: Observable<Inscription[]>;
+  courses$: Observable<Course[]>;
+
   constructor(
-    private coursesService: CoursesService,
+    private store: Store,
     private matDialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.loadCourses();
+  ) {
+    this.user$ = this.store.select(selectAuthUser);
+    this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'user'));
+    this.inscriptions$ = this.store.select(selectorInscriptions);
+    this.courses$ = this.store.select(selectCourse);
   }
 
-  loadCourses(): void {
-    this.isLoading = true;
-    this.coursesService.getCourses().subscribe({
-      next: (courses) => {
-        this.dataSource = courses;
-        this.isLoading = false;
-      },
-    });
+  ngOnInit(): void {
+    this.store.dispatch(CourseActions.loadCourses());
+    this.store.dispatch(InscriptionActions.loadInscriptions());
   }
 
   goToDetail(id: string): void {
@@ -51,33 +59,18 @@ export class CoursesComponent implements OnInit {
         next: (res) => {
           if (!!res) {
             if (editCourse) {
-              this.handleUpdate(editCourse.id, res);
+              this.store.dispatch(
+                CourseActions.updateCourse({ id: editCourse.id, update: res })
+              );
             } else {
-              this.coursesService.createCourse(res).subscribe({
-                next: () => this.loadCourses(),
-              });
+              this.store.dispatch(CourseActions.createCourse({ course: res }));
             }
           }
         },
       });
   }
 
-  handleUpdate(id: string, update: Course): void {
-    this.isLoading = true;
-    this.coursesService.updateCourseById(id, update).subscribe({
-      next: (course) => {
-        this.dataSource = course;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
-  }
-
-  onDelete(id: string) {
+  onDeleteCourse(id: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'No podrás revertir esta acción',
@@ -87,24 +80,7 @@ export class CoursesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result: any) => {
       if (result.isConfirmed) {
-        this.isLoading = true;
-        this.coursesService.removeCourseById(id).subscribe({
-          next: (course) => {
-            this.dataSource = course;
-            Swal.fire('¡Eliminado!', 'El curso ha sido eliminado.', 'success');
-          },
-          error: (err) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar el curso.',
-              'error'
-            );
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
+        this.store.dispatch(CourseActions.deleteCourse({ id }));
       }
     });
   }

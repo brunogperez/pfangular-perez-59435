@@ -1,33 +1,19 @@
 <mat-grid-list cols="3" rowHeight="18vh" class="gap-3">
   <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card class="course-info p-5">
-      <div
-        class="course-header"
-        fxLayout="row"
-        fxLayoutAlign="space-between center"
-      >
-        <div class="d-flex my-auto p-4">
-          <mat-progress-spinner
-            [mode]="'determinate'"
-            [value]="88"
-            diameter="80"
-            strokeWidth="8"
-            color="primary"
-          >
-          </mat-progress-spinner>
-          <span
-            class="progress-text my-auto"
-            style="margin-left: 20px; font-size: 24px"
-            >88% Cursando</span
-          >
-        </div>
-        <div class="course-details">
-          <h2>Angular - 100% En Vivo</h2>
-          <p><mat-icon>group</mat-icon> Comisión 59435</p>
-          <p><mat-icon>event</mat-icon> Del 09/09/24 al 06/11/24</p>
-          <p>
-            <mat-icon>schedule</mat-icon> Lunes y Miércoles - 20:30 a 22:30h
-          </p>
+    <mat-card class="p-5 border rounded rounded-4">
+      <div id="weather_wrapper ">
+        <div class="weatherCard ">
+          <div class="currentTemp">
+            <span class="temp">30&deg;</span>
+            <span class="location">Mendoza</span>
+          </div>
+          <div class="currentWeather">
+            <span class="conditions">&#xf00d;</span>
+            <div class="info">
+              <span class="rain">1.3 MM</span>
+              <span class="wind">10 MPH</span>
+            </div>
+          </div>
         </div>
       </div>
     </mat-card>
@@ -41,7 +27,7 @@
         </div>
         <div>
           <p>Tu próxima clase es el 21/10/24</p>
-          <button mat-raised-button color="primary">Ir al Curso</button>
+          <button mat-raised-button color="primary">Ir </button>
         </div>
       </mat-card>
 
@@ -62,7 +48,7 @@
       <button mat-raised-button color="accent">Ir a la ruta</button>
     </mat-card>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="3" [rowspan]="1" >
+  <mat-grid-tile [colspan]="3" [rowspan]="1">
     <div class="extra-info border rounded p-4">
       <div>
         <mat-icon>web</mat-icon>

@@ -2,39 +2,59 @@
   <mat-card class="course-status">
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div>
-        <h1>{{ course?.name }}</h1>
+        <h1 class="text-center my-5">{{ course?.name }}</h1>
         <mat-divider> </mat-divider>
-        <h3>{{ course?.description }}</h3>
+        <h4 class="text-center my-4">{{ course?.description }}</h4>
       </div>
-      <div fxLayoutAlign="Right">
+      <mat-card-actions align="end">
         <button mat-raised-button color="primary">
           <mat-icon>folder_open</mat-icon> Material del Curso
         </button>
-      </div>
+      </mat-card-actions>
     </div>
 
-    <div class="m-2">
-      <h3>Programa</h3>
-      <mat-divider></mat-divider>
+    <mat-tab-group>
+      <mat-tab label="Programa">
+        <ng-container *ngFor="let classItem of classList" class="my-4">
+          <mat-card
+            appearance="outlined"
+            class="p-3 col-12 my-3 d-flex justify-content-between flex-row"
+          >
+            <div class="d-flex gap-4">
+              <mat-icon matListItemIcon>radio_button_checked</mat-icon>
+              <p class="my-auto">
+                Clase {{ classItem.id }} - {{ classItem.name }}
+              </p>
+            </div>
+          </mat-card>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Alumnos">
+        <div *ngIf="studentsByCourse$ | async as studentsByCourse" class="m-4">
+          <ng-container *ngIf="studentsByCourse.length > 0; else noStudents">
+            <mat-card
+              *ngFor="let student of studentsByCourse"
+              class="border rounded m-5 d-flex"
+            >
+              <mat-card-header>
+                <mat-card-title>
+                  {{ student.firstName }} {{ student.lastName }}</mat-card-title
+                >
+                <mat-card-subtitle>ID: {{ student.id }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-actions align="end">
+                <button mat-flat-button (click)="onDeleteInscription(student.id)">
+                  DESINSCRIBIR
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </ng-container>
+        </div>
 
-      <ng-container *ngFor="let classItem of classList" class="my-4">
-        <mat-card
-          appearance="outlined"
-          class="p-3 col-12 my-3 d-flex justify-content-between flex-row"
-        >
-          <div class="d-flex gap-4">
-            <mat-icon matListItemIcon>radio_button_checked</mat-icon>
-            <p class="my-auto">
-              Clase {{ classItem.id }} - {{ classItem.name }}
-            </p>
-          </div>
-        </mat-card>
-      </ng-container>
-
-      <div class="border border-2 rounded text-center p-3">
-        <p>Alumnos inscriptos</p>
-        <p>Próximamente...</p>
-      </div>
-    </div>
+        <ng-template #noStudents>
+          <p>No hay estudiantes inscritos en este curso.</p>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
 </div>

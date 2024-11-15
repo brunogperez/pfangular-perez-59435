@@ -25,12 +25,13 @@ export class StudentsService {
   }
 
   getStudentById(id: string): Observable<Student | undefined> {
-    return this.httpClient.get<Student>(`${this.apiBaseURL}/students/${id}`);
+    return this.httpClient.get<Student>(
+      `${this.apiBaseURL}/students/${id}?_embed=inscriptions`
+    );
   }
 
   searchStudents(name: string): Observable<Student[]> {
     const APISEARCH = `${this.apiBaseURL}/students?firstName=${name}`;
-
     return this.httpClient
       .get<Student[]>(APISEARCH)
       .pipe(map((res: Student[]) => res));

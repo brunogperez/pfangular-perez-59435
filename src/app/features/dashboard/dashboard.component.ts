@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { User } from './users/models';
 
 @Component({
@@ -16,10 +16,29 @@ export class DashboardComponent {
 
   isAdmin$: Observable<boolean>;
 
+  currentRouteName: string = '';
+  routeNames: { [key: string]: string } = {
+    '/home': 'Inicio',
+    '/users': 'Usuarios',
+    '/students': 'Alumnos',
+    '/courses': 'Cursos',
+    '/inscriptions': 'Inscripciones',
+  };
+
   constructor(private router: Router, private authService: AuthService) {
     this.authUser$ = this.authService.authUser$;
 
     this.isAdmin$ = this.authUser$.pipe(map((user) => user?.role === 'admin'));
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const baseRoute = event.url.split('/')[2];
+        console.log(baseRoute);
+        const routePath = `/${baseRoute}`;
+        this.currentRouteName =
+          this.routeNames[routePath] || 'Ruta desconocida';
+      });
   }
 
   logout(): void {

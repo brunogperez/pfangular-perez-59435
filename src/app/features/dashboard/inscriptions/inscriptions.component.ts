@@ -8,7 +8,6 @@ import {
   switchMap,
 } from 'rxjs';
 import { CoursesService } from '../../../core/services/courses.service';
-import { Course } from '../courses/models';
 import { InscriptionService } from '../../../core/services/inscriptions.service';
 import { Inscription } from './models';
 import { Student } from '../students/models';
@@ -18,10 +17,12 @@ import { InscriptionDialogComponent } from './inscription-dialog/inscription-dia
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from './store/inscription.actions';
 import {
-  selectorCourseOptions,
+  selectorInscriptionError,
   selectorInscriptions,
-  selectorStudentOptions,
+  selectorIsLoadingInscriptions,
 } from './store/inscription.selectors';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inscriptions',
@@ -42,33 +43,31 @@ export class InscriptionsComponent implements OnInit {
   isLoading = false;
 
   searchTerm$ = new Subject<string>();
-  inscription$: Observable<Inscription[]>;
-  courses$: Observable<Course[]>;
+
   students$!: Observable<Student[]>;
 
-  isncriptionsStore$: Observable<Inscription[]>;
-  coursesStore$: Observable<Course[]>;
-  studentsStore$!: Observable<Student[]>;
+  isncriptions$: Observable<Inscription[]>;
+
+  loadInscriptionError$: Observable<Error | null | HttpErrorResponse>;
+  isLoadingInscriptions$: Observable<boolean>;
+
   constructor(
     private inscriptionService: InscriptionService,
-    private coursesService: CoursesService,
+
     private studentService: StudentsService,
     private matDialog: MatDialog,
     private store: Store
   ) {
-    this.isncriptionsStore$ = this.store.select(selectorInscriptions);
-    this.coursesStore$ = this.store.select(selectorCourseOptions);
-    this.studentsStore$ = this.store.select(selectorStudentOptions);
-
-    this.inscription$ = this.inscriptionService.getInscriptions();
-    this.courses$ = this.coursesService.getCourses();
+    this.isncriptions$ = this.store.select(selectorInscriptions);
+    this.loadInscriptionError$ = this.store.select(selectorInscriptionError);
+    this.isLoadingInscriptions$ = this.store.select(
+      selectorIsLoadingInscriptions
+    );
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.store.dispatch(InscriptionActions.loadInscriptions());
-    this.store.dispatch(InscriptionActions.loadCourseOptions());
-    this.store.dispatch(InscriptionActions.loadStrudentOptions());
+
     this.searchTerm$
       .pipe(
         startWith(''),
@@ -97,11 +96,23 @@ export class InscriptionsComponent implements OnInit {
   }
 
   openDialog(inscription?: Inscription): void {
-    this.matDialog
-      .open(InscriptionDialogComponent, { data: { inscription } })
-      .afterClosed()
-      .subscribe({
-        next: (res) => this.inscriptionService.createInscription(res),
-      });
+    this.matDialog.open(InscriptionDialogComponent, { data: { inscription } });
+  }
+
+  onDelete(studentId: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(
+          InscriptionActions.deleteInscription({ studentId })
+        );
+      }
+    });
   }
 }

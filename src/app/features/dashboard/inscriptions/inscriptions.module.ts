@@ -10,7 +10,6 @@ import { InscriptionEffects } from './store/inscription.effects';
 import { StoreModule } from '@ngrx/store';
 import { inscriptionFeature } from './store/inscription.reducer';
 
-
 @NgModule({
   declarations: [InscriptionsComponent, InscriptionDialogComponent],
   imports: [

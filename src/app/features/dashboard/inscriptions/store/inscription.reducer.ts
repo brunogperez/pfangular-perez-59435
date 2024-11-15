@@ -1,95 +1,72 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, on, Action } from '@ngrx/store';
 import { InscriptionActions } from './inscription.actions';
 import { Inscription } from '../models';
 import { Course } from '../../courses/models/index';
 import { Student } from '../../students/models';
 import { generateRandomString } from '../../../../shared/utils';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const inscriptionFeatureKey = 'inscription';
 
-const SALES_DB: Inscription[] = [
-  {
-    id: 'sdUd24',
-    courseId: 'asds',
-    studentId: 'adasds',
-  },
-  {
-    id: 'fdfds',
-    courseId: 'vfgfdg',
-    studentId: 'sdasdasd',
-  },
-];
-
-const PRODUCTS_DB: Course[] = [
-  {
-    id: 'avcE2',
-    name: 'PS5',
-    duration: '2 months',
-    level: 'Advanced',
-    classes: [],
-    description: '',
-  },
-  {
-    id: 'av22321312',
-    name: 'PS2',
-    duration: '2 months',
-    level: 'Advanced',
-    classes: [],
-    description: '',
-  },
-];
-
-const USER_DB: Student[] = [
-  {
-    id: '4d22',
-    firstName: 'Josue',
-    lastName: 'Baez',
-    email: 'jbaez@mail.com',
-    createdAt: new Date('2024-10-24T00:14:33.140Z'),
-    birthdate: new Date('2024-10-24T00:14:33.140Z'),
-  },
-  {
-    id: 'Fr24',
-    firstName: 'Naruto',
-    lastName: 'Uzumaki',
-    email: 'naru@mail.com',
-    createdAt: new Date('2024-10-24T00:14:33.140Z'),
-    birthdate: new Date('2024-10-24T00:14:33.140Z'),
-  },
-];
-
 export interface State {
+  isLoadingInscription: boolean;
+  loadInscriptionError: Error | null | HttpErrorResponse;
   inscriptions: Inscription[];
-  courseOptions: Course[];
-  studentOptions: Student[];
+  selectedCourseId: string | null;
 }
 
 export const initialState: State = {
+  isLoadingInscription: false,
+  loadInscriptionError: null,
   inscriptions: [],
-  courseOptions: [],
-  studentOptions: [],
+  selectedCourseId: null,
 };
 
 export const reducer = createReducer(
   initialState,
+  ////////// SECCION LOAD
   on(InscriptionActions.loadInscriptions, (state) => {
     return {
       ...state,
-      inscriptions: [...SALES_DB],
+      isLodingInscription: true,
     };
   }),
-  on(InscriptionActions.loadCourseOptions, (state) => {
+  on(InscriptionActions.loadInscriptionsSuccess, (state, action) => {
     return {
       ...state,
-      courseOptions: [...PRODUCTS_DB],
+
+      inscriptions: action.data,
+      isLodingInscription: false,
+      loadInscriptionError: null,
     };
   }),
-  on(InscriptionActions.loadStrudentOptions, (state) => {
+  on(InscriptionActions.loadInscriptionsFailure, (state, action) => {
     return {
       ...state,
-      studentOptions: [...USER_DB],
+
+      loadInscriptionError: action.error,
+      isLodingInscription: false,
     };
   }),
+  ////////// SECCION LOADBYCOURSE
+  on(InscriptionActions.loadInscriptionsByCourse, (state) => {
+    return {
+      ...state,
+    };
+  }),
+  on(InscriptionActions.loadInscriptionsByCourseSuccess, (state, action) => {
+    return {
+      ...state,
+      inscriptions: action.data,
+    };
+  }),
+  on(InscriptionActions.loadInscriptionsByCourseFailure, (state, error) => {
+    return {
+      ...state,
+      error,
+    };
+  }),
+  ////////// SECCION CREATE
   on(InscriptionActions.createInscription, (state, action) => {
     return {
       ...state,
@@ -102,7 +79,15 @@ export const reducer = createReducer(
         },
       ],
     };
-  })
+  }),
+
+  ////////// SECCION DELETE
+  on(InscriptionActions.deleteInscription, (state, action) => ({
+    ...state,
+    inscriptions: state.inscriptions.filter(
+      (insciption) => insciption.studentId !== action.studentId
+    ),
+  }))
 );
 
 export const inscriptionFeature = createFeature({

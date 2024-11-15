@@ -10,12 +10,17 @@ export const selectorInscriptions = createSelector(
   selectInscriptionState,
   (state) => state.inscriptions
 );
+export const selectorInscriptionsByCourse = createSelector(
+  selectInscriptionState,
+  (state) => state.inscriptions
+);
 
-export const selectorCourseOptions = createSelector(
+
+export const selectorInscriptionError = createSelector(
   selectInscriptionState,
-  (state)=>state.courseOptions
+  (state)=> state.loadInscriptionError,
 )
-export const selectorStudentOptions = createSelector(
+export const selectorIsLoadingInscriptions = createSelector(
   selectInscriptionState,
-  (state)=>state.studentOptions
+  (state)=> state.isLoadingInscription,
 )

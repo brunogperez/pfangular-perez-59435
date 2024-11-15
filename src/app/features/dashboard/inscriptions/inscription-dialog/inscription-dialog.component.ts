@@ -74,17 +74,12 @@ export class InscriptionDialogComponent {
                 courseId,
               })
             );
-            this.inscriptionService.createInscription(formValues).subscribe({
-              next: () => {
-                this.inscriptionService.getInscriptions();
-                Swal.fire(
-                  'Buen trabajo!',
-                  'El alumno ha sido inscripto exitosamente.',
-                  'success'
-                ).then(() => {
-                  this.matDialogRef.close();
-                });
-              },
+            Swal.fire(
+              'Buen trabajo!',
+              'El alumno ha sido inscripto exitosamente.',
+              'success'
+            ).then(() => {
+              this.matDialogRef.close();
             });
           }
         });

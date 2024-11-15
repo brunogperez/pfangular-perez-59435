@@ -20,7 +20,7 @@ export class CoursesService {
 
   getCourseById(id: string): Observable<Course | undefined> {
     const result = this.httpClient.get<Course>(
-      `${this.apiBaseURL}/courses/${id}?_embed=inscriptions`
+      `${this.apiBaseURL}/courses/${id}?_embed=students`
     );
     return result;
   }
