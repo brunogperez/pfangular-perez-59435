@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../../core/services/users.service';
 import { User } from '../models/index';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectorUserById } from '../store/user.selectors';
+import { UserActions } from '../store/user.actions';
 
 @Component({
   selector: 'app-user-detail',
@@ -9,23 +13,16 @@ import { User } from '../models/index';
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent implements OnInit {
-  idUser?: string;
-  user?: User;
+  userId$: string;
+  user$: Observable<User>;
   isLoading = false;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private usersService: UsersService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private store: Store) {
+    this.user$ = this.store.select(selectorUserById);
+    this.userId$ = this.activatedRoute.snapshot.params['id'];
+  }
   ngOnInit(): void {
     this.isLoading = true;
-    this.usersService
-      .getUserById(this.activatedRoute.snapshot.params['id'])
-      .subscribe({
-        next: (user) => {
-          this.user = user;
-          this.isLoading = false;
-        },
-      });
+    this.store.dispatch(UserActions.loadUserById({ id: this.userId$ }));
   }
 }

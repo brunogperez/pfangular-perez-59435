@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseURL: 'http://coderhhouse.com',
+  apiBaseURL: 'https://json-server-api-2zor.onrender.com',
 };

@@ -5,16 +5,17 @@ import {
   Observable,
   startWith,
   Subject,
-  switchMap,
 } from 'rxjs';
-import { CoursesService } from '../../../core/services/courses.service';
-import { Course } from '../courses/models';
-import { InscriptionService } from '../../../core/services/inscriptions.service';
 import { Inscription } from './models';
 import { Student } from '../students/models';
-import { StudentsService } from '../../../core/services/students.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InscriptionDialogComponent } from './inscription-dialog/inscription-dialog.component';
+import { Store } from '@ngrx/store';
+import { InscriptionActions } from './store/inscription.actions';
+import { selectorInscriptions } from './store/inscription.selectors';
+import Swal from 'sweetalert2';
+import { StudentActions } from '../students/store/student.actions';
+import { selectorStudents } from '../students/store/student.selectors';
 
 @Component({
   selector: 'app-inscriptions',
@@ -31,45 +32,21 @@ export class InscriptionsComponent implements OnInit {
     'actions',
   ];
 
-  dataSource: Student[] = [];
-  isLoading = false;
-
   searchTerm$ = new Subject<string>();
-  inscription$: Observable<Inscription[]>;
-  courses$: Observable<Course[]>;
   students$!: Observable<Student[]>;
+  inscriptions$: Observable<Inscription[]>;
 
-  constructor(
-    private inscriptionService: InscriptionService,
-    private coursesService: CoursesService,
-    private studentService: StudentsService,
-    private matDialog: MatDialog
-  ) {
-    this.inscription$ = this.inscriptionService.getInscriptions();
-    this.courses$ = this.coursesService.getCourses();
+  constructor(private matDialog: MatDialog, private store: Store) {
+    this.students$ = this.store.select(selectorStudents);
+    this.inscriptions$ = this.store.select(selectorInscriptions);
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.store.dispatch(InscriptionActions.loadInscriptions());
     this.searchTerm$
-      .pipe(
-        startWith(''),
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap((term: string) =>
-          term
-            ? this.inscriptionService.searchStudents(term)
-            : this.studentService.getStudents()
-        )
-      )
-      .subscribe({
-        next: (students) => {
-          this.dataSource = students;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.isLoading = false;
-        },
+      .pipe(startWith(''), debounceTime(400), distinctUntilChanged())
+      .subscribe((term) => {
+        this.store.dispatch(StudentActions.searchStudents({ term }));
       });
   }
 
@@ -79,11 +56,21 @@ export class InscriptionsComponent implements OnInit {
   }
 
   openDialog(inscription?: Inscription): void {
-    this.matDialog
-      .open(InscriptionDialogComponent, { data: { inscription } })
-      .afterClosed()
-      .subscribe({
-        next: (res) => this.inscriptionService.createInscription(res),
-      });
+    this.matDialog.open(InscriptionDialogComponent, { data: { inscription } });
+  }
+
+  onDelete(id: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(InscriptionActions.deleteInscription({ id }));
+      }
+    });
   }
 }

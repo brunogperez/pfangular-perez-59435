@@ -1,12 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +21,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -33,11 +32,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.deleteToken(); 
+    this.deleteToken();
+    
   }
 
   deleteToken(): void {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('token');
   }
 
   togglePassword(): void {

@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { AuthData } from '../../features/auth/models';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { User } from '../../features/dashboard/users/models';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { AuthActions } from '../../store/actions/auth.actions';
+import { selectAuthUser } from '../../store/selectors/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _authUser$ = new BehaviorSubject<null | User>(null);
-  public authUser$ = this._authUser$.asObservable();
-
+  public authUser$: Observable<User | null>;
   private apiURL = environment.apiBaseURL;
 
-  constructor(private router: Router, private httpClient: HttpClient) {}
+  constructor(
+    private router: Router,
+    private httpClient: HttpClient,
+    private store: Store
+  ) {
+    this.authUser$ = this.store.select(selectAuthUser);
+  }
 
   private handleAuth(users: User[]): User | null {
     if (!!users[0]) {
-      this._authUser$.next(users[0]);
+      /*  this._authUser$.next(users[0]); */
+      this.store.dispatch(AuthActions.setAuthenticatedUser({ user: users[0] }));
       localStorage.setItem('token', users[0].token);
       return users[0];
     } else {
@@ -25,16 +33,13 @@ export class AuthService {
     }
   }
 
-
-
   login(data: AuthData): Observable<User> {
     return (
       this.httpClient
         .get<User[]>(`${this.apiURL}/users?email=${data.email}`)
-        //Elimine la password de la url para no exponerla 
+        //Elimine la password de la url para no exponerla
         .pipe(
           map((users) => {
-            // Solo pasa el usuario si tanto el email como la contraseña coinciden
             const user = users.find((user) => user.password === data.password);
             return this.handleAuth(user ? [user] : []);
           }),
@@ -50,28 +55,15 @@ export class AuthService {
   }
 
   logout() {
-    this._authUser$.next(null);
+    this.store.dispatch(AuthActions.unsetAuthenticatedUser());
     localStorage.removeItem('token');
     this.router.navigate(['auth', 'login']);
   }
 
-  /*   verifyToken(): Observable<boolean> {
-    return this.httpClient
-      .get<User[]>(
-        `${this.apiURL}/users?token=${localStorage.getItem('token')}`
-      )
-      .pipe(
-        map((users) => {
-          const user = this.handleAuth(users);
-          return !!user;
-        })
-      );
-  } */
-
   verifyToken(): Observable<boolean> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return of(false); // Retorna false si no hay token
+      return of(false);
     }
 
     return this.httpClient
@@ -81,7 +73,7 @@ export class AuthService {
           const user = this.handleAuth(users);
           return !!user;
         }),
-        catchError(() => of(false)) // Retorna false si ocurre algún error
+        catchError(() => of(false))
       );
   }
 

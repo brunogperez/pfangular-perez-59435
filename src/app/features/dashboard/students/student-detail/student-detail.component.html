@@ -1,32 +1,87 @@
-@if(isLoading){
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-<p class="text-center my-5">CARGANDO...</p>
-}@else {
-<div class="my-auto justify-content-center">
+<div
+  class="my-auto justify-content-center"
+  *ngIf="student$ | async as student ; else loading"
+>
   <div class="align-items-center d-flex gap-4 p-5 dCards">
     <div class="col-4">
       <div class="col-12">
-        <mat-card class="col-3 p-5 m-auto">
+        <mat-card class="col-12 p-5 m-auto">
           <div class="card-content m-auto text-center">
-            <mat-icon class="m-auto"> person </mat-icon>
-            <p class="text-center">Próximamente...</p>
+            <img
+              src="https://picsum.photos/200"
+              alt="`Avatar de {{student.firstName}} {{student.lastName}}`"
+              srcset=""
+            />
           </div>
         </mat-card>
       </div>
     </div>
-    <mat-card class="col-6 border border-3 p-5">
-      <div class="card-content d-inline">
-        <p>ID: {{ student?.id }}</p>
-        <p>Nombre: {{ student?.firstName }}</p>
-        <p>Apellido: {{ student?.lastName }}</p>
-        <p>Mail: {{ student?.email }}</p>
+    <mat-card class="col-6  p-5 bg-table">
+      <div class="card-content d-inline" *ngIf="student$ | async as student">
+        <div class="info-item">
+          <mat-icon matListItemIcon>fingerprint</mat-icon>
+          <div>
+            <strong>ID</strong>
+            <p>{{ student.id }}</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <div>
+            <strong>Nombre</strong>
+            <p>{{ student.firstName }} {{ student?.lastName }}</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <mat-icon matListItemIcon>email</mat-icon>
+          <div>
+            <strong>Email</strong>
+            <p>{{ student.email }}</p>
+          </div>
+        </div>
       </div>
     </mat-card>
   </div>
-  <div class="p-5">
-    <mat-card class="col-12 p-5 border border-4 course-content">
-      <div class="m-auto">{{inscriptions | json}}</div>
-    </mat-card>
+
+  <div *ngIf="coursesByStudent$ | async as coursesByStudent" class="m-4">
+    <ng-container *ngIf="coursesByStudent.length > 0; else noStudents">
+      <mat-card class="border rounded m-5 p-5 border-3">
+        <h3 class="text-center m-2">Cursos inscriptos</h3>
+        <mat-card
+          *ngFor="let course of coursesByStudent"
+          class="border rounded m-3 d-flex"
+        >
+          <mat-card-header>
+            <mat-card-title> {{ course.name }} </mat-card-title>
+            <mat-card-subtitle>ID: {{ course.id }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions align="end">
+            <button mat-flat-button (click)="onDeleteInscription(course.id)">
+              DESINSCRIBIR
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-card>
+    </ng-container>
   </div>
+
+  <ng-template #noStudents>
+    <mat-card class="border rounded m-5 p-5 border-3">
+      <div class="d-flex flex-column align-items-center">
+        <p class="text-center">ESTE ALUMNO NO ESTA INSCRIPTO EN NINGUN CURSO</p>
+        <button
+          mat-flat-button
+          class="col-2 m-auto"
+          routerLink="/dashboard/inscriptions"
+        >
+          Ir a Inscripciones
+        </button>
+      </div>
+    </mat-card>
+  </ng-template>
 </div>
-}
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p class="text-center my-5">CARGANDO...</p>
+</ng-template>

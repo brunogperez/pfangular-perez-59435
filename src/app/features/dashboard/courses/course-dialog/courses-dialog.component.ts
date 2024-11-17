@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '../models';
 import { generateRandomString } from '../../../../shared/utils';
-import { Observable } from 'rxjs';
-import { CoursesService } from '../../../../core/services/courses.service';
 import Swal from 'sweetalert2';
 
 interface CourseModalData {
@@ -31,7 +29,6 @@ export class CoursesDialogComponent {
     'Advanced',
   ];
   constructor(
-    private coursesService: CoursesService,
     private matDialogRef: MatDialogRef<CoursesDialogComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data?: CourseModalData

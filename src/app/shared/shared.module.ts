@@ -20,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [UserFullNamePipe, AgePipe, FontSizeDirective],
@@ -45,6 +46,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatBadgeModule,
     MatListModule,
     MatGridListModule,
+    MatTabsModule,
   ],
 })
 export class SharedModule {}

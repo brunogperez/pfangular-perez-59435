@@ -4,3 +4,17 @@
 .course-content {
   height: 50vh;
 }
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+img{
+  width: 200px;
+  height: 200px;
+  color: #ffffff;
+}
+.bg-table{
+    background-color: #2e3b38;
+}

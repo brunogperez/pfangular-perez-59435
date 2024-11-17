@@ -1,8 +1,12 @@
-<div class="container">
-  
-  <h2 appFontSize fontSize="30px">Alumnos</h2>
+<div class="container p-5">
+  <form class="example-form text-center">
+    <mat-form-field class="col-4">
+      <mat-label>Buscar alumno...</mat-label>
+      <input matInput type="search" name="" id="" (input)="search($event)" />
+    </mat-form-field>
+  </form>
 
-  <div class="border border-2 p-2 rounded-4">
+  <div class="p-2 rounded-4 bg-table">
     <div class="demo-button-container m-2">
       <button mat-flat-button (click)="openDialog()">
         <mat-icon>add</mat-icon>
@@ -12,12 +16,11 @@
 
     <mat-divider></mat-divider>
 
-
     @if (isLoading) {
     <mat-spinner class="mx-auto m-5"></mat-spinner>
     } @else {
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="students$" class="bg-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
         <td mat-cell *matCellDef="let student">{{ student.id }}</td>
@@ -42,7 +45,9 @@
 
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef>Created Date</th>
-        <td mat-cell *matCellDef="let student">{{ student.createdAt | date }}</td>
+        <td mat-cell *matCellDef="let student">
+          {{ student.createdAt | date }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -51,10 +56,20 @@
           <button mat-icon-button class="m-1" (click)="goToDetail(student.id)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button class="m-1" (click)="openDialog(student)">
+          <button
+            mat-icon-button
+            class="m-1"
+            (click)="openDialog(student)"
+            *ngIf="(isAdmin$ | async) == true"
+          >
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button class="m-1" (click)="onDelete(student.id)">
+          <button
+            mat-icon-button
+            class="m-1"
+            (click)="onDelete(student.id)"
+            *ngIf="(isAdmin$ | async) == true"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </td>

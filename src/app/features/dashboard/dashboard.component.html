@@ -1,13 +1,12 @@
 <mat-drawer-container class="example-container" autosize>
   <!-- SECCION IZQUIERDA (PARTE INTERIOR DEL SIDEBAR) -->
-  <mat-drawer #drawer class="example-sidenav" mode="side">
+  <mat-drawer #drawer class="example-sidenav bg-table" mode="over">
     <mat-nav-list>
       <a mat-list-item routerLink="home">Inicio</a>
       <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>
       <a mat-list-item routerLink="students">Alumnos</a>
       <a mat-list-item routerLink="courses">Cursos</a>
       <a mat-list-item routerLink="inscriptions">Inscripciones</a>
-      <!-- <a mat-list-item (click)="logout()"> Cerrar Sesión</a> -->
     </mat-nav-list>
   </mat-drawer>
 
@@ -46,6 +45,8 @@
           </button>
         </div>
       </mat-toolbar>
+
+      <h3 class="route-display text-center m-3">{{ currentRouteName }}</h3>
     </div>
 
     <router-outlet />

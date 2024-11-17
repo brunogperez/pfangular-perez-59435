@@ -36,7 +36,7 @@
       "lastName": "Perez",
       "email": "bruno.perez@mail.com",
       "password": "123123123",
-      "role": "admin",
+      "role": "user",
       "createdAt": "2024-11-11T19:33:59.910Z",
       "token": "Ey8VhncR9NsN7f7"
     }
@@ -848,7 +848,7 @@
     {
       "id": "OEO66Dp0",
       "name": "Web Development",
-      "duration": "5 months",
+      "duration": "3 months",
       "level": "Intermediate",
       "description": "Learn to build websites from scratch, mastering HTML, CSS, and JavaScript to create interactive and responsive pages.",
       "classes": [
@@ -1411,27 +1411,12 @@
   ],
   "inscriptions": [
     {
-      "id": "NWGTSH4w",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "OEO66Dp0"
-    },
-    {
-      "id": "F5hidKsS",
+      "id": "qXjaMXgm",
       "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "courseId": "wCNLG2Gk"
     },
     {
-      "id": "6nwUNLR0",
-      "studentId": "Vtes",
-      "courseId": "wCNLG2Gk"
-    },
-    {
-      "id": "adIjKHV1",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
-      "courseId": "FGH89Dj3"
-    },
-    {
-      "id": "goFoWaOk",
+      "id": "smTIhhFT",
       "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "courseId": "8jcFtqja"
     }

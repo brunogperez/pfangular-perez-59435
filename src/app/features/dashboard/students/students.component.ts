@@ -5,6 +5,21 @@ import { Student } from './models';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentsService } from '../../../core/services/students.service';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+} from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectorStudents } from './store/student.selectors';
+import { StudentActions } from './store/student.actions';
+import { User } from '../users/models';
+import { selectAuthUser } from '../../../store/selectors/auth.selectors';
+import { InscriptionService } from '../../../core/services/inscriptions.service';
 
 @Component({
   selector: 'app-students',
@@ -20,67 +35,37 @@ export class StudentsComponent implements OnInit {
     'createdAt',
     'actions',
   ];
+  user$: Observable<User | null>;
+  isAdmin$: Observable<boolean>;
+  students$: Observable<Student[]>;
 
+  searchTerm$ = new Subject<string>();
   dataSource: Student[] = [];
 
   isLoading = false;
-
   constructor(
     private matDialog: MatDialog,
-    private studentsService: StudentsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private store: Store,
+  ) {
+    this.user$ = this.store.select(selectAuthUser);
+    this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'admin'));
+    this.students$ = this.store.select(selectorStudents);
+  }
 
   ngOnInit(): void {
-    this.loadStudents();
+  
+    this.searchTerm$
+      .pipe(startWith(''), debounceTime(400), distinctUntilChanged())
+      .subscribe((term) => {
+        this.store.dispatch(StudentActions.searchStudents({ term }));
+      });
   }
 
-  loadStudents(): void {
-    this.isLoading = true;
-    this.studentsService.getStudents().subscribe({
-      next: (students) => {
-        this.dataSource = students;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
-  }
-
-  onDelete(id: string) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'No podrás revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.isLoading = true;
-        this.studentsService.removeStudentById(id).subscribe({
-          next: (students) => {
-            this.dataSource = students;
-            Swal.fire('¡Eliminado!', 'El alumno ha sido eliminado.', 'success');
-          },
-          error: (err) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar el alumno.',
-              'error'
-            );
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      }
-    });
+  search(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    this.searchTerm$.next(element.value);
   }
 
   goToDetail(id: string): void {
@@ -95,29 +80,34 @@ export class StudentsComponent implements OnInit {
         next: (res) => {
           if (!!res) {
             if (editStudent) {
-              this.handleUpdate(editStudent.id, res);
+              this.store.dispatch(
+                StudentActions.updateStudent({
+                  id: editStudent.id,
+                  update: res,
+                })
+              );
             } else {
-              this.studentsService.createStudent(res).subscribe({
-                next: () => this.loadStudents(),
-              });
+              this.store.dispatch(
+                StudentActions.createStudent({ student: res })
+              );
             }
           }
         },
       });
   }
 
-  handleUpdate(id: string, update: Student): void {
-    this.isLoading = true;
-    this.studentsService.updateStudentById(id, update).subscribe({
-      next: (students) => {
-        this.dataSource = students;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
+  onDelete(id: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(StudentActions.deleteStudent({ id }));
+      }
     });
   }
 }
