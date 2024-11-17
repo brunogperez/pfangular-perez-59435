@@ -6,10 +6,12 @@ export const courseFeatureKey = 'course';
 
 export interface State {
   courses: Course[];
+  course: Course;
   loadCourseError: Error | null;
 }
 
 export const initialState: State = {
+  course: {} as Course,
   courses: [],
   loadCourseError: null,
 };
@@ -26,7 +28,6 @@ export const reducer = createReducer(
   on(CourseActions.loadCoursesSuccess, (state, action) => {
     return {
       ...state,
-
       courses: action.data,
     };
   }),
@@ -34,6 +35,23 @@ export const reducer = createReducer(
     return {
       ...state,
       loadCourseError: action.error,
+    };
+  }),
+  on(CourseActions.loadCourseById, (state) => {
+    return {
+      ...state,
+    };
+  }),
+  on(CourseActions.loadCourseByIdSuccess, (state, { data: course }) => {
+    return {
+      ...state,
+      course,
+    };
+  }),
+  on(CourseActions.loadCourseByIdFailure, (state, error) => {
+    return {
+      ...state,
+      error,
     };
   }),
 

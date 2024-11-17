@@ -36,7 +36,7 @@
       "lastName": "Perez",
       "email": "bruno.perez@mail.com",
       "password": "123123123",
-      "role": "admin",
+      "role": "user",
       "createdAt": "2024-11-11T19:33:59.910Z",
       "token": "Ey8VhncR9NsN7f7"
     }
@@ -1411,14 +1411,14 @@
   ],
   "inscriptions": [
     {
-      "id": "Q30CZWtl",
-      "studentId": "01JCEA5G8AVW0C9RXSSKH7NPT6",
+      "id": "qXjaMXgm",
+      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "courseId": "wCNLG2Gk"
     },
     {
-      "id": "NQ5fNQRA",
-      "studentId": "01JCEA5G89ZG74033D40VM7J8Y",
-      "courseId": "OEO66Dp0"
+      "id": "smTIhhFT",
+      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
+      "courseId": "8jcFtqja"
     }
   ]
 }

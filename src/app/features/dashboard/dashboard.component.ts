@@ -34,7 +34,6 @@ export class DashboardComponent {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const baseRoute = event.url.split('/')[2];
-        console.log(baseRoute);
         const routePath = `/${baseRoute}`;
         this.currentRouteName =
           this.routeNames[routePath] || 'Ruta desconocida';

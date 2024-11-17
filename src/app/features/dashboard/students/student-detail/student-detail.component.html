@@ -1,24 +1,22 @@
-@if(isLoading){
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-<p class="text-center my-5">CARGANDO...</p>
-}@else {
-<div class="my-auto justify-content-center">
+<div
+  class="my-auto justify-content-center"
+  *ngIf="student$ | async as student ; else loading"
+>
   <div class="align-items-center d-flex gap-4 p-5 dCards">
     <div class="col-4">
       <div class="col-12">
-        <mat-card class="col-3 p-5 m-auto">
+        <mat-card class="col-12 p-5 m-auto">
           <div class="card-content m-auto text-center">
             <img
-              src="https://cdn1.iconfinder.com/data/icons/user-pop-culture/512/Batman-512.png"
-              alt=""
+              src="https://picsum.photos/200"
+              alt="`Avatar de {{student.firstName}} {{student.lastName}}`"
               srcset=""
             />
-            <p class="text-center">Próximamente...</p>
           </div>
         </mat-card>
       </div>
     </div>
-    <mat-card class="col-6 border border-3 p-5">
+    <mat-card class="col-6  p-5 bg-table">
       <div class="card-content d-inline" *ngIf="student$ | async as student">
         <div class="info-item">
           <mat-icon matListItemIcon>fingerprint</mat-icon>
@@ -45,73 +43,30 @@
     </mat-card>
   </div>
 
-  <div
-    class="p-5"
-    *ngIf="inscriptionsByStudent$ | async as inscriptionsByStudent"
-    class="m-4"
-  >
-    <ng-container *ngIf="inscriptionsByStudent.length > 0; else noStudents">
-      <mat-card class="col-12 p-5 border border-4">
-        <h3 class="text-center">Cursos Inscriptos</h3>
+  <div *ngIf="coursesByStudent$ | async as coursesByStudent" class="m-4">
+    <ng-container *ngIf="coursesByStudent.length > 0; else noStudents">
+      <mat-card class="border rounded m-5 p-5 border-3">
+        <h3 class="text-center m-2">Cursos inscriptos</h3>
         <mat-card
-          class="border rounded m-2 d-flex"
-          *ngFor="let inscription of inscriptionsByStudent$ | async"
+          *ngFor="let course of coursesByStudent"
+          class="border rounded m-3 d-flex"
         >
           <mat-card-header>
-            <mat-card-title> {{ inscription.courseId }} </mat-card-title>
-            <mat-card-subtitle></mat-card-subtitle>
+            <mat-card-title> {{ course.name }} </mat-card-title>
+            <mat-card-subtitle>ID: {{ course.id }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions align="end">
-            <button
-              mat-flat-button
-              (click)="onDeleteInscription(inscription.id)"
-            >
+            <button mat-flat-button (click)="onDeleteInscription(course.id)">
               DESINSCRIBIR
             </button>
           </mat-card-actions>
         </mat-card>
       </mat-card>
     </ng-container>
-
-    <ng-template #noStudents>
-      <mat-card class="border rounded m-5 p-5 border-3">
-        <div class="d-flex flex-column align-items-center">
-          <p class="text-center">
-            ESTE ALUMNO NO ESTA INSCRIPTO EN NINGUN CURSO
-          </p>
-          <button
-            mat-flat-button
-            class="col-2 m-auto"
-            routerLink="/dashboard/inscriptions"
-          >
-            Ir a Inscripciones
-          </button>
-        </div>
-      </mat-card>
-    </ng-template>
   </div>
-</div>
-}
 
-<!-- <mat-card class="col-12 p-5 border border-4">
-      {{ inscriptionsByStudent$ | async | json }}
-      <h3 class="text-center">Cursos Inscriptos</h3>
-      @if((inscriptionsByStudent$|async)!== []){
-      <mat-card
-        class="border rounded m-2 d-flex"
-        *ngFor="let inscription of inscriptionsByStudent$ | async"
-      >
-        <mat-card-header>
-          <mat-card-title> {{ inscription.courseId }} </mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions align="end">
-          <button mat-flat-button (click)="onDeleteInscription(inscription.id)">
-            DESINSCRIBIR
-          </button>
-        </mat-card-actions>
-      </mat-card>
-      } @if((inscriptionsByStudent$|async) == []){
+  <ng-template #noStudents>
+    <mat-card class="border rounded m-5 p-5 border-3">
       <div class="d-flex flex-column align-items-center">
         <p class="text-center">ESTE ALUMNO NO ESTA INSCRIPTO EN NINGUN CURSO</p>
         <button
@@ -122,6 +77,11 @@
           Ir a Inscripciones
         </button>
       </div>
-      }
     </mat-card>
- -->
+  </ng-template>
+</div>
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p class="text-center my-5">CARGANDO...</p>
+</ng-template>

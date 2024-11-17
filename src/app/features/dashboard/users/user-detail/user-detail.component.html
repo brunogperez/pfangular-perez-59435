@@ -1,30 +1,46 @@
-@if(isLoading){
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-<p class="text-center my-5">CARGANDO...</p>
-}@else {
-<div class="main-container">
-  <h2 class="text-center">Detalle de {{ user?.role | titlecase }}</h2>
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p class="text-center my-5">CARGANDO...</p>
+</ng-template>
+
+<div class="main-container" *ngIf="user$ | async as user; else loading">
+  <h2 class="text-center">Detalle de {{ user.role | titlecase }}</h2>
   <div class="border rounded m-5">
     <div
-      class="align-items-center d-flex gap-4 p-5 text-center justify-content-center"
+      class="align-items-center d-flex gap-4 p-3 text-center justify-content-center"
     >
       <div class="col-4">
-        <mat-card class="col-12 p-5 m-auto border">
+        <mat-card class="col-12 p-5 m-auto">
           <div class="card-content m-auto text-center">
-            <mat-icon class="m-auto"> person </mat-icon>
-            <p class="text-center">Próximamente...</p>
+            <img src="https://picsum.photos/200" alt="`Avatar de {{user.firstName}} {{user.lastName}}`" srcset="" />
           </div>
         </mat-card>
       </div>
-      <mat-card class="col-6 border border-3 p-5">
-        <div class="card-content d-inline">
-          <p>ID: {{ user?.id }}</p>
-          <p>Nombre: {{ user?.firstName }}</p>
-          <p>Apellido: {{ user?.lastName }}</p>
-          <p>Mail: {{ user?.email }}</p>
+      <mat-card class="col-6 p-5 bg-table">
+        <div>
+          <div class="info-item">
+            <mat-icon matListItemIcon>fingerprint</mat-icon>
+            <div class="d-flex gap-2">
+              <strong>ID:</strong>
+              <p>{{ user.id }}</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon matListItemIcon>person</mat-icon>
+            <div class="d-flex gap-2">
+              <strong>Nombre:</strong>
+              <p>{{ user.firstName }} {{ user?.lastName }}</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon matListItemIcon>email</mat-icon>
+            <div class="d-flex gap-2">
+              <strong>Email:</strong>
+              <p>{{ user.email }}</p>
+            </div>
+          </div>
         </div>
       </mat-card>
     </div>
   </div>
 </div>
-}

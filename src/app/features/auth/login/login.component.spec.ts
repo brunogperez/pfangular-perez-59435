@@ -25,7 +25,7 @@ describe('LoginComponent', () => {
     email: 'fakeuser@mail.com',
     password: '123123',
     createdAt: new Date(),
-    birthdate: new Date(),
+    role: 'admin',
     token: 'nj2k345bk2nj34n234nj2knokljn2okl3',
   };
 
@@ -87,12 +87,11 @@ describe('LoginComponent', () => {
     expect(spyLogin).toHaveBeenCalled();
   });
 
-  /* it('El toggle debe alternar el type entre password y text', () => {
+  it('El toggle debe alternar el type entre password y text', () => {
     component.passwordType = 'password';
     component.togglePassword();
     expect(component.passwordType).toBe('text');
-    
-  }); */
+  });
   it('Debería cambiar passwordType a "text" y hideIcon a "visibility_off" ', () => {
     component.togglePassword();
 

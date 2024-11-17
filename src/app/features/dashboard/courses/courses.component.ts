@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Course } from './models';
 import { MatDialog } from '@angular/material/dialog';
 import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
@@ -9,7 +8,6 @@ import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectCourse } from './store/course.selectors';
 import { CourseActions } from './store/course.actions';
-
 import { InscriptionActions } from '../inscriptions/store/inscription.actions';
 import { Inscription } from '../inscriptions/models';
 import { selectorInscriptions } from '../inscriptions/store/inscription.selectors';
@@ -37,7 +35,7 @@ export class CoursesComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.user$ = this.store.select(selectAuthUser);
-    this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'user'));
+    this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'admin'));
     this.inscriptions$ = this.store.select(selectorInscriptions);
     this.courses$ = this.store.select(selectCourse);
   }
@@ -78,7 +76,7 @@ export class CoursesComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
+    }).then((result) => {
       if (result.isConfirmed) {
         this.store.dispatch(CourseActions.deleteCourse({ id }));
       }

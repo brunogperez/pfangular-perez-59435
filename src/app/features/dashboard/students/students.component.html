@@ -1,4 +1,11 @@
 <div class="container p-5">
+  <form class="example-form text-center">
+    <mat-form-field class="col-4">
+      <mat-label>Buscar alumno...</mat-label>
+      <input matInput type="search" name="" id="" (input)="search($event)" />
+    </mat-form-field>
+  </form>
+
   <div class="p-2 rounded-4 bg-table">
     <div class="demo-button-container m-2">
       <button mat-flat-button (click)="openDialog()">
@@ -53,7 +60,7 @@
             mat-icon-button
             class="m-1"
             (click)="openDialog(student)"
-            [disabled]="isAdmin$ | async"
+            *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -61,7 +68,7 @@
             mat-icon-button
             class="m-1"
             (click)="onDelete(student.id)"
-            [disabled]="isAdmin$ | async"
+            *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>delete</mat-icon>
           </button>

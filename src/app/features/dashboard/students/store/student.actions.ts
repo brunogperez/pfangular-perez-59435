@@ -19,5 +19,9 @@ export const StudentActions = createActionGroup({
     'Delete Student': props<{ id: string }>(),
     'Delete Student Success': props<{ data: Student[] }>(),
     'Delete Student Failure': props<{ error: Error }>(),
+
+    'Search Students': props<{ term: string }>(),
+    'Search Students Success': props<{ students: Student[] }>(),
+    'Search Students Failure': props<{ error: Error }>(),
   },
 });

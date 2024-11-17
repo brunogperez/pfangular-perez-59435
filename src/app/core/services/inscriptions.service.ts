@@ -14,7 +14,7 @@ export class InscriptionService {
 
   getInscriptions(): Observable<Inscription[]> {
     return this.httpClient.get<Inscription[]>(
-      `${this.apiBaseURL}/inscriptions` ///////////////////////
+      `${this.apiBaseURL}/inscriptions` 
     );
   }
   getInscriptionsById(studentId: string): Observable<Inscription[]> {

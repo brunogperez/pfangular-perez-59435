@@ -85,7 +85,7 @@ export const reducer = createReducer(
   on(InscriptionActions.deleteInscription, (state, action) => ({
     ...state,
     inscriptions: state.inscriptions.filter(
-      (insciption) => insciption.studentId !== action.studentId
+      (insciption) => insciption.studentId !== action.id
     ),
   }))
 );

@@ -18,11 +18,11 @@ import Swal from 'sweetalert2';
 @Injectable()
 export class CourseEffects {
   loadCourses$: Actions<Action<string>>;
+  loadCourseById$: Actions<Action<string>>;
   loadCoursesAfterUpdate$: Actions<Action<string>>;
   deleteCourses$: Actions<Action<string>>;
   updateCourses$: Actions<Action<string>>;
   createCourses$: Actions<Action<string>>;
-
 
   constructor(
     private actions$: Actions,
@@ -41,6 +41,22 @@ export class CourseEffects {
         )
       );
     });
+
+    this.loadCourseById$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CourseActions.loadCourseById),
+        mergeMap(({ id }) =>
+          this.coursesService.getCourseById(id).pipe(
+            map((course) =>
+              CourseActions.loadCourseByIdSuccess({ data: course })
+            ),
+            catchError((error) =>
+              of(CourseActions.loadCourseByIdFailure({ error }))
+            )
+          )
+        )
+      )
+    );
 
     this.loadCoursesAfterUpdate$ = createEffect(() => {
       return this.actions$.pipe(

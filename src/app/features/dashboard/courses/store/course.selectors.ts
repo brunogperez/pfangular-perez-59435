@@ -7,5 +7,9 @@ export const selectCourseState = createFeatureSelector<fromCourse.State>(
 
 export const selectCourse = createSelector(
   selectCourseState,
-  (state) => state.courses 
+  (state) => state.courses
+);
+export const selectCourseById = createSelector(
+  selectCourseState,
+  (state) => state.course
 );

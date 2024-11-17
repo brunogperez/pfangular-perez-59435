@@ -1,16 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { generateRandomString } from '../../../../shared/utils';
 import { Inscription } from '../models';
-
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { Course } from '../../courses/models';
-import { CoursesService } from '../../../../core/services/courses.service';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../store/inscription.actions';
+import { selectCourse } from '../../courses/store/course.selectors';
 
 interface InscriptionDialogData {
   inscription?: Inscription;
@@ -28,12 +26,11 @@ export class InscriptionDialogComponent {
   constructor(
     private matDialogRef: MatDialogRef<InscriptionDialogData>,
     private formBuilder: FormBuilder,
-    private coursesService: CoursesService,
     private inscriptionService: InscriptionService,
     private store: Store,
     @Inject(MAT_DIALOG_DATA) public data?: InscriptionDialogData
   ) {
-    this.courses$ = this.coursesService.getCourses();
+    this.courses$ = this.store.select(selectCourse);
     this.inscriptionForm = this.formBuilder.group({
       studentId: [{ value: '', disabled: true }],
       courseId: [null, Validators.required],

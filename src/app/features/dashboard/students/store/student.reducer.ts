@@ -64,7 +64,23 @@ export const reducer = createReducer(
   on(StudentActions.deleteStudent, (state, { id }) => ({
     ...state,
     students: state.students.filter((student) => student.id !== id),
-  }))
+  })),
+  ////////// SECCION SEARCH
+
+  on(StudentActions.searchStudents, (state) => {
+    return { ...state };
+  }),
+  on(StudentActions.searchStudentsSuccess, (state, { students }) => {
+    return {
+      ...state,
+      students,
+    };
+  }),
+  on(StudentActions.searchStudentsFailure, (state, { error }) => {
+    return {
+      ...state,
+    };
+  })
 );
 
 export const studentFeature = createFeature({

@@ -5,6 +5,10 @@ import { User } from './models';
 import { UsersService } from '../../../core/services/users.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectorUsers } from './store/user.selectors';
+import { UserActions } from './store/user.actions';
 
 @Component({
   selector: 'app-users',
@@ -20,71 +24,21 @@ export class UsersComponent implements OnInit {
     'role',
     'actions',
   ];
-
-  dataSource: User[] = [];
-
+  users$: Observable<User[]>;
   isLoading = false;
+  dataSource: User[] = [];
 
   constructor(
     private matDialog: MatDialog,
-    private usersService: UsersService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private store: Store
+  ) {
+    this.users$ = this.store.select(selectorUsers);
+  }
 
   ngOnInit(): void {
-    this.loadUsers();
-  }
-
-  loadUsers(): void {
-    this.isLoading = true;
-    this.usersService.getUsers().subscribe({
-      next: (users) => {
-        this.dataSource = users;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
-  }
-
-  onDelete(id: string) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'No podrás revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.isLoading = true;
-        this.usersService.removeUserById(id).subscribe({
-          next: (users) => {
-            this.dataSource = users;
-            Swal.fire(
-              '¡Eliminado!',
-              'El usuario ha sido eliminado.',
-              'success'
-            );
-          },
-          error: (err) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar el usuario.',
-              'error'
-            );
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      }
-    });
+    this.store.dispatch(UserActions.loadUsers());
   }
 
   goToDetail(id: string): void {
@@ -99,29 +53,29 @@ export class UsersComponent implements OnInit {
         next: (res) => {
           if (!!res) {
             if (editUser) {
-              this.handleUpdate(editUser.id, res);
+              this.store.dispatch(
+                UserActions.updateUser({ id: editUser.id, update: res })
+              );
             } else {
-              this.usersService.createUser(res).subscribe({
-                next: () => this.loadUsers(),
-              });
+              this.store.dispatch(UserActions.createUser({ user: res }));
             }
           }
         },
       });
   }
 
-  handleUpdate(id: string, update: User): void {
-    this.isLoading = true;
-    this.usersService.updateUserById(id, update).subscribe({
-      next: (users) => {
-        this.dataSource = users;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
+  onDelete(id: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(UserActions.deleteUser({ id }));
+      }
     });
   }
 }

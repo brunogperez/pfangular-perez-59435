@@ -12,20 +12,23 @@ import {
 import { of } from 'rxjs';
 import { StudentActions } from './student.actions';
 import { StudentsService } from '../../../../core/services/students.service';
-import { Action,  } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import Swal from 'sweetalert2';
+import { InscriptionService } from '../../../../core/services/inscriptions.service';
 
 @Injectable()
 export class StudentEffects {
   loadStudents$: Actions<Action<string>>;
   loadStudentsAfterUpdate$: Actions<Action<string>>;
-  deleteStudents$: Actions<Action<string>>;
-  updateStudents$: Actions<Action<string>>;
   createStudents$: Actions<Action<string>>;
+  updateStudents$: Actions<Action<string>>;
+  deleteStudents$: Actions<Action<string>>;
+  searchStudents$: Actions<Action<string>>;
 
   constructor(
     private actions$: Actions,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private inscriptionsService: InscriptionService
   ) {
     this.loadStudents$ = createEffect(() => {
       return this.actions$.pipe(
@@ -113,7 +116,23 @@ export class StudentEffects {
       );
     });
 
-    
-
+    this.searchStudents$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(StudentActions.searchStudents),
+        mergeMap(({ term }) =>
+          (term
+            ? this.inscriptionsService.searchStudents(term)
+            : this.studentsService.getStudents()
+          ).pipe(
+            map((students) =>
+              StudentActions.searchStudentsSuccess({ students })
+            ),
+            catchError((error) =>
+              of(StudentActions.searchStudentsFailure({ error }))
+            )
+          )
+        )
+      )
+    );
   }
 }

@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import { catchError, concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { InscriptionActions } from './inscription.actions';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
@@ -84,15 +89,14 @@ export class InscriptionEffects {
     this.deleteInscription$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(InscriptionActions.deleteInscription),
-        switchMap(({ studentId }) =>
-          this.inscriptionService.deleteInscription(studentId).pipe(
+        switchMap(({ id }) =>
+          this.inscriptionService.deleteInscription(id).pipe(
             map((res) => {
               Swal.fire(
                 '¡Eliminado!',
                 'La inscripción ha sido eliminada.',
                 'success'
               );
-              // Después de eliminar, se dispara la acción de éxito y se recargan las inscripciones
               return InscriptionActions.deleteInscriptionSuccess({ data: res });
             }),
             catchError((error) => {
@@ -105,7 +109,6 @@ export class InscriptionEffects {
             })
           )
         ),
-        // Después de la acción de éxito, recargamos las inscripciones
         switchMap(() => {
           return of(InscriptionActions.loadInscriptions());
         })

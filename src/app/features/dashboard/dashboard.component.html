@@ -1,6 +1,6 @@
 <mat-drawer-container class="example-container" autosize>
   <!-- SECCION IZQUIERDA (PARTE INTERIOR DEL SIDEBAR) -->
-  <mat-drawer #drawer class="example-sidenav bg-table" mode="push">
+  <mat-drawer #drawer class="example-sidenav bg-table" mode="over">
     <mat-nav-list>
       <a mat-list-item routerLink="home">Inicio</a>
       <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>

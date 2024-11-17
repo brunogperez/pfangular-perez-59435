@@ -9,8 +9,9 @@ import { selectorStudents } from '../store/student.selectors';
 import { StudentActions } from '../store/student.actions';
 import { selectCourse } from '../../courses/store/course.selectors';
 import { CourseActions } from '../../courses/store/course.actions';
-import { map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, filter } from 'rxjs';
 import { selectorInscriptions } from '../../inscriptions/store/inscription.selectors';
+import { Course } from '../../courses/models';
 
 @Component({
   selector: 'app-student-detail',
@@ -18,23 +19,16 @@ import { selectorInscriptions } from '../../inscriptions/store/inscription.selec
   styleUrl: './student-detail.component.scss',
 })
 export class StudentDetailComponent implements OnInit {
+  courseId: string;
   studentId?: string;
+  courses$?: Observable<Course[]>;
   student$?: Observable<Student>;
   inscriptions$?: Observable<Inscription[]>;
   inscriptionsByStudent$: Observable<Inscription[]>;
-  isLoading = false;
+  coursesByStudent$?: Observable<Course[]>;
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
-    this.student$ = this.store
-      .select(selectorStudents)
-      .pipe(
-        map(
-          (students) =>
-            students.find((student) => student.id === this.studentId)!
-        )
-      );
-
-    this.store.select(selectCourse);
+    this.courseId = this.activatedRoute.snapshot.params['id'];
     this.studentId = this.activatedRoute.snapshot.params['id'];
     this.inscriptions$ = this.store.select(selectorInscriptions);
     this.inscriptionsByStudent$ = this.inscriptions$.pipe(
@@ -44,6 +38,27 @@ export class StudentDetailComponent implements OnInit {
         )
       )
     );
+    this.student$ = this.store
+      .select(selectorStudents)
+      .pipe(
+        map(
+          (students) =>
+            students.find((student) => student.id === this.studentId)!
+        )
+      );
+
+    this.courses$ = this.store.select(selectCourse);
+
+    this.coursesByStudent$ = combineLatest([
+      this.courses$,
+      this.inscriptionsByStudent$,
+    ]).pipe(
+      map(([courses, inscriptionsByStudent]) => {
+        const inscriptions = inscriptionsByStudent.map((i) => i.courseId);
+
+        return courses.filter((course) => inscriptions.includes(course.id));
+      })
+    );
   }
   ngOnInit(): void {
     this.store.dispatch(StudentActions.loadStudents());
@@ -51,23 +66,32 @@ export class StudentDetailComponent implements OnInit {
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }
 
-  onDeleteInscription(studentId: string) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'No podrás revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.store.dispatch(
-          InscriptionActions.deleteInscription({
-            studentId: studentId,
-          })
+  onDeleteInscription(id: string) {
+    const courseRoute = this.courseId;
+    if (courseRoute) {
+      this.store.select(selectorInscriptions).subscribe((inscriptions) => {
+        const filteredInscriptions = inscriptions.filter(
+          (inscription) => inscription.courseId === id
         );
-        this.store.dispatch(InscriptionActions.loadInscriptions());
-      }
-    });
+        if (filteredInscriptions.length > 0) {
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'No podrás revertir esta acción',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.store.dispatch(
+                InscriptionActions.deleteInscription({
+                  id: filteredInscriptions[0].id,
+                })
+              );
+            }
+          });
+        }
+      });
+    }
   }
 }

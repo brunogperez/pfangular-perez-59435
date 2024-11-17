@@ -1,21 +1,17 @@
 <div class="text-center">
   <form class="example-form">
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="col-4">
       <mat-label>Buscar alumno</mat-label>
       <input matInput type="search" name="" id="" (input)="search($event)" />
     </mat-form-field>
   </form>
 </div>
+
 <mat-divider></mat-divider>
 
-@if (loadInscriptionError$ | async; as error) {
-<p>Ocurrió un error al cargar los alumnos</p>
-}@else { @if (isLoadingInscriptions$ | async ) {
-<mat-spinner class="mx-auto m-5"></mat-spinner>
-} @else {
-<ng-container>
-  <div class="m-3 p-2 bg-table rounded-4">
-    <table mat-table [dataSource]="dataSource" class="bg-table">
+<ng-container *ngIf="students$ | async ; else loading">
+  <div class="m-5 p-2 bg-table rounded-4">
+    <table mat-table [dataSource]="students$" class="bg-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
         <td mat-cell *matCellDef="let student">{{ student.id }}</td>
@@ -59,4 +55,9 @@
     </table>
   </div>
 </ng-container>
-} }
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p class="text-center my-5">CARGANDO...</p>
+</ng-template>
+
