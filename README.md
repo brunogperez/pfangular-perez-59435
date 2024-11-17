@@ -22,11 +22,13 @@ Este proyecto es una aplicación web creada con **Angular**, diseñada para gest
 ## Cuentas ADMIN y USER 
 
 -Admin 
+
 user: admin@admin.com
 
 password: admin123123
 
 -User
+
 user: test@test.com
 
 password: test123123
