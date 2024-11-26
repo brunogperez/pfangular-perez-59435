@@ -1,28 +1,34 @@
-# PfPerez59435
+# Proyecto final Angular - Bruno Perez
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.
+Este proyecto es una aplicación web creada con **Angular**, diseñada para gestionar el registro y seguimiento de estudiantes/cursos/inscripciones. Aprovecha tecnologías como Angular Material para una interfaz de usuario intuitiva, NgRx para el manejo eficiente del estado, y se enfoca en proporcionar una experiencia fluida y escalable.
 
-## Development server
+## Características principales
+- [Funcionalidad clave 1,  ABM de usuarios]
+- [Funcionalidad clave 2,  ABM de estudiantes]
+- [Funcionalidad clave 3,  ABM de cursos]
+- [Funcionalidad clave 4,  Gestión de cursos e inscripciones]
+- [Funcionalidad clave 5,  Uso de Angular Material para interfaces modernas]
+- Implementación de NgRx para el manejo de estado global.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologías utilizadas
+- **Angular**: Framework principal.
+- **Angular Material**: Componentes UI.
+- **NgRx**: Manejo del estado.
+- **TypeScript**: Lenguaje de programación.
+- **SweetAlert2**: Alertas modales interactivas.
+- **JSON-Server**: Emulador de API.
+- **HTML5 y SCSS**: Estructura y estilos.
 
-## Code scaffolding
+## Cuentas ADMIN y USER 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+-Admin 
 
-## Build
+user: admin@admin.com
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+password: admin123123
 
-## Running unit tests
+-User
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+user: test@test.com
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# pfangular-perez-59435
+password: test123123
