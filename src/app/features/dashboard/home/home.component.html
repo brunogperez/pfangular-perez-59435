@@ -1,55 +1,77 @@
 <mat-grid-list cols="3" rowHeight="16vh">
   <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card class="p-4 border rounded rounded-4">
+    <mat-card class="p-4 rounded rounded-4 bg-table">
       <div id="weather_wrapper ">
-        <div class="weatherCard ">
+        <div class="weatherCard">
           <div class="currentTemp">
-            <span class="temp">30&deg;</span>
+            <span class="temp">{{ weatherData.current?.temperature }}°C</span>
             <span class="location">Mendoza</span>
           </div>
           <div class="currentWeather">
-            <span class="conditions">&#xf00d;</span>
+            <div class="conditions">
+              <mat-icon class="custom-icon"> sunny </mat-icon>
+            </div>
             <div class="info">
-              <span class="rain">1.3 MM</span>
-              <span class="wind">10 MPH</span>
+              <span class="rain">{{ weatherData.rain }} mm</span>
+              <span class="wind"
+                >{{ weatherData.current?.winddirection }} km/h</span
+              >
             </div>
           </div>
         </div>
       </div>
     </mat-card>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="4" class="d-inline">
-    <div class="gap-3">
-      <mat-card class="align-items-start border rounded p-4 m-2">
-        <div class="d-flex gap-2 m-2">
-          <mat-icon>check_circle</mat-icon>
-          <p class="my-auto">Estás al día con tu cursada</p>
-        </div>
-        <div>
-          <p>Tu próxima clase es el 21/10/24</p>
-          <button mat-raised-button color="primary">Ir </button>
+  <mat-grid-tile [colspan]="1" [rowspan]="4">
+    <div class="col-9 me-5">
+      <mat-card class="align-items-start bg-table rounded p-4 m-2">
+        <div class="agenda-widget">
+          <p>Agenda de eventos</p>
+          <ul class="events">
+            <li>
+              <p><strong>Evento:</strong> Fin de clases</p>
+              <p><strong>Fecha:</strong> 29/11/2024</p>
+            </li>
+          </ul>
+          <button mat-button>Ver más eventos</button>
         </div>
       </mat-card>
 
-      <mat-card class="demo-inline-calendar-card m-2 border">
-        <mat-calendar></mat-calendar>
-      </mat-card>
+      <div class="col-8 m-auto">
+        <mat-card class="m-2 bg-table">
+          <mat-calendar></mat-calendar>
+        </mat-card>
+      </div>
     </div>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card class="learning-path border border-2 m-5">
-      <h3>Ruta de Aprendizaje: Desarrollador web Full Stack</h3>
-      <mat-divider></mat-divider>
-      <p class="my-3">
-        Como Desarrollador web Full Stack podrás crear una aplicación web
-        completa y funcional. Aprenderás todo sobre frontend y backend,
-        incluyendo gestión de bases de datos.
-      </p>
-      <button mat-raised-button color="accent">Ir a la ruta</button>
+    <mat-card class="learning-path bg-table border-2 m-5">
+      <div class="communication-widget">
+        <div class="notifications">
+          <h2>Notificaciones</h2>
+          <ul>
+            <li>
+              <strong>Recordatorio:</strong> Inscripciones abiertas para
+              talleres extracurriculares.
+              <span class="date">19/11/2024</span>
+            </li>
+            <li>
+              <strong>Examen programado:</strong> Examen final de "Historia" el
+              25/11/2024.
+              <span class="date">Anunciado: 17/11/2024</span>
+            </li>
+            <li>
+              <strong>Aviso:</strong> La institución estará cerrada el
+              20/11/2024 por mantenimiento.
+              <span class="date">Publicado: 16/11/2024</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </mat-card>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3" [rowspan]="1">
-    <div class="extra-info border rounded p-4">
+    <div class="extra-info bg-table rounded p-4">
       <div>
         <mat-icon>web</mat-icon>
         <p>Webinars</p>

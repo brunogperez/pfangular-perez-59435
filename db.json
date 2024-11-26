@@ -15,7 +15,7 @@
       "firstName": "Test",
       "lastName": "Test",
       "email": "test@test.com",
-      "password": "123123123",
+      "password": "test123123",
       "role": "user",
       "createdAt": "2024-11-11T18:25:03.959Z",
       "token": "GgXPxsf54tYCJzb"
@@ -24,8 +24,8 @@
       "id": "AA6L",
       "firstName": "Admin",
       "lastName": "Admin",
-      "email": "admin@mail.com",
-      "password": "123123123",
+      "email": "admin@admin.com",
+      "password": "admin123123",
       "role": "admin",
       "createdAt": "2024-11-11T18:43:19.382Z",
       "token": "FcEoFyIe9gUnw7H"
