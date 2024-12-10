@@ -13,7 +13,7 @@ export interface Tile {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  weatherData = {};
+  weatherData = { current: { temperature: 0, winddirection: 0 }, rain: 0 };
 
   tiles: Tile[] = [
     { text: 'One', cols: 3, rows: 1 },
