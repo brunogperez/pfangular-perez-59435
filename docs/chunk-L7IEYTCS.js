@@ -1,0 +1,1 @@
+import{Sa as i,lb as n,ya as t}from"./chunk-PWY5XFB5.js";var o=class e{constructor(r){this.el=r}fontSize="30px";ngOnInit(){this.el.nativeElement.style.fontSize=this.fontSize}static \u0275fac=function(c){return new(c||e)(n(i))};static \u0275dir=t({type:e,selectors:[["","appFontSize",""]],inputs:{fontSize:"fontSize"}})};export{o as a};
