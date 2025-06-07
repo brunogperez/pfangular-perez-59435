@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   passwordType: 'password' | 'text' = 'password';
 
   errorMessage = signal('');
+  loading = false;
 
   loginForm: FormGroup;
 
@@ -47,18 +48,25 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(): void {
+    if (this.loading) return;
+    
+    this.loading = true;
+    this.errorMessage.set('');
+    
     this.authService.login(this.loginForm.value).subscribe({
       next: (result) => {
+        this.loading = false;
         this.router.navigate(['dashboard', 'home']);
       },
       error: (err) => {
+        this.loading = false;
         console.error(err);
         if (err instanceof Error) {
-          alert(err.message);
+          this.errorMessage.set(err.message);
         }
         if (err instanceof HttpErrorResponse) {
           if (err.status === 0) {
-            alert('No se pudo conectar con el servidor');
+            this.errorMessage.set('No se pudo conectar con el servidor');
           }
         }
       },
