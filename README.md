@@ -19,11 +19,14 @@ Este proyecto es una aplicación web creada con **Angular**, diseñada para gest
 - **JSON-Server**: Emulador de API.
 - **HTML5 y SCSS**: Estructura y estilos.
 
+## URL del deploy
+[https://panel-angular-app.netlify.app/](https://panel-angular-app.netlify.app/)
+
 ## Cuentas ADMIN y USER 
 
 -Admin 
 
-user: admin@admin.com
+user: admin@mail.com
 
 password: admin123123
 
@@ -31,4 +34,4 @@ password: admin123123
 
 user: test@test.com
 
-password: test123123
+password: 123123123
