@@ -46,7 +46,7 @@
   <div *ngIf="coursesByStudent$ | async as coursesByStudent" class="m-4">
     <ng-container *ngIf="coursesByStudent.length > 0; else noStudents">
       <mat-card class="border rounded m-5 p-5 border-3">
-        <h3 class="text-center m-2">Cursos inscriptos</h3>
+        <h3 class="text-center m-2">Productos</h3>
         <mat-card
           *ngFor="let course of coursesByStudent"
           class="border rounded m-3 d-flex"
@@ -68,7 +68,7 @@
   <ng-template #noStudents>
     <mat-card class="border rounded m-5 p-5 border-3">
       <div class="d-flex flex-column align-items-center">
-        <p class="text-center">ESTE ALUMNO NO ESTA INSCRIPTO EN NINGUN CURSO</p>
+        <p class="text-center">ESTE CLIENTE NO TIENE NINGÚN PRODUCTO</p>
         <button
           mat-flat-button
           class="col-2 m-auto"

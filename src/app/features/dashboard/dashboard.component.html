@@ -4,9 +4,13 @@
     <mat-nav-list>
       <a mat-list-item routerLink="home">Inicio</a>
       <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>
-      <a mat-list-item routerLink="students">Alumnos</a>
-      <a mat-list-item routerLink="courses">Cursos</a>
+      <a mat-list-item routerLink="students">Clientes</a>
+      <a mat-list-item routerLink="courses">Productos</a>
       <a mat-list-item routerLink="inscriptions">Inscripciones</a>
+      <button mat-flat-button class="logout" (click)="logout()">
+        <mat-icon> logout </mat-icon>
+        <p class="m-auto">Logout</p>
+      </button>
     </mat-nav-list>
   </mat-drawer>
 
@@ -23,8 +27,8 @@
             <mat-icon>menu</mat-icon>
           </button>
           <img
-            src="https://www.coderhouse.com/imgs/ch.svg"
-            alt="Logo de Coderhouse"
+            src="https://imgs.search.brave.com/-z7s6ujc_aY_XB31ZNmL9RL98KX-d9fgx6s4MeMp3Wc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/aWNvbnNjb3V0LmNv/bS9pY29uL3ByZW1p/dW0vcG5nLTI1Ni10/aHVtYi9jb250cm9s/LXBhbmVsLWljb24t/ZG93bmxvYWQtaW4t/c3ZnLXBuZy1naWYt/ZmlsZS1mb3JtYXRz/LS1kYXNoYm9hcmQt/c2V0dGluZy1hZG1p/bi1jb21wdXRlci13/ZWItaG9zdGluZy1w/YWNrLWRlc2lnbi1k/ZXZlbG9wbWVudC1p/Y29ucy0xMDgwMTY3/OS5wbmc_Zj13ZWJw/Jnc9MTI4"
+            alt="Logo del panel"
           />
         </div>
         <div
@@ -39,10 +43,6 @@
             {{ authUser.firstName | titlecase }}
             {{ authUser.lastName | titlecase }}
           </p>
-          <button mat-flat-button class="logout" (click)="logout()">
-            <mat-icon> logout </mat-icon>
-            <p class="m-auto">Logout</p>
-          </button>
         </div>
       </mat-toolbar>
 

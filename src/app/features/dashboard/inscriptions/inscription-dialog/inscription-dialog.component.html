@@ -1,15 +1,15 @@
-<h1 mat-dialog-title>Formulario de inscripción</h1>
+<h1 mat-dialog-title>Asignar producto al cliente</h1>
 
 <div mat-dialog-content>
   <form [formGroup]="inscriptionForm">
     <mat-form-field class="col-12">
-      <mat-label> ID del alumno </mat-label>
+      <mat-label>Seleccione un cliente</mat-label>
       <input matInput formControlName="studentId" />
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label> Categoria </mat-label>
       <mat-select formControlName="courseId">
-        <mat-option [value]="course.id" *ngFor="let course of courses$ | async">
+        <mat-option *ngFor="let course of courses$ | async" [value]="course.id">
           {{ course.name }}
         </mat-option>
       </mat-select>

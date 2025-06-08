@@ -20,8 +20,8 @@ export class DashboardComponent {
   routeNames: { [key: string]: string } = {
     '/home': 'Inicio',
     '/users': 'Usuarios',
-    '/students': 'Alumnos',
-    '/courses': 'Cursos',
+    '/students': 'Clientes',
+    '/courses': 'Productos',
     '/inscriptions': 'Inscripciones',
   };
 

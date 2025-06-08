@@ -74,7 +74,7 @@ export class CourseEffects {
               return CourseActions.createCourseSuccess({ course: newCourse });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el curso.', 'error');
+              Swal.fire('Error', 'No se pudo crear el producto.', 'error');
               return of(CourseActions.createCourseFailure({ error }));
             })
           )
@@ -95,7 +95,7 @@ export class CourseEffects {
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el curso.', 'error');
+              Swal.fire('Error', 'No se pudo actualizar el producto.', 'error');
               return of(CourseActions.updateCourseFailure({ error }));
             })
           )
@@ -111,7 +111,7 @@ export class CourseEffects {
             map((res) => {
               Swal.fire(
                 '¡Eliminado!',
-                'El curso ha sido eliminado.',
+                'El producto ha sido eliminado.',
                 'success'
               );
               return CourseActions.deleteCourseSuccess({ data: res });
@@ -119,7 +119,7 @@ export class CourseEffects {
             catchError((error) => {
               Swal.fire(
                 'Error',
-                'Hubo un problema al eliminar el curso.',
+                'Hubo un problema al eliminar el producto.',
                 'error'
               );
               return of(CourseActions.deleteCourseFailure({ error }));

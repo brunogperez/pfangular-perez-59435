@@ -61,7 +61,7 @@ export class InscriptionDialogComponent {
           if (isEnrolled) {
             Swal.fire(
               'Atención',
-              'El alumno ya está inscripto en este curso.',
+              'El cliente ya tiene asignado este producto.',
               'info'
             );
           } else {

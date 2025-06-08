@@ -8,7 +8,7 @@
       </div>
       <mat-card-actions align="end">
         <button mat-raised-button color="primary">
-          <mat-icon>folder_open</mat-icon> Material del Curso
+          <mat-icon>folder_open</mat-icon> Material del Producto
         </button>
       </mat-card-actions>
     </div>
@@ -29,7 +29,7 @@
           </mat-card>
         </ng-container>
       </mat-tab>
-      <mat-tab label="Alumnos">
+      <mat-tab label="Clientes">
         <div *ngIf="studentsByCourse$ | async as studentsByCourse" class="m-4">
           <ng-container *ngIf="studentsByCourse.length > 0; else noStudents">
             <mat-card
@@ -55,7 +55,7 @@
         </div>
 
         <ng-template #noStudents>
-          <p>No hay estudiantes inscritos en este curso.</p>
+          <p>No hay clientes con este producto.</p>
         </ng-template>
       </mat-tab>
     </mat-tab-group>

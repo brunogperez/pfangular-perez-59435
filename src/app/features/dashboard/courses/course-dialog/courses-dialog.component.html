@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>
-  {{ data?.editCourse == undefined ? "Crear" : "Editar" }} curso
+  {{ data?.editCourse == undefined ? "Crear" : "Editar" }} producto
 </h1>
 
 <div mat-dialog-content>
   <form [formGroup]="courseForm">
     <mat-form-field class="col-12">
-      <mat-label>Nombre del curso</mat-label>
+      <mat-label>Nombre del producto</mat-label>
       <input matInput formControlName="name" type="text" />
       <mat-error appFontSize fontSize="10px">Este campo es requerido</mat-error>
     </mat-form-field>

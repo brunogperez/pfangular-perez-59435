@@ -56,12 +56,13 @@ export class StudentEffects {
         mergeMap(({ student }) =>
           this.studentsService.createStudent(student).pipe(
             map((newCourse) => {
+              Swal.fire('¡Creado!', 'El cliente ha sido creado.', 'success');
               return StudentActions.createStudentSuccess({
                 student: newCourse,
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el curso.', 'error');
+              Swal.fire('Error', 'No se pudo crear el cliente.', 'error');
               return of(StudentActions.createStudentFailure({ error }));
             })
           )
@@ -77,12 +78,13 @@ export class StudentEffects {
           this.studentsService.updateStudentById(id, update).pipe(
             map((student) => {
               const updateStudent = student[0];
+              Swal.fire('¡Actualizado!', 'El cliente ha sido actualizado.', 'success');
               return StudentActions.updateStudentSuccess({
                 student: updateStudent,
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el alumno.', 'error');
+              Swal.fire('Error', 'No se pudo actualizar el cliente.', 'error');
               return of(StudentActions.updateStudentFailure({ error }));
             })
           )
@@ -98,7 +100,7 @@ export class StudentEffects {
             map((res) => {
               Swal.fire(
                 '¡Eliminado!',
-                'El alumno ha sido eliminado.',
+                'El cliente ha sido eliminado.',
                 'success'
               );
               return StudentActions.deleteStudentSuccess({ data: res });
@@ -106,7 +108,7 @@ export class StudentEffects {
             catchError((error) => {
               Swal.fire(
                 'Error',
-                'Hubo un problema al eliminar el alumno.',
+                'Hubo un problema al eliminar el cliente.',
                 'error'
               );
               return of(StudentActions.deleteStudentFailure({ error }));
