@@ -1,12 +1,12 @@
 # Proyecto final Angular - Bruno Perez
 
-Este proyecto es una aplicación web creada con **Angular**, diseñada para gestionar el registro y seguimiento de estudiantes/cursos/inscripciones. Aprovecha tecnologías como Angular Material para una interfaz de usuario intuitiva, NgRx para el manejo eficiente del estado, y se enfoca en proporcionar una experiencia fluida y escalable.
+Este proyecto es una aplicación web creada con **Angular**, diseñada para gestionar el registro y seguimiento de clientes/productos/inscripciones. Aprovecha tecnologías como Angular Material para una interfaz de usuario intuitiva, NgRx para el manejo eficiente del estado, y se enfoca en proporcionar una experiencia fluida y escalable.
 
 ## Características principales
 - [Funcionalidad clave 1,  ABM de usuarios]
-- [Funcionalidad clave 2,  ABM de estudiantes]
-- [Funcionalidad clave 3,  ABM de cursos]
-- [Funcionalidad clave 4,  Gestión de cursos e inscripciones]
+- [Funcionalidad clave 2,  ABM de clientes]
+- [Funcionalidad clave 3,  ABM de productos]
+- [Funcionalidad clave 4,  Gestión de productos e inscripciones]
 - [Funcionalidad clave 5,  Uso de Angular Material para interfaces modernas]
 - Implementación de NgRx para el manejo de estado global.
 
