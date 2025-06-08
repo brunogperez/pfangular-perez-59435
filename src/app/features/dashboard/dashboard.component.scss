@@ -1,6 +1,8 @@
 .example-container {
   width: 100%;
   height: 100vh;
+  background: url("/z12.webp");
+  background-size: cover;
 }
 
 .example-sidenav-content {
@@ -17,12 +19,16 @@ img {
 .textColor {
   color: chartreuse;
 }
-.logout {
-  margin-left: 30px;
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-}
 .bg-table{
     background-color: #2e3b38;
+}
+.mat-icon-logout{
+    font-size: 20px;
+    height: 100%;
+    line-height: 1.2;
+}
+.logout{
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }

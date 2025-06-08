@@ -7,17 +7,16 @@
       <a mat-list-item routerLink="students">Clientes</a>
       <a mat-list-item routerLink="courses">Productos</a>
       <a mat-list-item routerLink="inscriptions">Inscripciones</a>
-      <button mat-flat-button class="logout" (click)="logout()">
-        <mat-icon> logout </mat-icon>
-        <p class="m-auto">Logout</p>
-      </button>
+      <a mat-list-item (click)="logout()">
+        <p class="logout" style="margin-bottom: 0%;"> <span><mat-icon class="mat-icon-logout"> logout </mat-icon></span> Cerrar sesión</p>
+      </a>
     </mat-nav-list>
   </mat-drawer>
 
   <!-- SECCION DERECHA DEL CONTENIDO -->
   <div class="example-sidenav-content">
     <div>
-      <mat-toolbar class="d-flex justify-content-between w-100 h-100 p-3">
+      <mat-toolbar class="d-flex justify-content-between w-100 h-100 p-3" style="background-color: transparent">
         <div>
           <button
             (click)="drawer.toggle()"
