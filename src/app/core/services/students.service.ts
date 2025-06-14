@@ -14,24 +14,24 @@ export class StudentsService {
   constructor(private httpClient: HttpClient) {}
 
   createStudent(data: Omit<Student, 'id'>): Observable<Student> {
-    return this.httpClient.post<Student>(`${this.apiBaseURL}/students`, {
+    return this.httpClient.post<Student>(`${this.apiBaseURL}/clients`, {
       ...data,
       createdAt: new Date().toISOString(),
     });
   }
 
   getStudents(): Observable<Student[]> {
-    return this.httpClient.get<Student[]>(`${this.apiBaseURL}/students`);
+    return this.httpClient.get<Student[]>(`${this.apiBaseURL}/clients`);
   }
 
   getStudentById(id: string): Observable<Student | undefined> {
     return this.httpClient.get<Student>(
-      `${this.apiBaseURL}/students/${id}?_embed=inscriptions`
+      `${this.apiBaseURL}/clients/${id}?_embed=inscriptions`
     );
   }
 
   searchStudents(name: string): Observable<Student[]> {
-    const APISEARCH = `${this.apiBaseURL}/students?firstName=${name}`;
+    const APISEARCH = `${this.apiBaseURL}/clients?firstName=${name}`;
     return this.httpClient
       .get<Student[]>(APISEARCH)
       .pipe(map((res: Student[]) => res));
@@ -39,13 +39,13 @@ export class StudentsService {
 
   updateStudentById(id: string, update: Partial<Student>) {
     return this.httpClient
-      .patch<Student>(`${this.apiBaseURL}/students/${id}`, update)
+      .patch<Student>(`${this.apiBaseURL}/clients/${id}`, update)
       .pipe(concatMap(() => this.getStudents()));
   }
 
   removeStudentById(id: string): Observable<Student[]> {
     return this.httpClient
-      .delete<Student>(`${this.apiBaseURL}/students/${id}`)
+      .delete<Student>(`${this.apiBaseURL}/clients/${id}`)
       .pipe(concatMap(() => this.getStudents()));
   }
 }
