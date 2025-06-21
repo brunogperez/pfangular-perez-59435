@@ -54,7 +54,7 @@ export class UsersComponent implements OnInit {
           if (!!res) {
             if (editUser) {
               this.store.dispatch(
-                UserActions.updateUser({ id: editUser.id, update: res })
+                UserActions.updateUser({ id: editUser._id, update: res })
               );
             } else {
               this.store.dispatch(UserActions.createUser({ user: res }));

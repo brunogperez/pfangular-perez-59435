@@ -82,7 +82,7 @@ export class ClientsComponent implements OnInit {
             if (editClient) {
               this.store.dispatch(
                 ClientActions.updateClient({
-                  id: editClient.id,
+                  id: editClient._id,
                   update: res,
                 })
               );

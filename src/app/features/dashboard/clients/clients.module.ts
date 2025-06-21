@@ -22,6 +22,7 @@ import { CourseEffects } from '../courses/store/course.effects';
     ClientDetailComponent,
   ],
   imports: [
+    
     CommonModule,
     ClientsRoutingModule,
     SharedModule,

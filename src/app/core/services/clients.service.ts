@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
-import { concatMap, map, Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { generateRandomString } from '../../shared/utils';
 import { Client } from '../../features/dashboard/clients/models';
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,39 +20,83 @@ export class ClientsService {
 
   constructor(private httpClient: HttpClient) {}
 
-  createClient(data: Omit<Client, 'id'>): Observable<Client> {
-    return this.httpClient.post<Client>(`${this.apiBaseURL}/clients`, {
-      ...data,
-      createdAt: new Date().toISOString(),
-    });
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getClients(): Observable<Client[]> {
-    return this.httpClient.get<Client[]>(`${this.apiBaseURL}/clients`);
-  }
+  getClients(page: number = 1, limit: number = 10, search: string = ''): Observable<PaginatedResponse<Client>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
 
-  getClientById(id: string): Observable<Client | undefined> {
-    return this.httpClient.get<Client>(
-      `${this.apiBaseURL}/clients/${id}?_embed=inscriptions`
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.httpClient.get<PaginatedResponse<Client>>(
+      `${this.apiBaseURL}/api/clients`,
+      { 
+        params,
+        headers: this.getAuthHeaders() 
+      }
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
-  searchClients(name: string): Observable<Client[]> {
-    const APISEARCH = `${this.apiBaseURL}/clients?firstName=${name}`;
-    return this.httpClient
-      .get<Client[]>(APISEARCH)
-      .pipe(map((res: Client[]) => res));
+  getClientById(id: string): Observable<Client> {
+    return this.httpClient.get<Client>(
+      `${this.apiBaseURL}/api/clients/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  updateClientById(id: string, update: Partial<Client>) {
-    return this.httpClient
-      .patch<Client>(`${this.apiBaseURL}/clients/${id}`, update)
-      .pipe(concatMap(() => this.getClients()));
+  createClient(data: Omit<Client, '_id'>): Observable<Client> {
+    return this.httpClient.post<Client>(
+      `${this.apiBaseURL}/api/clients`,
+      data,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  removeClientById(id: string): Observable<Client[]> {
-    return this.httpClient
-      .delete<Client>(`${this.apiBaseURL}/clients/${id}`)
-      .pipe(concatMap(() => this.getClients()));
+  updateClient(id: string, update: Partial<Client>): Observable<Client> {
+    return this.httpClient.put<Client>(
+      `${this.apiBaseURL}/api/clients/${id}`,
+      update,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteClient(id: string): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.apiBaseURL}/api/clients/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  searchClients(query: string): Observable<Client[]> {
+    return this.httpClient.get<Client[]>(
+      `${this.apiBaseURL}/api/clients/search`,
+      { 
+        params: new HttpParams().set('q', query),
+        headers: this.getAuthHeaders() 
+      }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something went wrong. Please try again later.'));
   }
 }

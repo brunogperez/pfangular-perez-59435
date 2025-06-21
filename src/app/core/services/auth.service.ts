@@ -1,10 +1,10 @@
+// src/app/core/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { AuthData } from '../../features/auth/models';
-import { catchError, map, Observable, of } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, Observable, of, tap } from 'rxjs';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { User } from '../../features/dashboard/users/models';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../store/actions/auth.actions';
@@ -23,57 +23,37 @@ export class AuthService {
     this.authUser$ = this.store.select(selectAuthUser);
   }
 
-  private handleAuth(users: User[]): User | null {
-    if (!!users[0]) {
-      this.store.dispatch(AuthActions.setAuthenticatedUser({ user: users[0] }));
-      localStorage.setItem('token', users[0].token);
-      return users[0];
-    } else {
-      return null;
-    }
-  }
 
   login(data: AuthData): Observable<User> {
     return this.httpClient
-      .get<User[]>(`${this.apiURL}/users?email=${data.email}`)
+      .post<User>(`${this.apiURL}/users/login`, {
+        email: data.email,
+        password: data.password
+      })
       .pipe(
-        map((users) => {
-          const user = users.find((user) => user.password === data.password);
-          
-          if (!user) {
-            throw new Error('Credenciales inválidas');
-          }
-          if(user.password !== data.password){
-            throw new Error('Contraseña incorrecta');
-          }
-          
-          const token = Math.random().toString(36).substring(2);
-          const userWithToken = { ...user, token };
-          
-          this.httpClient.put(`${this.apiURL}/users/${user.id}`, userWithToken).subscribe();
-          
-          localStorage.setItem('token', token);
-          this.store.dispatch(AuthActions.setAuthenticatedUser({ user: userWithToken }));
-          
-          return userWithToken;
+        tap(user => {
+          localStorage.setItem('token', user.token);
+          this.store.dispatch(AuthActions.setAuthenticatedUser({ user }));
         }),
         catchError((error: HttpErrorResponse) => {
           console.error('Error en el login:', error);
-          if (error.status === 404) {
-            return of(null);
-          }
-          return of(null);
-        }),
-        map(user => {
-          if (!user) {
+          
+          if (error.status === 400) {
             throw new Error('Credenciales inválidas');
           }
-          return user;
+          if (error.status === 0) {
+            throw new Error('No se pudo conectar con el servidor');
+          }
+          if (error.error?.error) {
+            throw new Error(error.error.error);
+          }
+          
+          throw new Error('Error interno del servidor');
         })
       );
   }
 
-  logout() {
+  logout(): void {
     this.store.dispatch(AuthActions.unsetAuthenticatedUser());
     localStorage.removeItem('token');
     this.router.navigate(['auth', 'login']);
@@ -86,17 +66,27 @@ export class AuthService {
     }
 
     return this.httpClient
-      .get<User[]>(`${this.apiURL}/users?token=${token}`)
+      .get<{ valid: boolean }>(`${this.apiURL}/users/verify`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
       .pipe(
-        map((users) => {
-          const user = this.handleAuth(users);
-          return !!user;
-        }),
+        map(response => response.valid),
         catchError(() => of(false))
       );
+
   }
 
   isAdmin(): Observable<boolean> {
-    return this.authUser$.pipe(map((user) => !!user && user.role === 'admin'));
+    return this.authUser$.pipe(
+      map((user) => !!user && user.role === 'admin')
+    );
+  }
+
+  getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    };
   }
 }

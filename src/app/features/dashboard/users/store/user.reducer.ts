@@ -71,7 +71,7 @@ export const reducer = createReducer(
   on(UserActions.updateUserSuccess, (state, { user }) => {
     return {
       ...state,
-      users: state.users.map((c) => (c.id === user.id ? user : c)),
+      users: state.users.map((c) => (c._id === user._id ? user : c)),
     };
   }),
   on(UserActions.updateUserFailure, (state, { error }) => {
@@ -84,7 +84,7 @@ export const reducer = createReducer(
   ////////// SECCION DELETE
   on(UserActions.deleteUser, (state, { id }) => ({
     ...state,
-    users: state.users.filter((user) => user.id !== id),
+    users: state.users.filter((user) => user._id !== id),
   }))
 );
 

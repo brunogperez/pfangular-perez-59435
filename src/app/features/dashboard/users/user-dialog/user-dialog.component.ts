@@ -67,7 +67,7 @@ export class UserDialogComponent {
     } else {
       this.matDialogRef.close({
         ...this.userForm.value,
-        id: this.isEditing ? this.data!.editUser!.id : generateRandomString(25),
+        _id: this.isEditing ? this.data!.editUser!._id : generateRandomString(25),
         createdAt: this.isEditing ? this.data!.editUser!.createdAt : new Date(),
         token: this.isEditing
           ? this.data!.editUser!.token

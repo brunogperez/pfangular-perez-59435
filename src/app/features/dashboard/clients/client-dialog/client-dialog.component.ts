@@ -58,8 +58,8 @@ export class ClientsDialogComponent {
     } else {
       this.matDialogRef.close({
         ...this.clientForm.value,
-        id: this.isEditing
-          ? this.data!.editClient!.id
+        _id: this.isEditing
+          ? this.data!.editClient!._id
           : generateRandomString(25),
         createdAt: this.isEditing
           ? this.data!.editClient!.createdAt

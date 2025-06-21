@@ -43,7 +43,7 @@ export class ClientDetailComponent implements OnInit {
       .pipe(
         map(
           (clients) =>
-            clients.find((client) => client.id === this.clientId)!
+            clients.find((client) => client._id === this.clientId)!
         )
       );
 
@@ -61,7 +61,7 @@ export class ClientDetailComponent implements OnInit {
     );
   }
   ngOnInit(): void {
-    this.store.dispatch(ClientActions.loadClients());
+    this.store.dispatch(ClientActions.loadClients({ page: 1, limit: 10 }));
     this.store.dispatch(CourseActions.loadCourses());
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }

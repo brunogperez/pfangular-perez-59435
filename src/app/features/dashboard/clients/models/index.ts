@@ -1,8 +1,10 @@
 export interface Client {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
   birthdate: Date;
-  createdAt: Date;
+  token?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
