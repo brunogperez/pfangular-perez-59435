@@ -30,22 +30,22 @@
         </ng-container>
       </mat-tab>
       <mat-tab label="Clientes">
-        <div *ngIf="studentsByCourse$ | async as studentsByCourse" class="m-4">
-          <ng-container *ngIf="studentsByCourse.length > 0; else noStudents">
+        <div *ngIf="clientsByCourse$ | async as clientsByCourse" class="m-4">
+          <ng-container *ngIf="clientsByCourse.length > 0; else noClients">
             <mat-card
-              *ngFor="let student of studentsByCourse"
+              *ngFor="let client of clientsByCourse"
               class="border rounded m-5 d-flex"
             >
               <mat-card-header>
                 <mat-card-title>
-                  {{ student.firstName }} {{ student.lastName }}</mat-card-title
+                  {{ client.firstName }} {{ client.lastName }}</mat-card-title
                 >
-                <mat-card-subtitle>ID: {{ student.id }}</mat-card-subtitle>
+                <mat-card-subtitle>ID: {{ client.id }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-actions align="end">
                 <button
                   mat-flat-button
-                  (click)="onDeleteInscription(student.id)"
+                  (click)="onDeleteInscription(client.id)"
                 >
                   DESINSCRIBIR
                 </button>
@@ -54,7 +54,7 @@
           </ng-container>
         </div>
 
-        <ng-template #noStudents>
+        <ng-template #noClients>
           <p>No hay clientes con este producto.</p>
         </ng-template>
       </mat-tab>

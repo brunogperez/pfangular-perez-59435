@@ -2,28 +2,28 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
-import { Student } from '../models';
+import { Client } from '../models';
 import { nameValidator } from '../../../../shared/utils/custom-validators';
 import Swal from 'sweetalert2';
 
-interface StudentDialogData {
-  editStudent?: Student;
+interface ClientDialogData {
+  editClient?: Client;
 }
 
 @Component({
-  selector: 'app-students-dialog',
-  templateUrl: './student-dialog.component.html',
-  styleUrl: './student-dialog.component.scss',
+  selector: 'app-clients-dialog',
+  templateUrl: './client-dialog.component.html',
+  styleUrl: './client-dialog.component.scss',
 })
-export class StudentsDialogComponent {
-  studentForm: FormGroup;
+export class ClientsDialogComponent {
+  clientForm: FormGroup;
 
   constructor(
-    private matDialogRef: MatDialogRef<StudentsDialogComponent>,
+    private matDialogRef: MatDialogRef<ClientsDialogComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data?: StudentDialogData
+    @Inject(MAT_DIALOG_DATA) public data?: ClientDialogData
   ) {
-    this.studentForm = this.formBuilder.group({
+    this.clientForm = this.formBuilder.group({
       firstName: [null, [nameValidator]],
       lastName: [null, [nameValidator]],
       email: [null, [Validators.required, Validators.email]],
@@ -33,36 +33,36 @@ export class StudentsDialogComponent {
   }
 
   get firstNameControl() {
-    return this.studentForm.get('firstName');
+    return this.clientForm.get('firstName');
   }
   get lastNameControl() {
-    return this.studentForm.get('lastName');
+    return this.clientForm.get('lastName');
   }
   get emailControl() {
-    return this.studentForm.get('email');
+    return this.clientForm.get('email');
   }
 
   private get isEditing() {
-    return !!this.data?.editStudent;
+    return !!this.data?.editClient;
   }
 
   patchForm() {
-    if (this.data?.editStudent) {
-      this.studentForm.patchValue(this.data.editStudent);
+    if (this.data?.editClient) {
+      this.clientForm.patchValue(this.data.editClient);
     }
   }
 
   onSave(): void {
-    if (this.studentForm.invalid) {
-      this.studentForm.markAllAsTouched();
+    if (this.clientForm.invalid) {
+      this.clientForm.markAllAsTouched();
     } else {
       this.matDialogRef.close({
-        ...this.studentForm.value,
+        ...this.clientForm.value,
         id: this.isEditing
-          ? this.data!.editStudent!.id
+          ? this.data!.editClient!.id
           : generateRandomString(25),
         createdAt: this.isEditing
-          ? this.data!.editStudent!.createdAt
+          ? this.data!.editClient!.createdAt
           : new Date(),
       });
       Swal.fire(

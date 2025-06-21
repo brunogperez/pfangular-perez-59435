@@ -20,46 +20,46 @@
     <mat-spinner class="mx-auto m-5"></mat-spinner>
     } @else {
 
-    <table mat-table [dataSource]="students$" class="bg-table">
+    <table mat-table [dataSource]="clients$" class="bg-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let student">{{ student.id }}</td>
+        <td mat-cell *matCellDef="let client">{{ client.id }}</td>
       </ng-container>
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let student">{{ student | userFullName }}</td>
+        <td mat-cell *matCellDef="let client">{{ client | userFullName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>Email</th>
-        <td mat-cell *matCellDef="let student">{{ student.email }}</td>
+        <td mat-cell *matCellDef="let client">{{ client.email }}</td>
       </ng-container>
 
       <ng-container matColumnDef="birthdate">
         <th mat-header-cell *matHeaderCellDef>Edad</th>
-        <td mat-cell *matCellDef="let student">
-          {{ student.birthdate | age }} años
+        <td mat-cell *matCellDef="let client">
+          {{ client.birthdate | age }} años
         </td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef>Created Date</th>
-        <td mat-cell *matCellDef="let student">
-          {{ student.createdAt | date }}
+        <td mat-cell *matCellDef="let client">
+          {{ client.createdAt | date }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let student">
-          <button mat-icon-button class="m-1" (click)="goToDetail(student.id)">
+        <td mat-cell *matCellDef="let client">
+          <button mat-icon-button class="m-1" (click)="goToDetail(client.id)">
             <mat-icon>visibility</mat-icon>
           </button>
           <button
             mat-icon-button
             class="m-1"
-            (click)="openDialog(student)"
+            (click)="openDialog(client)"
             *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>edit</mat-icon>
@@ -67,7 +67,7 @@
           <button
             mat-icon-button
             class="m-1"
-            (click)="onDelete(student.id)"
+            (click)="onDelete(client.id)"
             *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>delete</mat-icon>

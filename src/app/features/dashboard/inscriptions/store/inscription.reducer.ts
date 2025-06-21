@@ -2,7 +2,7 @@ import { createFeature, createReducer, on, Action } from '@ngrx/store';
 import { InscriptionActions } from './inscription.actions';
 import { Inscription } from '../models';
 import { Course } from '../../courses/models/index';
-import { Student } from '../../students/models';
+import { Client } from '../../clients/models';
 import { generateRandomString } from '../../../../shared/utils';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -75,7 +75,7 @@ export const reducer = createReducer(
         {
           id: generateRandomString(25),
           courseId: action.courseId,
-          studentId: action.studentId,
+          clientId: action.clientId,
         },
       ],
     };
@@ -85,7 +85,7 @@ export const reducer = createReducer(
   on(InscriptionActions.deleteInscription, (state, action) => ({
     ...state,
     inscriptions: state.inscriptions.filter(
-      (insciption) => insciption.studentId !== action.id
+      (insciption) => insciption.clientId !== action.id
     ),
   }))
 );

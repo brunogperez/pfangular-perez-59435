@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Student } from '../models';
+import { Client } from '../models';
 import { Inscription } from '../../inscriptions/models';
 import Swal from 'sweetalert2';
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../../inscriptions/store/inscription.actions';
-import { selectorStudents } from '../store/student.selectors';
-import { StudentActions } from '../store/student.actions';
+import { selectorClients } from '../store/client.selectors';
+import { ClientActions } from '../store/client.actions';
 import { selectCourse } from '../../courses/store/course.selectors';
 import { CourseActions } from '../../courses/store/course.actions';
 import { combineLatest, map, Observable, filter } from 'rxjs';
@@ -14,54 +14,54 @@ import { selectorInscriptions } from '../../inscriptions/store/inscription.selec
 import { Course } from '../../courses/models';
 
 @Component({
-  selector: 'app-student-detail',
-  templateUrl: './student-detail.component.html',
-  styleUrl: './student-detail.component.scss',
+  selector: 'app-client-detail',
+  templateUrl: './client-detail.component.html',
+  styleUrl: './client-detail.component.scss',
 })
-export class StudentDetailComponent implements OnInit {
+export class ClientDetailComponent implements OnInit {
   courseId: string;
-  studentId?: string;
+  clientId?: string;
   courses$?: Observable<Course[]>;
-  student$?: Observable<Student>;
+  client$?: Observable<Client>;
   inscriptions$?: Observable<Inscription[]>;
-  inscriptionsByStudent$: Observable<Inscription[]>;
-  coursesByStudent$?: Observable<Course[]>;
+  inscriptionsByClient$: Observable<Inscription[]>;
+  coursesByClient$?: Observable<Course[]>;
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
     this.courseId = this.activatedRoute.snapshot.params['id'];
-    this.studentId = this.activatedRoute.snapshot.params['id'];
+    this.clientId = this.activatedRoute.snapshot.params['id'];
     this.inscriptions$ = this.store.select(selectorInscriptions);
-    this.inscriptionsByStudent$ = this.inscriptions$.pipe(
+    this.inscriptionsByClient$ = this.inscriptions$.pipe(
       map((inscriptions) =>
         inscriptions.filter(
-          (inscription) => inscription.studentId === this.studentId
+          (inscription) => inscription.clientId === this.clientId
         )
       )
     );
-    this.student$ = this.store
-      .select(selectorStudents)
+    this.client$ = this.store
+      .select(selectorClients)
       .pipe(
         map(
-          (students) =>
-            students.find((student) => student.id === this.studentId)!
+          (clients) =>
+            clients.find((client) => client.id === this.clientId)!
         )
       );
 
     this.courses$ = this.store.select(selectCourse);
 
-    this.coursesByStudent$ = combineLatest([
+    this.coursesByClient$ = combineLatest([
       this.courses$,
-      this.inscriptionsByStudent$,
+      this.inscriptionsByClient$,
     ]).pipe(
-      map(([courses, inscriptionsByStudent]) => {
-        const inscriptions = inscriptionsByStudent.map((i) => i.courseId);
+      map(([courses, inscriptionsByClient]) => {
+        const inscriptions = inscriptionsByClient.map((i) => i.courseId);
 
         return courses.filter((course) => inscriptions.includes(course.id));
       })
     );
   }
   ngOnInit(): void {
-    this.store.dispatch(StudentActions.loadStudents());
+    this.store.dispatch(ClientActions.loadClients());
     this.store.dispatch(CourseActions.loadCourses());
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }

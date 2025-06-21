@@ -32,16 +32,16 @@ export class InscriptionDialogComponent {
   ) {
     this.courses$ = this.store.select(selectCourse);
     this.inscriptionForm = this.formBuilder.group({
-      studentId: [{ value: '', disabled: true }],
+      clientId: [{ value: '', disabled: true }],
       courseId: [null, Validators.required],
     });
     this.inscriptionForm.patchValue({
-      studentId: data?.inscription?.id,
+      clientId: data?.inscription?.id,
     });
   }
 
-  get studentIdControl() {
-    return this.inscriptionForm.get('studentId');
+  get clientIdControl() {
+    return this.inscriptionForm.get('clientId');
   }
   get courseIdControl() {
     return this.inscriptionForm.get('courseId');
@@ -52,11 +52,11 @@ export class InscriptionDialogComponent {
       this.inscriptionForm.markAllAsTouched();
     } else {
       const formValues = this.inscriptionForm.getRawValue();
-      const studentId = formValues.studentId;
+      const clientId = formValues.clientId;
       const courseId = formValues.courseId;
 
       this.inscriptionService
-        .isStudentEnrolled(studentId, courseId)
+        .isClientEnrolled(clientId, courseId)
         .subscribe((isEnrolled) => {
           if (isEnrolled) {
             Swal.fire(
@@ -67,7 +67,7 @@ export class InscriptionDialogComponent {
           } else {
             this.store.dispatch(
               InscriptionActions.createInscription({
-                studentId,
+                clientId,
                 courseId,
               })
             );

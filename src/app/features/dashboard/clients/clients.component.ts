@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { StudentsDialogComponent } from './student-dialog/student-dialog.component';
-import { Student } from './models';
+import { ClientsDialogComponent } from './client-dialog/client-dialog.component';
+import { Client } from './models';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentsService } from '../../../core/services/students.service';
+import { ClientsService } from '../../../core/services/clients.service';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -15,18 +15,18 @@ import {
   switchMap,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectorStudents } from './store/student.selectors';
-import { StudentActions } from './store/student.actions';
+import { selectorClients } from './store/client.selectors';
+import { ClientActions } from './store/client.actions';
 import { User } from '../users/models';
 import { selectAuthUser } from '../../../store/selectors/auth.selectors';
 import { InscriptionService } from '../../../core/services/inscriptions.service';
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html',
-  styleUrl: './students.component.scss',
+  selector: 'app-clients',
+  templateUrl: './clients.component.html',
+  styleUrl: './clients.component.scss',
 })
-export class StudentsComponent implements OnInit {
+export class ClientsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -37,10 +37,10 @@ export class StudentsComponent implements OnInit {
   ];
   user$: Observable<User | null>;
   isAdmin$: Observable<boolean>;
-  students$: Observable<Student[]>;
+  clients$: Observable<Client[]>;
 
   searchTerm$ = new Subject<string>();
-  dataSource: Student[] = [];
+  dataSource: Client[] = [];
 
   isLoading = false;
   constructor(
@@ -51,7 +51,7 @@ export class StudentsComponent implements OnInit {
   ) {
     this.user$ = this.store.select(selectAuthUser);
     this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'admin'));
-    this.students$ = this.store.select(selectorStudents);
+    this.clients$ = this.store.select(selectorClients);
   }
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class StudentsComponent implements OnInit {
     this.searchTerm$
       .pipe(startWith(''), debounceTime(400), distinctUntilChanged())
       .subscribe((term) => {
-        this.store.dispatch(StudentActions.searchStudents({ term }));
+        this.store.dispatch(ClientActions.searchClients({ term }));
       });
   }
 
@@ -72,23 +72,23 @@ export class StudentsComponent implements OnInit {
     this.router.navigate([id, 'detail'], { relativeTo: this.activatedRoute });
   }
 
-  openDialog(editStudent?: Student): void {
+  openDialog(editClient?: Client): void {
     this.matDialog
-      .open(StudentsDialogComponent, { data: { editStudent } })
+      .open(ClientsDialogComponent, { data: { editClient } })
       .afterClosed()
       .subscribe({
         next: (res) => {
           if (!!res) {
-            if (editStudent) {
+            if (editClient) {
               this.store.dispatch(
-                StudentActions.updateStudent({
-                  id: editStudent.id,
+                ClientActions.updateClient({
+                  id: editClient.id,
                   update: res,
                 })
               );
             } else {
               this.store.dispatch(
-                StudentActions.createStudent({ student: res })
+                ClientActions.createClient({ client: res })
               );
             }
           }
@@ -106,7 +106,7 @@ export class StudentsComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result: any) => {
       if (result.isConfirmed) {
-        this.store.dispatch(StudentActions.deleteStudent({ id }));
+        this.store.dispatch(ClientActions.deleteClient({ id }));
       }
     });
   }

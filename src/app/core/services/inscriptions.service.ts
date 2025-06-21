@@ -4,7 +4,7 @@ import { generateRandomString } from '../../shared/utils';
 import { concatMap, map, Observable } from 'rxjs';
 import { Inscription } from '../../features/dashboard/inscriptions/models';
 import { environment } from '../../../environments/environment';
-import { Student } from '../../features/dashboard/students/models';
+import { Client } from '../../features/dashboard/clients/models';
 
 @Injectable({ providedIn: 'root' })
 export class InscriptionService {
@@ -17,8 +17,8 @@ export class InscriptionService {
       `${this.apiBaseURL}/inscriptions` 
     );
   }
-  getInscriptionsById(studentId: string): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/inscriptions?studentId=${studentId}`;
+  getInscriptionsById(clientId: string): Observable<Inscription[]> {
+    const APISEARCH = `${this.apiBaseURL}/inscriptions?clientId=${clientId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
@@ -29,18 +29,18 @@ export class InscriptionService {
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
-  getInscriptionsByCourseAndStudent(
+  getInscriptionsByCourseAndClient(
     courseId: string,
-    studentId: string
+    clientId: string
   ): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/inscriptions?studentId=${studentId}&courseId=${courseId}`;
+    const APISEARCH = `${this.apiBaseURL}/inscriptions?clientId=${clientId}&courseId=${courseId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
 
   createInscription(
-    data: Omit<Inscription, 'id' | 'student' | 'course'>
+    data: Omit<Inscription, 'id' | 'client' | 'course'>
   ): Observable<Inscription> {
     return this.httpClient.post<Inscription>(
       `${this.apiBaseURL}/inscriptions`,
@@ -57,23 +57,23 @@ export class InscriptionService {
       .pipe(concatMap(() => this.getInscriptions()));
   }
 
-  searchStudents(name: string): Observable<Student[]> {
-    const APISEARCH = `${this.apiBaseURL}/students?name=${name}`;
+  searchClients(name: string): Observable<Client[]> {
+    const APISEARCH = `${this.apiBaseURL}/clients?name=${name}`;
     return this.httpClient
-      .get<Student[]>(APISEARCH)
+      .get<Client[]>(APISEARCH)
       .pipe(
-        map((students: Student[]) =>
-          students.filter((student) =>
-            student.firstName.toLowerCase().includes(name.toLowerCase())
+        map((clients: Client[]) =>
+          clients.filter((client) =>
+            client.firstName.toLowerCase().includes(name.toLowerCase())
           )
         )
       );
   }
 
-  isStudentEnrolled(studentId: string, courseId: string): Observable<boolean> {
+  isClientEnrolled(clientId: string, courseId: string): Observable<boolean> {
     return this.httpClient
       .get<Inscription[]>(
-        `${this.apiBaseURL}/inscriptions?studentId=${studentId}&courseId=${courseId}`
+        `${this.apiBaseURL}/inscriptions?clientId=${clientId}&courseId=${courseId}`
       )
       .pipe(map((inscriptions) => inscriptions.length > 0));
   }

@@ -12,7 +12,7 @@ export const InscriptionActions = createActionGroup({
     'Load Inscriptions By Course Success': props<{ data: Inscription[] }>(),
     'Load Inscriptions By Course Failure': props<{ error: Error }>(),
 
-    'Create Inscription': props<{ courseId: string; studentId: string }>(),
+    'Create Inscription': props<{ courseId: string; clientId: string }>(),
     'Create Inscription Success': props<{ data: Inscription }>(),
     'Create Inscription Failure': props<{ error: Error }>(),
 

@@ -41,7 +41,7 @@
       "token": "Ey8VhncR9NsN7f7"
     }
   ],
-  "students": [
+  "clients": [
     {
       "id": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "firstName": "Sharla",
@@ -1412,12 +1412,12 @@
   "inscriptions": [
     {
       "id": "qXjaMXgm",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
+      "clientId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "courseId": "wCNLG2Gk"
     },
     {
       "id": "smTIhhFT",
-      "studentId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
+      "clientId": "01JCEA5G87NWRY1X8TAF3JZZKZ",
       "courseId": "8jcFtqja"
     }
   ]

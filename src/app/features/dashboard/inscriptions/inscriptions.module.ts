@@ -9,8 +9,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { InscriptionEffects } from './store/inscription.effects';
 import { StoreModule } from '@ngrx/store';
 import { inscriptionFeature } from './store/inscription.reducer';
-import { studentFeature } from '../students/store/student.reducer';
-import { StudentEffects } from '../students/store/student.effects';
+import { clientFeature } from '../clients/store/client.reducer';
+import { ClientEffects } from '../clients/store/client.effects';
 import { courseFeature } from '../courses/store/course.reducer';
 import { CourseEffects } from '../courses/store/course.effects';
 
@@ -22,8 +22,8 @@ import { CourseEffects } from '../courses/store/course.effects';
     SharedModule,
     StoreModule.forFeature(inscriptionFeature),
     EffectsModule.forFeature([InscriptionEffects]),
-    StoreModule.forFeature(studentFeature),
-    EffectsModule.forFeature([StudentEffects]),
+    StoreModule.forFeature(clientFeature),
+    EffectsModule.forFeature([ClientEffects]),
     StoreModule.forFeature(courseFeature),
     EffectsModule.forFeature([CourseEffects]),
   ],

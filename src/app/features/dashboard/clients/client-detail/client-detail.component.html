@@ -1,6 +1,6 @@
 <div
   class="my-auto justify-content-center"
-  *ngIf="student$ | async as student ; else loading"
+  *ngIf="client$ | async as client ; else loading"
 >
   <div class="align-items-center d-flex gap-4 p-5 dCards">
     <div class="col-4">
@@ -9,7 +9,7 @@
           <div class="card-content m-auto text-center">
             <img
               src="https://picsum.photos/200"
-              alt="`Avatar de {{student.firstName}} {{student.lastName}}`"
+              alt="`Avatar de {{client.firstName}} {{client.lastName}}`"
               srcset=""
             />
           </div>
@@ -17,38 +17,38 @@
       </div>
     </div>
     <mat-card class="col-6  p-5 bg-table">
-      <div class="card-content d-inline" *ngIf="student$ | async as student">
+      <div class="card-content d-inline" *ngIf="client$ | async as client">
         <div class="info-item">
           <mat-icon matListItemIcon>fingerprint</mat-icon>
           <div>
             <strong>ID</strong>
-            <p>{{ student.id }}</p>
+            <p>{{ client.id }}</p>
           </div>
         </div>
         <div class="info-item">
           <mat-icon matListItemIcon>person</mat-icon>
           <div>
             <strong>Nombre</strong>
-            <p>{{ student.firstName }} {{ student?.lastName }}</p>
+            <p>{{ client.firstName }} {{ client?.lastName }}</p>
           </div>
         </div>
         <div class="info-item">
           <mat-icon matListItemIcon>email</mat-icon>
           <div>
             <strong>Email</strong>
-            <p>{{ student.email }}</p>
+            <p>{{ client.email }}</p>
           </div>
         </div>
       </div>
     </mat-card>
   </div>
 
-  <div *ngIf="coursesByStudent$ | async as coursesByStudent" class="m-4">
-    <ng-container *ngIf="coursesByStudent.length > 0; else noStudents">
+  <div *ngIf="coursesByClient$ | async as coursesByClient" class="m-4">
+    <ng-container *ngIf="coursesByClient.length > 0; else noClients">
       <mat-card class="border rounded m-5 p-5 border-3">
         <h3 class="text-center m-2">Productos</h3>
         <mat-card
-          *ngFor="let course of coursesByStudent"
+          *ngFor="let course of coursesByClient"
           class="border rounded m-3 d-flex"
         >
           <mat-card-header>
@@ -65,7 +65,7 @@
     </ng-container>
   </div>
 
-  <ng-template #noStudents>
+  <ng-template #noClients>
     <mat-card class="border rounded m-5 p-5 border-3">
       <div class="d-flex flex-column align-items-center">
         <p class="text-center">ESTE CLIENTE NO TIENE NINGÚN PRODUCTO</p>

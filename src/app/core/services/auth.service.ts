@@ -25,7 +25,6 @@ export class AuthService {
 
   private handleAuth(users: User[]): User | null {
     if (!!users[0]) {
-      /*  this._authUser$.next(users[0]); */
       this.store.dispatch(AuthActions.setAuthenticatedUser({ user: users[0] }));
       localStorage.setItem('token', users[0].token);
       return users[0];
@@ -35,26 +34,24 @@ export class AuthService {
   }
 
   login(data: AuthData): Observable<User> {
-    // Primero obtenemos el usuario por email
     return this.httpClient
       .get<User[]>(`${this.apiURL}/users?email=${data.email}`)
       .pipe(
         map((users) => {
-          // Buscamos el usuario que coincida con el email y contraseña
           const user = users.find((user) => user.password === data.password);
           
           if (!user) {
             throw new Error('Credenciales inválidas');
           }
+          if(user.password !== data.password){
+            throw new Error('Contraseña incorrecta');
+          }
           
-          // Generamos un token (en producción, esto debería hacerse en el backend)
           const token = Math.random().toString(36).substring(2);
           const userWithToken = { ...user, token };
           
-          // Actualizamos el usuario en el servidor con el nuevo token
           this.httpClient.put(`${this.apiURL}/users/${user.id}`, userWithToken).subscribe();
           
-          // Guardamos el token y actualizamos el estado
           localStorage.setItem('token', token);
           this.store.dispatch(AuthActions.setAuthenticatedUser({ user: userWithToken }));
           

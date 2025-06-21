@@ -1,4 +1,4 @@
-import { Student } from "../../students/models";
+import { Client } from "../../clients/models";
 
 export interface Course {
   id: string;
@@ -7,7 +7,7 @@ export interface Course {
   level: string;
   description: string;
   classes: ClassItem[];
-  students?: Student[];
+  clients?: Client[];
 }
 
 export interface ClassItem {
