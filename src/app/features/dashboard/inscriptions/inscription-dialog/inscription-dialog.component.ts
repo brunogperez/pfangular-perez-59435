@@ -71,13 +71,7 @@ export class InscriptionDialogComponent {
                 courseId,
               })
             );
-            Swal.fire(
-              'Buen trabajo!',
-              'El alumno ha sido inscripto exitosamente.',
-              'success'
-            ).then(() => {
-              this.matDialogRef.close();
-            });
+            this.matDialogRef.close();
           }
         });
     }

@@ -61,7 +61,7 @@ export class ClientDetailComponent implements OnInit {
     );
   }
   ngOnInit(): void {
-    this.store.dispatch(ClientActions.loadClients({ page: 1, limit: 10 }));
+    this.store.dispatch(ClientActions.loadClients());
     this.store.dispatch(CourseActions.loadCourses());
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }

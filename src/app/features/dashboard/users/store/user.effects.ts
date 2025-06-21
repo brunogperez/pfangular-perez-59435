@@ -63,10 +63,11 @@ export class UserEffects {
         mergeMap(({ user }) =>
           this.usersService.createUser(user).pipe(
             map((newUser) => {
+              Swal.fire('Éxito', 'Usuario creado exitosamente.', 'success');
               return UserActions.createUserSuccess({ user: newUser });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el curso.', 'error');
+              Swal.fire('Error', 'No se pudo crear el usuario.', 'error');
               return of(UserActions.createUserFailure({ error }));
             })
           )
@@ -82,12 +83,13 @@ export class UserEffects {
           this.usersService.updateUserById(id, update).pipe(
             map((user) => {
               const updatedUser = user[0];
+              Swal.fire('Éxito', 'Usuario actualizado exitosamente.', 'success');
               return UserActions.updateUserSuccess({
                 user: updatedUser,
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el curso.', 'error');
+              Swal.fire('Error', 'No se pudo actualizar el usuario.', 'error');
               return of(UserActions.updateUserFailure({ error }));
             })
           )
@@ -103,7 +105,12 @@ export class UserEffects {
             map((res) => {
               Swal.fire(
                 '¡Eliminado!',
-                'El curso ha sido eliminado.',
+                'El usuario ha sido eliminado.',
+                'success'
+              );
+              Swal.fire(
+                '¡Eliminado!',
+                'El usuario ha sido eliminado.',
                 'success'
               );
               return UserActions.deleteUserSuccess({ data: res });
@@ -111,7 +118,7 @@ export class UserEffects {
             catchError((error) => {
               Swal.fire(
                 'Error',
-                'Hubo un problema al eliminar el curso.',
+                'Hubo un problema al eliminar el usuario.',
                 'error'
               );
               return of(UserActions.deleteUserFailure({ error }));

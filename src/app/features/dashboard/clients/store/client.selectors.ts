@@ -9,3 +9,9 @@ export const selectorClients = createSelector(
   selectClientState,
   (state) => state.clients
 );
+
+export const selectorClientById = createSelector(
+  selectClientState,
+  (state) => state.client
+);
+

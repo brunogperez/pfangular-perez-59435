@@ -31,9 +31,10 @@ export class InscriptionEffects {
         ofType(InscriptionActions.loadInscriptions),
         concatMap((action) =>
           this.inscriptionService.getInscriptions().pipe(
-            map((res) =>
-              InscriptionActions.loadInscriptionsSuccess({ data: res })
-            ),
+            map((res) => {
+              Swal.fire('Éxito', 'Inscripciones cargadas exitosamente.', 'success');
+              return InscriptionActions.loadInscriptionsSuccess({ data: res });
+            }),
             catchError((error) =>
               of(InscriptionActions.loadInscriptionsFailure({ error }))
             )
@@ -47,9 +48,10 @@ export class InscriptionEffects {
         ofType(InscriptionActions.loadInscriptionsByCourse),
         mergeMap((action) =>
           this.inscriptionService.getInscriptionsByCourse(action.courseId).pipe(
-            map((data) =>
-              InscriptionActions.loadInscriptionsByCourseSuccess({ data })
-            ),
+            map((data) => {
+              Swal.fire('Éxito', 'Inscripciones del curso cargadas exitosamente.', 'success');
+              return InscriptionActions.loadInscriptionsByCourseSuccess({ data });
+            }),
             catchError((error) =>
               of(InscriptionActions.loadInscriptionsByCourseFailure({ error }))
             )
@@ -68,9 +70,10 @@ export class InscriptionEffects {
               courseId: action.courseId,
             })
             .pipe(
-              map((data) =>
-                InscriptionActions.createInscriptionSuccess({ data })
-              ),
+              map((data) => {
+                Swal.fire('Éxito', 'Inscripción creada exitosamente.', 'success');
+                return InscriptionActions.createInscriptionSuccess({ data });
+              }),
               catchError((error) =>
                 of(InscriptionActions.createInscriptionFailure({ error }))
               )

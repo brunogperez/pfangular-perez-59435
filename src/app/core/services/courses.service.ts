@@ -11,29 +11,29 @@ export class CoursesService {
   constructor(private httpClient: HttpClient) {}
 
   createCourse(data: Omit<Course, 'id'>): Observable<Course> {
-    return this.httpClient.post<Course>(`${this.apiBaseURL}/courses`, data);
+    return this.httpClient.post<Course>(`${this.apiBaseURL}/api/courses`, data);
   }
 
   getCourses(): Observable<Course[]> {
-    return this.httpClient.get<Course[]>(`${this.apiBaseURL}/courses`);
+    return this.httpClient.get<Course[]>(`${this.apiBaseURL}/api/courses`);
   }
 
   getCourseById(id: string): Observable<Course> {
     const result = this.httpClient.get<Course>(
-      `${this.apiBaseURL}/courses/${id}`
+      `${this.apiBaseURL}/api/courses/${id}`
     );
     return result;
   }
 
   updateCourseById(id: string, update: Partial<Course>) {
     return this.httpClient
-      .patch<Course>(`${this.apiBaseURL}/courses/${id}`, update)
+      .patch<Course>(`${this.apiBaseURL}/api/courses/${id}`, update)
       .pipe(concatMap(() => this.getCourses()));
   }
 
   removeCourseById(id: string): Observable<Course[]> {
     return this.httpClient
-      .delete<Course>(`${this.apiBaseURL}/courses/${id}`)
+      .delete<Course>(`${this.apiBaseURL}/api/courses/${id}`)
       .pipe(concatMap(() => this.getCourses()));
   }
 }

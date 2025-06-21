@@ -65,11 +65,6 @@ export class ClientsDialogComponent {
           ? this.data!.editClient!.createdAt
           : new Date(),
       });
-      Swal.fire(
-        'Buen trabajo!',
-        `El alumno ha sido ${this.isEditing ? 'editado' : 'creado'} exitosamente.`,
-        'success'
-      );
     }
   }
 }

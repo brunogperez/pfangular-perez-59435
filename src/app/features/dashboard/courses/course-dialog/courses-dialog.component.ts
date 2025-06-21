@@ -62,13 +62,6 @@ export class CoursesDialogComponent {
           ? this.data!.editCourse!.id
           : generateRandomString(8),
       });
-      Swal.fire(
-        'Buen trabajo!',
-        `El curso ha sido ${
-          this.isEditing ? 'editado' : 'creado'
-        } exitosamente.`,
-        'success'
-      );
     }
   }
 }

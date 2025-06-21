@@ -14,17 +14,17 @@ export class InscriptionService {
 
   getInscriptions(): Observable<Inscription[]> {
     return this.httpClient.get<Inscription[]>(
-      `${this.apiBaseURL}/inscriptions` 
+      `${this.apiBaseURL}/api/inscriptions` 
     );
   }
   getInscriptionsById(clientId: string): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/inscriptions?clientId=${clientId}`;
+    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
   getInscriptionsByCourse(courseId: string): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/inscriptions?courseId=${courseId}`;
+    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?courseId=${courseId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
@@ -33,7 +33,7 @@ export class InscriptionService {
     courseId: string,
     clientId: string
   ): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/inscriptions?clientId=${clientId}&courseId=${courseId}`;
+    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&courseId=${courseId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
@@ -43,7 +43,7 @@ export class InscriptionService {
     data: Omit<Inscription, 'id' | 'client' | 'course'>
   ): Observable<Inscription> {
     return this.httpClient.post<Inscription>(
-      `${this.apiBaseURL}/inscriptions`,
+      `${this.apiBaseURL}/api/inscriptions`,
       {
         ...data,
         id: generateRandomString(8),
@@ -53,12 +53,12 @@ export class InscriptionService {
 
   deleteInscription(id: string): Observable<Inscription[]> {
     return this.httpClient
-      .delete<Inscription>(`${this.apiBaseURL}/inscriptions/${id}`)
+      .delete<Inscription>(`${this.apiBaseURL}/api/inscriptions/${id}`)
       .pipe(concatMap(() => this.getInscriptions()));
   }
 
   searchClients(name: string): Observable<Client[]> {
-    const APISEARCH = `${this.apiBaseURL}/clients?name=${name}`;
+    const APISEARCH = `${this.apiBaseURL}/api/clients?name=${name}`;
     return this.httpClient
       .get<Client[]>(APISEARCH)
       .pipe(
@@ -73,7 +73,7 @@ export class InscriptionService {
   isClientEnrolled(clientId: string, courseId: string): Observable<boolean> {
     return this.httpClient
       .get<Inscription[]>(
-        `${this.apiBaseURL}/inscriptions?clientId=${clientId}&courseId=${courseId}`
+        `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&courseId=${courseId}`
       )
       .pipe(map((inscriptions) => inscriptions.length > 0));
   }

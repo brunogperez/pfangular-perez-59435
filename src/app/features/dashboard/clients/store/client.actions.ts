@@ -1,25 +1,18 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Client } from '../models';
-
-export interface Pagination {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
 
 export const ClientActions = createActionGroup({
   source: 'Client',
   events: {
     // Load Clients
-    'Load Clients': props<{ page?: number; limit?: number; search?: string }>(),
-    'Load Clients Success': props<{ 
-      data: Client[]; 
-      total: number;
-      page: number;
-      totalPages: number;
-    }>(),
+    'Load Clients': emptyProps(),
+    'Load Clients Success': props<{ clients: Client[] }>(),
     'Load Clients Failure': props<{ error: string }>(),
+
+    // Load Client By Id
+    'Load Client By Id': props<{ id: string }>(),
+    'Load Client By Id Success': props<{ client: Client }>(),
+    'Load Client By Id Failure': props<{ error: string }>(),
 
     // Create Client
     'Create Client': props<{ client: Omit<Client, '_id'> }>(),
@@ -32,13 +25,8 @@ export const ClientActions = createActionGroup({
     'Update Client Failure': props<{ error: string }>(),
 
     // Delete Client
-    'Delete Client': props<{ id: string; page?: number }>(),
-    'Delete Client Success': props<{ id: string; page?: number }>(),
+    'Delete Client': props<{ id: string }>(),
+    'Delete Client Success': props<{ id: string }>(),
     'Delete Client Failure': props<{ error: string }>(),
-
-    // Search Clients
-    'Search Clients': props<{ term: string }>(),
-    'Search Clients Success': props<{ clients: Client[] }>(),
-    'Search Clients Failure': props<{ error: string }>(),
   },
 });

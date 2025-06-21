@@ -46,7 +46,7 @@ export class InscriptionsComponent implements OnInit {
     this.searchTerm$
       .pipe(startWith(''), debounceTime(400), distinctUntilChanged())
       .subscribe((term) => {
-        this.store.dispatch(ClientActions.searchClients({ term }));
+        this.store.dispatch(ClientActions.loadClients());
       });
   }
 

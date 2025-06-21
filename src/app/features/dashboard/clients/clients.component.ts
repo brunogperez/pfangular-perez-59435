@@ -4,22 +4,12 @@ import { ClientsDialogComponent } from './client-dialog/client-dialog.component'
 import { Client } from './models';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientsService } from '../../../core/services/clients.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  switchMap,
-} from 'rxjs';
 import { Store } from '@ngrx/store';
+import { map, Observable, startWith } from 'rxjs';
 import { selectorClients } from './store/client.selectors';
 import { ClientActions } from './store/client.actions';
 import { User } from '../users/models';
 import { selectAuthUser } from '../../../store/selectors/auth.selectors';
-import { InscriptionService } from '../../../core/services/inscriptions.service';
 
 @Component({
   selector: 'app-clients',
@@ -38,11 +28,8 @@ export class ClientsComponent implements OnInit {
   user$: Observable<User | null>;
   isAdmin$: Observable<boolean>;
   clients$: Observable<Client[]>;
-
-  searchTerm$ = new Subject<string>();
-  dataSource: Client[] = [];
-
   isLoading = false;
+
   constructor(
     private matDialog: MatDialog,
     private router: Router,
@@ -55,17 +42,9 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-    this.searchTerm$
-      .pipe(startWith(''), debounceTime(400), distinctUntilChanged())
-      .subscribe((term) => {
-        this.store.dispatch(ClientActions.searchClients({ term }));
-      });
-  }
-
-  search(event: Event): void {
-    const element = event.currentTarget as HTMLInputElement;
-    this.searchTerm$.next(element.value);
+    this.isLoading = true;
+    this.store.dispatch(ClientActions.loadClients());
+   
   }
 
   goToDetail(id: string): void {

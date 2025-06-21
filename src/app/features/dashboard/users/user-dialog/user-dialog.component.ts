@@ -4,9 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
 import { User } from '../models';
 import { nameValidator } from '../../../../shared/utils/custom-validators';
-import { UsersService } from '../../../../core/services/users.service';
-import { Observable } from 'rxjs';
-import Swal from 'sweetalert2';
 
 interface UserDialogData {
   editUser?: User;
@@ -29,7 +26,7 @@ export class UserDialogComponent {
       firstName: [null, [Validators.required, nameValidator]],
       lastName: [null, [nameValidator]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(8)]],
+      password: [null, [Validators.minLength(8)]],
       role: [null, [Validators.required]],
     });
     this.patchForm();
@@ -73,13 +70,6 @@ export class UserDialogComponent {
           ? this.data!.editUser!.token
           : generateRandomString(16),
       });
-      Swal.fire(
-        'Buen trabajo!',
-        `El usuario ha sido ${
-          this.isEditing ? 'editado' : 'creado'
-        } exitosamente.`,
-        'success'
-      );
     }
   }
 }

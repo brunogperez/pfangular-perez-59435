@@ -56,7 +56,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Load initial data
     this.store.dispatch(InscriptionActions.loadInscriptions());
-    this.store.dispatch(ClientActions.loadClients({ page: 1, limit: 10 }));
+    this.store.dispatch(ClientActions.loadClients());
     
     // Get course ID from route parameters
     this.courseId = this.activatedRoute.snapshot.params['id'];

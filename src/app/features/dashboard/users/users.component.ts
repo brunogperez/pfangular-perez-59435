@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { User } from './models';
-import { UsersService } from '../../../core/services/users.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -26,7 +25,6 @@ export class UsersComponent implements OnInit {
   ];
   users$: Observable<User[]>;
   isLoading = false;
-  dataSource: User[] = [];
 
   constructor(
     private matDialog: MatDialog,
