@@ -86,13 +86,12 @@
               "buildTarget": "pf-perez-59435:build:production"
             },
             "development": {
-              "buildTarget": "pf-perez-59435:build:development"
+              "buildTarget": "pf-perez-59435:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development",
-          "options": {
-            "proxyConfig": "proxy.conf.json"
-          }
+          "options": {}
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"

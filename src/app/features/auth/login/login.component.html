@@ -3,6 +3,11 @@
     <mat-card-title class="text-white">LOGIN</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage()" class="error-message mb-3">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <span class="ms-2">{{ errorMessage() }}</span>
+    </div>
     <mat-divider class="my-3"> </mat-divider>
     <form class="my-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="my-2">
@@ -32,13 +37,47 @@
         </mat-form-field>
       </div>
 
-      <button mat-flat-button class="w-100" type="submit" [disabled]="loading">
+      <button mat-flat-button color="primary" class="w-100" type="submit" [disabled]="loading" [class.spinner]="loading">
         <span *ngIf="!loading">Iniciar sesión</span>
-        <span *ngIf="loading">
-          <mat-spinner diameter="20" class="d-inline-block"></mat-spinner>
+        <span *ngIf="loading" class="button-loading">
+          <mat-spinner diameter="20" color="accent"></mat-spinner>
           <span class="ms-2">Iniciando sesión...</span>
         </span>
       </button>
+      
+      <div class="mt-3 text-center">
+        <small class="text-muted">Usuario de prueba:</small>
+        <div><strong>admin&#64;mail.com</strong> / <strong>123123123</strong></div>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
+
+<!-- Add some basic styles for the error message -->
+<style>
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 15px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .error-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .button-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: white !important;
+  }
+</style>
