@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   testBackendConnection(): void {
     this.loading = true;
     this.errorMessage.set('');
-    this.authService.testConnection().subscribe({
+    this.authService.verifyToken().subscribe({
       next: () => {
         this.loading = false;
       },
