@@ -17,7 +17,7 @@
     <table mat-table [dataSource]="products$" class="bg-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let product">{{ product.id }}</td>
+        <td mat-cell *matCellDef="let product">{{ product._id }}</td>
       </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -36,7 +36,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let product">
-          <button mat-icon-button class="m-1" (click)="goToDetail(product.id)">
+          <button mat-icon-button class="m-1" (click)="goToDetail(product._id)">
             <mat-icon>visibility</mat-icon>
           </button>
           <button
