@@ -10,7 +10,7 @@ export const selectorInscriptions = createSelector(
   selectInscriptionState,
   (state) => state.inscriptions
 );
-export const selectorInscriptionsByCourse = createSelector(
+export const selectorInscriptionsByProduct = createSelector(
   selectInscriptionState,
   (state) => state.inscriptions
 );

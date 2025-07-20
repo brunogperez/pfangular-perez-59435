@@ -21,7 +21,7 @@ export class DashboardComponent {
     '/home': 'Inicio',
     '/users': 'Usuarios',
     '/clients': 'Clientes',
-    '/courses': 'Productos',
+    '/products': 'Productos',
     '/inscriptions': 'Inscripciones',
   };
 

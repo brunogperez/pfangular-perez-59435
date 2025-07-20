@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>
-  {{ data?.editCourse == undefined ? "Crear" : "Editar" }} producto
+  {{ data?.editProduct == undefined ? "Crear" : "Editar" }} producto
 </h1>
 
 <div mat-dialog-content>
-  <form [formGroup]="courseForm">
+  <form [formGroup]="productForm">
     <mat-form-field class="col-12">
       <mat-label>Nombre del producto</mat-label>
       <input matInput formControlName="name" type="text" />

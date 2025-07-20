@@ -1,20 +1,20 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Course } from '../models';
+import { Product } from '../models';
 import { generateRandomString } from '../../../../shared/utils';
 import Swal from 'sweetalert2';
 
-interface CourseModalData {
-  editCourse?: Course;
+interface ProductModalData {
+  editProduct?: Product;
 }
 @Component({
-  selector: 'app-courses-dialog',
-  templateUrl: './courses-dialog.component.html',
-  styleUrl: './courses-dialog.component.scss',
+  selector: 'app-products-dialog',
+  templateUrl: './products-dialog.component.html',
+  styleUrl: './products-dialog.component.scss',
 })
-export class CoursesDialogComponent {
-  courseForm: FormGroup;
+export class ProductsDialogComponent {
+  productForm: FormGroup;
 
   durations: Array<'2 months' | '3 months' | '4 months' | '5 months'> = [
     '2 months',
@@ -29,11 +29,11 @@ export class CoursesDialogComponent {
     'Advanced',
   ];
   constructor(
-    private matDialogRef: MatDialogRef<CoursesDialogComponent>,
+    private matDialogRef: MatDialogRef<ProductsDialogComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data?: CourseModalData
+    @Inject(MAT_DIALOG_DATA) public data?: ProductModalData
   ) {
-    this.courseForm = this.formBuilder.group({
+    this.productForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       duration: [null, [Validators.required]],
       level: [null, [Validators.required]],
@@ -43,23 +43,23 @@ export class CoursesDialogComponent {
   }
 
   patchForm() {
-    if (this.data?.editCourse) {
-      this.courseForm.patchValue(this.data.editCourse);
+    if (this.data?.editProduct) {
+      this.productForm.patchValue(this.data.editProduct);
     }
   }
 
   private get isEditing() {
-    return !!this.data?.editCourse;
+    return !!this.data?.editProduct;
   }
 
   onSave(): void {
-    if (this.courseForm.invalid) {
-      this.courseForm.markAllAsTouched();
+    if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched();
     } else {
       this.matDialogRef.close({
-        ...this.courseForm.value,
+        ...this.productForm.value,
         id: this.isEditing
-          ? this.data!.editCourse!.id
+          ? this.data!.editProduct!.id
           : generateRandomString(8),
       });
     }

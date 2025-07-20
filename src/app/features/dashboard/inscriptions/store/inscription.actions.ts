@@ -8,11 +8,11 @@ export const InscriptionActions = createActionGroup({
     'Load Inscriptions Success': props<{ data: Inscription[] }>(),
     'Load Inscriptions Failure': props<{ error: Error }>(),
 
-    'Load Inscriptions By Course': props<{ courseId: string }>(),
-    'Load Inscriptions By Course Success': props<{ data: Inscription[] }>(),
-    'Load Inscriptions By Course Failure': props<{ error: Error }>(),
+    'Load Inscriptions By Product': props<{ productId: string }>(),
+    'Load Inscriptions By Product Success': props<{ data: Inscription[] }>(),
+    'Load Inscriptions By Product Failure': props<{ error: Error }>(),
 
-    'Create Inscription': props<{ courseId: string; clientId: string }>(),
+    'Create Inscription': props<{ productId: string; clientId: string }>(),
     'Create Inscription Success': props<{ data: Inscription }>(),
     'Create Inscription Failure': props<{ error: Error }>(),
 

@@ -14,35 +14,35 @@
     @if (isLoading) {
     <mat-spinner class="mx-auto m-5"></mat-spinner>
     } @else {
-    <table mat-table [dataSource]="courses$" class="bg-table">
+    <table mat-table [dataSource]="products$" class="bg-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let course">{{ course.id }}</td>
+        <td mat-cell *matCellDef="let product">{{ product.id }}</td>
       </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let course">{{ course.name }}</td>
+        <td mat-cell *matCellDef="let product">{{ product.name }}</td>
       </ng-container>
       <ng-container matColumnDef="duration">
         <th mat-header-cell *matHeaderCellDef>Duración</th>
-        <td mat-cell *matCellDef="let course">{{ course.duration }}</td>
+        <td mat-cell *matCellDef="let product">{{ product.duration }}</td>
       </ng-container>
       <ng-container matColumnDef="level">
         <th mat-header-cell *matHeaderCellDef>Dificultad</th>
-        <td mat-cell *matCellDef="let course">
-          {{ course.level }}
+        <td mat-cell *matCellDef="let product">
+          {{ product.level }}
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let course">
-          <button mat-icon-button class="m-1" (click)="goToDetail(course.id)">
+        <td mat-cell *matCellDef="let product">
+          <button mat-icon-button class="m-1" (click)="goToDetail(product.id)">
             <mat-icon>visibility</mat-icon>
           </button>
           <button
             mat-icon-button
             class="m-1"
-            (click)="openModal(course)"
+            (click)="openModal(product)"
             *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>edit</mat-icon>
@@ -50,7 +50,7 @@
           <button
             mat-icon-button
             class="m-1"
-            (click)="onDeleteCourse(course.id)"
+            (click)="onDeleteProduct(product.id)"
             *ngIf="(isAdmin$ | async) == true"
           >
             <mat-icon>delete</mat-icon>

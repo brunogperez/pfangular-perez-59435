@@ -43,20 +43,20 @@
     </mat-card>
   </div>
 
-  <div *ngIf="coursesByClient$ | async as coursesByClient" class="m-4">
-    <ng-container *ngIf="coursesByClient.length > 0; else noClients">
+  <div *ngIf="productsByClient$ | async as productsByClient" class="m-4">
+    <ng-container *ngIf="productsByClient.length > 0; else noClients">
       <mat-card class="border rounded m-5 p-5 border-3">
         <h3 class="text-center m-2">Productos</h3>
         <mat-card
-          *ngFor="let course of coursesByClient"
+          *ngFor="let product of productsByClient"
           class="border rounded m-3 d-flex"
         >
           <mat-card-header>
-            <mat-card-title> {{ course.name }} </mat-card-title>
-            <mat-card-subtitle>ID: {{ course.id }}</mat-card-subtitle>
+            <mat-card-title> {{ product.name }} </mat-card-title>
+            <mat-card-subtitle>ID: {{ product.id }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions align="end">
-            <button mat-flat-button (click)="onDeleteInscription(course.id)">
+            <button mat-flat-button (click)="onDeleteInscription(product.id)">
               DESINSCRIBIR
             </button>
           </mat-card-actions>

@@ -8,9 +8,9 @@
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label> Categoria </mat-label>
-      <mat-select formControlName="courseId">
-        <mat-option *ngFor="let course of courses$ | async" [value]="course.id">
-          {{ course.name }}
+      <mat-select formControlName="productId">
+        <mat-option *ngFor="let product of products$ | async" [value]="product.id">
+          {{ product.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

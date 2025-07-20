@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CoursesRoutingModule } from './courses-routing.module';
-import { CoursesComponent } from './courses.component';
+import { ProductsRoutingModule } from './products-routing.module';
+import { ProductsComponent } from './products.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
-import { CourseDetailComponent } from './course-detail/course-detail.component';
+import { ProductsDialogComponent } from './product-dialog/products-dialog.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { EffectsModule } from '@ngrx/effects';
-import { CourseEffects } from './store/course.effects';
-import { courseFeature } from './store/course.reducer';
+import { ProductEffects } from './store/product.effects';
+import { productFeature } from './store/product.reducer';
 import { StoreModule } from '@ngrx/store';
 import { inscriptionFeature } from '../inscriptions/store/inscription.reducer';
 import { InscriptionEffects } from '../inscriptions/store/inscription.effects';
@@ -17,20 +17,20 @@ import { ClientEffects } from '../clients/store/client.effects';
 
 @NgModule({
   declarations: [
-    CoursesComponent,
-    CoursesDialogComponent,
-    CourseDetailComponent,
+    ProductsComponent,
+    ProductsDialogComponent,
+    ProductDetailComponent,
   ],
   imports: [
     CommonModule,
-    CoursesRoutingModule,
+    ProductsRoutingModule,
     SharedModule,
     StoreModule.forFeature(clientFeature),
     StoreModule.forFeature(inscriptionFeature),
-    StoreModule.forFeature(courseFeature),
-    EffectsModule.forFeature([CourseEffects]),
+    StoreModule.forFeature(productFeature),
+    EffectsModule.forFeature([ProductEffects]),
     EffectsModule.forFeature([InscriptionEffects]),
     EffectsModule.forFeature([ClientEffects]),
   ],
 })
-export class CoursesModule {}
+export class ProductsModule {}

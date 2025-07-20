@@ -18,7 +18,7 @@ export class InscriptionEffects {
   loadInscriptions$: Actions<Action<string>>;
   createInscription$: Actions<Action<string>>;
   createInscriptionSuccess$: Actions<Action<string>>;
-  loadInscriptionsByCourse$: Actions<Action<string>>;
+  loadInscriptionsByProduct$: Actions<Action<string>>;
   deleteInscription$: Actions<Action<string>>;
   loadInscriptionsAfterDelete$: Actions<Action<string>>;
 
@@ -43,17 +43,17 @@ export class InscriptionEffects {
       );
     });
 
-    this.loadInscriptionsByCourse$ = createEffect(() => {
+    this.loadInscriptionsByProduct$ = createEffect(() => {
       return this.actions$.pipe(
-        ofType(InscriptionActions.loadInscriptionsByCourse),
+        ofType(InscriptionActions.loadInscriptionsByProduct),
         mergeMap((action) =>
-          this.inscriptionService.getInscriptionsByCourse(action.courseId).pipe(
+          this.inscriptionService.getInscriptionsByProduct(action.productId).pipe(
             map((data) => {
               Swal.fire('Éxito', 'Inscripciones del curso cargadas exitosamente.', 'success');
-              return InscriptionActions.loadInscriptionsByCourseSuccess({ data });
+              return InscriptionActions.loadInscriptionsByProductSuccess({ data });
             }),
             catchError((error) =>
-              of(InscriptionActions.loadInscriptionsByCourseFailure({ error }))
+              of(InscriptionActions.loadInscriptionsByProductFailure({ error }))
             )
           )
         )
@@ -67,7 +67,7 @@ export class InscriptionEffects {
           this.inscriptionService
             .createInscription({
               clientId: action.clientId,
-              courseId: action.courseId,
+              productId: action.productId,
             })
             .pipe(
               map((data) => {

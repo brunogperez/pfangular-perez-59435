@@ -23,24 +23,24 @@ export class InscriptionService {
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
-  getInscriptionsByCourse(courseId: string): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?courseId=${courseId}`;
+  getInscriptionsByProduct(productId: string): Observable<Inscription[]> {
+    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?productId=${productId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
-  getInscriptionsByCourseAndClient(
-    courseId: string,
+  getInscriptionsByProductAndClient(
+    productId: string,
     clientId: string
   ): Observable<Inscription[]> {
-    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&courseId=${courseId}`;
+    const APISEARCH = `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&productId=${productId}`;
     return this.httpClient
       .get<Inscription[]>(APISEARCH)
       .pipe(map((res: Inscription[]) => res));
   }
 
   createInscription(
-    data: Omit<Inscription, 'id' | 'client' | 'course'>
+    data: Omit<Inscription, 'id' | 'client' | 'product'>
   ): Observable<Inscription> {
     return this.httpClient.post<Inscription>(
       `${this.apiBaseURL}/api/inscriptions`,
@@ -70,10 +70,10 @@ export class InscriptionService {
       );
   }
 
-  isClientEnrolled(clientId: string, courseId: string): Observable<boolean> {
+  isClientEnrolled(clientId: string, productId: string): Observable<boolean> {
     return this.httpClient
       .get<Inscription[]>(
-        `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&courseId=${courseId}`
+        `${this.apiBaseURL}/api/inscriptions?clientId=${clientId}&productId=${productId}`
       )
       .pipe(map((inscriptions) => inscriptions.length > 0));
   }

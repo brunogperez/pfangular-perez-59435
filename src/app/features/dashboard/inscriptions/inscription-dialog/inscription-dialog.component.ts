@@ -4,11 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inscription } from '../models';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
-import { Course } from '../../courses/models';
+import { Product } from '../../products/models';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../store/inscription.actions';
-import { selectCourse } from '../../courses/store/course.selectors';
+import { selectProduct } from '../../products/store/product.selectors';
 
 interface InscriptionDialogData {
   inscription?: Inscription;
@@ -21,7 +21,7 @@ interface InscriptionDialogData {
 })
 export class InscriptionDialogComponent {
   inscriptionForm: FormGroup;
-  courses$: Observable<Course[]>;
+  products$: Observable<Product[]>;
 
   constructor(
     private matDialogRef: MatDialogRef<InscriptionDialogData>,
@@ -30,10 +30,10 @@ export class InscriptionDialogComponent {
     private store: Store,
     @Inject(MAT_DIALOG_DATA) public data?: InscriptionDialogData
   ) {
-    this.courses$ = this.store.select(selectCourse);
+    this.products$ = this.store.select(selectProduct);
     this.inscriptionForm = this.formBuilder.group({
       clientId: [{ value: '', disabled: true }],
-      courseId: [null, Validators.required],
+      productId: [null, Validators.required],
     });
     this.inscriptionForm.patchValue({
       clientId: data?.inscription?.id,
@@ -43,8 +43,8 @@ export class InscriptionDialogComponent {
   get clientIdControl() {
     return this.inscriptionForm.get('clientId');
   }
-  get courseIdControl() {
-    return this.inscriptionForm.get('courseId');
+  get productIdControl() {
+    return this.inscriptionForm.get('productId');
   }
 
   onSave(): void {
@@ -53,10 +53,10 @@ export class InscriptionDialogComponent {
     } else {
       const formValues = this.inscriptionForm.getRawValue();
       const clientId = formValues.clientId;
-      const courseId = formValues.courseId;
+      const productId = formValues.productId;
 
       this.inscriptionService
-        .isClientEnrolled(clientId, courseId)
+        .isClientEnrolled(clientId, productId)
         .subscribe((isEnrolled) => {
           if (isEnrolled) {
             Swal.fire(
@@ -68,7 +68,7 @@ export class InscriptionDialogComponent {
             this.store.dispatch(
               InscriptionActions.createInscription({
                 clientId,
-                courseId,
+                productId,
               })
             );
             this.matDialogRef.close();

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from './models';
+import { Product } from './models';
 import { MatDialog } from '@angular/material/dialog';
-import { CoursesDialogComponent } from './course-dialog/courses-dialog.component';
+import { ProductsDialogComponent } from './product-dialog/products-dialog.component';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectCourse } from './store/course.selectors';
-import { CourseActions } from './store/course.actions';
+import { selectProduct } from './store/product.selectors';
+import { ProductActions } from './store/product.actions';
 import { InscriptionActions } from '../inscriptions/store/inscription.actions';
 import { Inscription } from '../inscriptions/models';
 import { selectorInscriptions } from '../inscriptions/store/inscription.selectors';
@@ -15,18 +15,18 @@ import { User } from '../users/models';
 import { selectAuthUser } from '../../../store/selectors/auth.selectors';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss',
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss',
 })
-export class CoursesComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'duration', 'level', 'actions'];
 
   isLoading = false;
   user$: Observable<User | null>;
   isAdmin$: Observable<boolean>;
   inscriptions$: Observable<Inscription[]>;
-  courses$: Observable<Course[]>;
+  products$: Observable<Product[]>;
 
   constructor(
     private store: Store,
@@ -37,11 +37,11 @@ export class CoursesComponent implements OnInit {
     this.user$ = this.store.select(selectAuthUser);
     this.isAdmin$ = this.user$.pipe(map((user) => user?.role === 'admin'));
     this.inscriptions$ = this.store.select(selectorInscriptions);
-    this.courses$ = this.store.select(selectCourse);
+    this.products$ = this.store.select(selectProduct);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(CourseActions.loadCourses());
+    this.store.dispatch(ProductActions.loadProducts());
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }
 
@@ -49,26 +49,26 @@ export class CoursesComponent implements OnInit {
     this.router.navigate([id, 'detail'], { relativeTo: this.activatedRoute });
   }
 
-  openModal(editCourse?: Course): void {
+  openModal(editProduct?: Product): void {
     this.matDialog
-      .open(CoursesDialogComponent, { data: { editCourse } })
+      .open(ProductsDialogComponent, { data: { editProduct } })
       .afterClosed()
       .subscribe({
         next: (res) => {
           if (!!res) {
-            if (editCourse) {
+            if (editProduct) {
               this.store.dispatch(
-                CourseActions.updateCourse({ id: editCourse.id, update: res })
+                ProductActions.updateProduct({ id: editProduct.id, update: res })
               );
             } else {
-              this.store.dispatch(CourseActions.createCourse({ course: res }));
+              this.store.dispatch(ProductActions.createProduct({ product: res }));
             }
           }
         },
       });
   }
 
-  onDeleteCourse(id: string): void {
+  onDeleteProduct(id: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'No podrás revertir esta acción',
@@ -78,7 +78,7 @@ export class CoursesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.store.dispatch(CourseActions.deleteCourse({ id }));
+        this.store.dispatch(ProductActions.deleteProduct({ id }));
       }
     });
   }

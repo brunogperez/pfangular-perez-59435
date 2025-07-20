@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on, Action } from '@ngrx/store';
 import { InscriptionActions } from './inscription.actions';
 import { Inscription } from '../models';
-import { Course } from '../../courses/models/index';
+import { Product } from '../../products/models/index';
 import { Client } from '../../clients/models';
 import { generateRandomString } from '../../../../shared/utils';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,14 +12,14 @@ export interface State {
   isLoadingInscription: boolean;
   loadInscriptionError: Error | null | HttpErrorResponse;
   inscriptions: Inscription[];
-  selectedCourseId: string | null;
+  selectedProductId: string | null;
 }
 
 export const initialState: State = {
   isLoadingInscription: false,
   loadInscriptionError: null,
   inscriptions: [],
-  selectedCourseId: null,
+  selectedProductId: null,
 };
 
 export const reducer = createReducer(
@@ -49,18 +49,18 @@ export const reducer = createReducer(
     };
   }),
   ////////// SECCION LOADBYCOURSE
-  on(InscriptionActions.loadInscriptionsByCourse, (state) => {
+  on(InscriptionActions.loadInscriptionsByProduct, (state) => {
     return {
       ...state,
     };
   }),
-  on(InscriptionActions.loadInscriptionsByCourseSuccess, (state, action) => {
+  on(InscriptionActions.loadInscriptionsByProductSuccess, (state, action) => {
     return {
       ...state,
       inscriptions: action.data,
     };
   }),
-  on(InscriptionActions.loadInscriptionsByCourseFailure, (state, error) => {
+  on(InscriptionActions.loadInscriptionsByProductFailure, (state, error) => {
     return {
       ...state,
       error,
@@ -74,7 +74,7 @@ export const reducer = createReducer(
         ...state.inscriptions,
         {
           id: generateRandomString(25),
-          courseId: action.courseId,
+          productId: action.productId,
           clientId: action.clientId,
         },
       ],

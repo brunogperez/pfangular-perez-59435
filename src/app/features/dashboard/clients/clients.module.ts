@@ -12,8 +12,8 @@ import { StoreModule } from '@ngrx/store';
 import { clientFeature } from './store/client.reducer';
 import { inscriptionFeature } from '../inscriptions/store/inscription.reducer';
 import { InscriptionEffects } from '../inscriptions/store/inscription.effects';
-import { courseFeature } from '../courses/store/course.reducer';
-import { CourseEffects } from '../courses/store/course.effects';
+import { productFeature } from '../products/store/product.reducer';
+import { ProductEffects } from '../products/store/product.effects';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,8 @@ import { CourseEffects } from '../courses/store/course.effects';
     EffectsModule.forFeature([ClientEffects]),
     StoreModule.forFeature(inscriptionFeature),
     EffectsModule.forFeature([InscriptionEffects]),
-    StoreModule.forFeature(courseFeature),
-    EffectsModule.forFeature([CourseEffects]),
+    StoreModule.forFeature(productFeature),
+    EffectsModule.forFeature([ProductEffects]),
   ],
 })
 export class ClientsModule {}

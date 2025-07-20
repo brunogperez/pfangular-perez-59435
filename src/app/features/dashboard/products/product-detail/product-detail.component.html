@@ -1,10 +1,10 @@
-<div class="container" *ngIf="course$ | async as course; else loading">
-  <mat-card class="course-status">
+<div class="container" *ngIf="product$ | async as product; else loading">
+  <mat-card class="product-status">
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div>
-        <h1 class="text-center my-5">{{ course.name }}</h1>
+        <h1 class="text-center my-5">{{ product.name }}</h1>
         <mat-divider> </mat-divider>
-        <h4 class="text-center my-4">{{ course.description }}</h4>
+        <h4 class="text-center my-4">{{ product.description }}</h4>
       </div>
       <mat-card-actions align="end">
         <button mat-raised-button color="primary">
@@ -15,7 +15,7 @@
 
     <mat-tab-group>
       <mat-tab label="Programa">
-        <ng-container *ngFor="let classItem of course.classes" class="my-4">
+        <ng-container *ngFor="let classItem of product.classes" class="my-4">
           <mat-card
             appearance="outlined"
             class="p-3 col-12 my-3 d-flex justify-content-between flex-row"
@@ -30,10 +30,10 @@
         </ng-container>
       </mat-tab>
       <mat-tab label="Clientes">
-        <div *ngIf="clientsByCourse$ | async as clientsByCourse" class="m-4">
-          <ng-container *ngIf="clientsByCourse.length > 0; else noClients">
+        <div *ngIf="clientsByProduct$ | async as clientsByProduct" class="m-4">
+          <ng-container *ngIf="clientsByProduct.length > 0; else noClients">
             <mat-card
-              *ngFor="let client of clientsByCourse"
+              *ngFor="let client of clientsByProduct"
               class="border rounded m-5 d-flex"
             >
               <mat-card-header>

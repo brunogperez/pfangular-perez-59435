@@ -1,6 +1,6 @@
 import { Client } from "../../clients/models";
 
-export interface Course {
+export interface Product {
   id: string;
   name: string;
   duration: string;

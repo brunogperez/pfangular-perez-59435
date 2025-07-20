@@ -7,11 +7,11 @@ import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../../inscriptions/store/inscription.actions';
 import { selectorClients } from '../store/client.selectors';
 import { ClientActions } from '../store/client.actions';
-import { selectCourse } from '../../courses/store/course.selectors';
-import { CourseActions } from '../../courses/store/course.actions';
+import { selectProduct } from '../../products/store/product.selectors';
+import { ProductActions } from '../../products/store/product.actions';
 import { combineLatest, map, Observable, filter } from 'rxjs';
 import { selectorInscriptions } from '../../inscriptions/store/inscription.selectors';
-import { Course } from '../../courses/models';
+import { Product } from '../../products/models';
 
 @Component({
   selector: 'app-client-detail',
@@ -19,16 +19,16 @@ import { Course } from '../../courses/models';
   styleUrl: './client-detail.component.scss',
 })
 export class ClientDetailComponent implements OnInit {
-  courseId: string;
+  productId: string;
   clientId?: string;
-  courses$?: Observable<Course[]>;
+  products$?: Observable<Product[]>;
   client$?: Observable<Client>;
   inscriptions$?: Observable<Inscription[]>;
   inscriptionsByClient$: Observable<Inscription[]>;
-  coursesByClient$?: Observable<Course[]>;
+  productsByClient$?: Observable<Product[]>;
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
-    this.courseId = this.activatedRoute.snapshot.params['id'];
+    this.productId = this.activatedRoute.snapshot.params['id'];
     this.clientId = this.activatedRoute.snapshot.params['id'];
     this.inscriptions$ = this.store.select(selectorInscriptions);
     this.inscriptionsByClient$ = this.inscriptions$.pipe(
@@ -47,31 +47,31 @@ export class ClientDetailComponent implements OnInit {
         )
       );
 
-    this.courses$ = this.store.select(selectCourse);
+    this.products$ = this.store.select(selectProduct);
 
-    this.coursesByClient$ = combineLatest([
-      this.courses$,
+    this.productsByClient$ = combineLatest([
+      this.products$,
       this.inscriptionsByClient$,
     ]).pipe(
-      map(([courses, inscriptionsByClient]) => {
-        const inscriptions = inscriptionsByClient.map((i) => i.courseId);
+      map(([products, inscriptionsByClient]) => {
+        const inscriptions = inscriptionsByClient.map((i) => i.productId);
 
-        return courses.filter((course) => inscriptions.includes(course.id));
+        return products.filter((product) => inscriptions.includes(product.id));
       })
     );
   }
   ngOnInit(): void {
     this.store.dispatch(ClientActions.loadClients());
-    this.store.dispatch(CourseActions.loadCourses());
+    this.store.dispatch(ProductActions.loadProducts());
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }
 
   onDeleteInscription(id: string) {
-    const courseRoute = this.courseId;
-    if (courseRoute) {
+    const productRoute = this.productId;
+    if (productRoute) {
       this.store.select(selectorInscriptions).subscribe((inscriptions) => {
         const filteredInscriptions = inscriptions.filter(
-          (inscription) => inscription.courseId === id
+          (inscription) => inscription.productId === id
         );
         if (filteredInscriptions.length > 0) {
           Swal.fire({

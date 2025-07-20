@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Course, ClassItem } from '../models';
+import { Product, ClassItem } from '../models';
 import { Store } from '@ngrx/store';
 import { selectorInscriptions } from '../../inscriptions/store/inscription.selectors';
 import { combineLatest, filter, map, Observable, Subject, take, takeUntil } from 'rxjs';
@@ -10,45 +10,45 @@ import { Client } from '../../clients/models';
 import { selectorClients } from '../../clients/store/client.selectors';
 import { ClientActions } from '../../clients/store/client.actions';
 import Swal from 'sweetalert2';
-import { CourseActions } from '../store/course.actions';
-import { selectCourseById } from '../store/course.selectors';
+import { ProductActions } from '../store/product.actions';
+import { selectProductById } from '../store/product.selectors';
 
 
 @Component({
-  selector: 'app-course-detail',
-  templateUrl: './course-detail.component.html',
-  styleUrl: './course-detail.component.scss',
+  selector: 'app-product-detail',
+  templateUrl: './product-detail.component.html',
+  styleUrl: './product-detail.component.scss',
 })
-export class CourseDetailComponent implements OnInit, OnDestroy {
+export class ProductDetailComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject<void>();
-  courseId: string;
-  course$!: Observable<Course | undefined>;
+  productId: string;
+  product$!: Observable<Product | undefined>;
   classList: ClassItem[] = [];
   inscriptions$: Observable<Inscription[]>;
-  inscriptionsByCourse$: Observable<Inscription[]>;
-  clientsByCourse$: Observable<Client[]>;
+  inscriptionsByProduct$: Observable<Inscription[]>;
+  clientsByProduct$: Observable<Client[]>;
   clients$: Observable<Client[]>;
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
-    this.courseId = this.activatedRoute.snapshot.params['id'];
+    this.productId = this.activatedRoute.snapshot.params['id'];
     this.clients$ = this.store.select(selectorClients);
     this.inscriptions$ = this.store.select(selectorInscriptions);
     
-    // Initialize inscriptionsByCourse$ after courseId is set
-    this.inscriptionsByCourse$ = this.inscriptions$.pipe(
+    // Initialize inscriptionsByProduct$ after productId is set
+    this.inscriptionsByProduct$ = this.inscriptions$.pipe(
       map((inscriptions: Inscription[]) =>
         inscriptions.filter(
-          (inscription) => inscription.courseId === this.courseId
+          (inscription) => inscription.productId === this.productId
         )
       )
     );
 
-    this.clientsByCourse$ = combineLatest([
+    this.clientsByProduct$ = combineLatest([
       this.clients$,
-      this.inscriptionsByCourse$,
+      this.inscriptionsByProduct$,
     ]).pipe(
-      map(([clients, inscriptionsByCourse]) => {
-        const clientIds = inscriptionsByCourse.map((i) => i.clientId);
+      map(([clients, inscriptionsByProduct]) => {
+        const clientIds = inscriptionsByProduct.map((i) => i.clientId);
         return clients.filter((client) => clientIds.includes(client._id));
       })
     );
@@ -58,23 +58,23 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(InscriptionActions.loadInscriptions());
     this.store.dispatch(ClientActions.loadClients());
     
-    // Get course ID from route parameters
-    this.courseId = this.activatedRoute.snapshot.params['id'];
+    // Get product ID from route parameters
+    this.productId = this.activatedRoute.snapshot.params['id'];
     
-    // Only load course if we have a valid ID
-    if (this.courseId) {
-      this.store.dispatch(CourseActions.loadCourseById({ id: this.courseId }));
-      // Initialize course$ after dispatching the load action
-      this.course$ = this.store.select(selectCourseById(this.courseId));
+    // Only load product if we have a valid ID
+    if (this.productId) {
+      this.store.dispatch(ProductActions.loadProductById({ id: this.productId }));
+      // Initialize product$ after dispatching the load action
+      this.product$ = this.store.select(selectProductById(this.productId));
     } else {
-      console.warn('No course ID found in route parameters');
+      console.warn('No product ID found in route parameters');
     }
   }
 
   onDeleteInscription(clientId: string) {
-    this.inscriptionsByCourse$.pipe(take(1)).subscribe((inscriptions: Inscription[]) => {
+    this.inscriptionsByProduct$.pipe(take(1)).subscribe((inscriptions: Inscription[]) => {
       const inscription = inscriptions.find(
-        (i) => i.clientId === clientId && i.courseId === this.courseId
+        (i) => i.clientId === clientId && i.productId === this.productId
       );
 
       if (!inscription) return;

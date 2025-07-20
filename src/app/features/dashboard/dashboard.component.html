@@ -5,7 +5,7 @@
       <a mat-list-item routerLink="home">Inicio</a>
       <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>
       <a mat-list-item routerLink="clients">Clientes</a>
-      <a mat-list-item routerLink="courses">Productos</a>
+      <a mat-list-item routerLink="products">Productos</a>
       <a mat-list-item routerLink="inscriptions">Inscripciones</a>
       <a mat-list-item (click)="logout()">
         <p class="logout" style="margin-bottom: 0%;"> <span><mat-icon class="mat-icon-logout"> logout </mat-icon></span> Cerrar sesión</p>
