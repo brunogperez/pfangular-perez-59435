@@ -1,4 +1,4 @@
-# Proyecto final Angular - Bruno Perez
+# Proyecto Final Angular - Bruno Perez
 
 Este proyecto es una aplicación web creada con **Angular**, diseñada para gestionar el registro y seguimiento de clientes/productos/inscripciones. Aprovecha tecnologías como Angular Material para una interfaz de usuario intuitiva, NgRx para el manejo eficiente del estado, y se enfoca en proporcionar una experiencia fluida y escalable.
 
