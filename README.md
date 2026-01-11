@@ -196,5 +196,3 @@ ng e2e
 - [NgRx Team](https://ngrx.io/) por las herramientas de gestión de estado
 
 ---
-
-⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub!
