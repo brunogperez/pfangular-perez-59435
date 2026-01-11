@@ -189,12 +189,6 @@ ng e2e
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
-
----
-
 ## 🙏 Agradecimientos
 
 - [Angular Team](https://angular.io/) por el excelente framework
