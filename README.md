@@ -1,6 +1,6 @@
 # 📊 Sistema de Gestión - Proyecto Final Angular
 
-> Aplicación web desarrollada con Angular para la gestión integral de clientes, productos e inscripciones. Implementa arquitectura escalable con NgRx y diseño moderno con Angular Material.
+> Aplicación web desarrollada con Angular para la gestión integral de clientes, productos e inscripciones. Implementa arquitectura escalable con NgRx y diseño moderno con Angular Material
 
 [![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
