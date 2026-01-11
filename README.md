@@ -194,5 +194,3 @@ ng e2e
 - [Angular Team](https://angular.io/) por el excelente framework
 - [Material Design](https://material.io/) por las guías de diseño
 - [NgRx Team](https://ngrx.io/) por las herramientas de gestión de estado
-
----
