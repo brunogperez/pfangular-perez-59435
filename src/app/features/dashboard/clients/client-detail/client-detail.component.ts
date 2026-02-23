@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Client } from '../models';
 import { Inscription } from '../../inscriptions/models';
-import Swal from 'sweetalert2';
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../../inscriptions/store/inscription.actions';
 import { selectorClients } from '../store/client.selectors';
@@ -12,9 +11,27 @@ import { ProductActions } from '../../products/store/product.actions';
 import { combineLatest, map, Observable, filter } from 'rxjs';
 import { selectorInscriptions } from '../../inscriptions/store/inscription.selectors';
 import { Product } from '../../products/models';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { UserFullNamePipe } from '../../../../shared/pipes/user-full-name.pipe';
+import { AgePipe } from '../../../../shared/pipes/age.pipe';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-client-detail',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatButtonModule,
+    UserFullNamePipe,
+    AgePipe,
+  ],
   templateUrl: './client-detail.component.html',
   styleUrl: './client-detail.component.scss',
 })
@@ -27,7 +44,7 @@ export class ClientDetailComponent implements OnInit {
   inscriptionsByClient$: Observable<Inscription[]>;
   productsByClient$?: Observable<Product[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store) {
+  constructor(private activatedRoute: ActivatedRoute, private store: Store, private notificationService: NotificationService) {
     this.productId = this.activatedRoute.snapshot.params['id'];
     this.clientId = this.activatedRoute.snapshot.params['id'];
     this.inscriptions$ = this.store.select(selectorInscriptions);
@@ -66,30 +83,21 @@ export class ClientDetailComponent implements OnInit {
     this.store.dispatch(InscriptionActions.loadInscriptions());
   }
 
-  onDeleteInscription(id: string) {
+  async onDeleteInscription(id: string) {
     const productRoute = this.productId;
     if (productRoute) {
-      this.store.select(selectorInscriptions).subscribe((inscriptions) => {
+      this.store.select(selectorInscriptions).subscribe(async (inscriptions) => {
         const filteredInscriptions = inscriptions.filter(
           (inscription) => inscription.productId === id
         );
         if (filteredInscriptions.length > 0) {
-          Swal.fire({
-            title: '¿Estás seguro?',
-            text: 'No podrás revertir esta acción',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.store.dispatch(
-                InscriptionActions.deleteInscription({
-                  id: filteredInscriptions[0].id,
-                })
-              );
-            }
-          });
+          if (await this.notificationService.confirmDelete('esta inscripción')) {
+            this.store.dispatch(
+              InscriptionActions.deleteInscription({
+                id: filteredInscriptions[0].id,
+              })
+            );
+          }
         }
       });
     }

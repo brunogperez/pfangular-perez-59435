@@ -1,12 +1,36 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { AuthData } from '../models';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AuthActions } from '../../../store/actions/auth.actions';
+import { selectAuthLoading, selectAuthError } from '../../../store/selectors/auth.selectors';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FontSizeDirective } from '../../../shared/directives/font-size.directive';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    FontSizeDirective,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -14,17 +38,21 @@ export class LoginComponent implements OnInit {
   hideIcon: 'visibility_off' | 'visibility' = 'visibility_off';
   passwordType: 'password' | 'text' = 'password';
 
-  errorMessage = signal('');
-  loading = false;
+  loading$: Observable<boolean>;
+  errorMessage$: Observable<string | null>;
 
-  loginForm: FormGroup;
+  loginForm: FormGroup<{
+    email: FormControl<string | null>;
+    password: FormControl<string | null>;
+  }>;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
     private store: Store
   ) {
+    this.loading$ = this.store.select(selectAuthLoading);
+    this.errorMessage$ = this.store.select(selectAuthError);
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,18 +61,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.deleteToken();
-    // Set default credentials for testing
+    localStorage.removeItem('token');
     this.loginForm.patchValue({
       email: 'admin@mail.com',
-      password: '123123123'
+      password: '123123123',
     });
-    // Test backend connection on init
-    this.testBackendConnection();
-  }
-
-  deleteToken(): void {
-    localStorage.removeItem('token');
   }
 
   togglePassword(): void {
@@ -53,64 +74,15 @@ export class LoginComponent implements OnInit {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
 
-  testBackendConnection(): void {
-    this.loading = true;
-    this.errorMessage.set('');
-    this.authService.verifyToken().subscribe({
-      next: () => {
-        this.loading = false;
-      },
-      error: (err) => {
-        this.loading = false;
-        this.handleError(err);
-      }
-    });
-  }
-
-  doLogin(): void {
-    if (this.loading) return;
-    
-    this.loading = true;
-    this.errorMessage.set('');
-    
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (user) => {
-        this.loading = false;
-        this.router.navigate(['dashboard', 'home']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.handleError(err);
-      },
-    });
-  }
-
-  private handleError(err: any): void {
-    console.error('Error:', err);
-    let errorMessage = 'Error desconocido';
-    
-    if (err instanceof Error) {
-      errorMessage = err.message;
-    } 
-    
-    if (err instanceof HttpErrorResponse) {
-      if (err.status === 0) {
-        errorMessage = 'No se pudo conectar con el servidor. Verifique su conexión a internet.';
-      } else if (err.status === 400 || err.status === 401) {
-        errorMessage = err.error?.error || 'Credenciales inválidas';
-      } else if (err.status >= 500) {
-        errorMessage = 'Error del servidor. Por favor, intente más tarde.';
-      }
-    }
-    
-    this.errorMessage.set(errorMessage);
-  }
-
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-      this.doLogin();
+      this.store.dispatch(
+        AuthActions.login({
+          authData: this.loginForm.getRawValue() as AuthData,
+        })
+      );
     }
   }
 }

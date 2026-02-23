@@ -33,13 +33,13 @@
           >
         </mat-form-field>
       </div>
-      <div *ngIf="errorMessage()" class="error-message mb-3">
+      <div *ngIf="errorMessage$ | async as errorMessage" class="error-message mb-3">
         <mat-icon class="error-icon">error_outline</mat-icon>
-        <span class="ms-2">{{ errorMessage() }}</span>
+        <span class="ms-2">{{ errorMessage }}</span>
       </div>
-      <button mat-flat-button color="primary" class="w-100" type="submit" [disabled]="loading" [class.spinner]="loading">
-        <span *ngIf="!loading">Iniciar sesión</span>
-        <span *ngIf="loading" class="button-loading">
+      <button mat-flat-button color="primary" class="w-100" type="submit" [disabled]="loading$ | async" [class.spinner]="loading$ | async">
+        <span *ngIf="!(loading$ | async)">Iniciar sesión</span>
+        <span *ngIf="loading$ | async" class="button-loading">
           <mat-spinner diameter="20" color="accent"></mat-spinner>
           <span class="ms-2">Iniciando sesión...</span>
         </span>

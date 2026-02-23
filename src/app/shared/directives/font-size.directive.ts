@@ -2,6 +2,7 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appFontSize]',
+  standalone: true,
 })
 export class FontSizeDirective implements OnInit {
 

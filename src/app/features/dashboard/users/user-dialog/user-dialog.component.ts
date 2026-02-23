@@ -1,20 +1,43 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { generateRandomString } from '../../../../shared/utils';
 import { User } from '../models';
 import { nameValidator } from '../../../../shared/utils/custom-validators';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { ControlErrorsComponent } from '../control-errors/control-errors.component';
 
 interface UserDialogData {
   editUser?: User;
 }
 @Component({
   selector: 'app-user-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    ControlErrorsComponent,
+  ],
   templateUrl: './user-dialog.component.html',
   styleUrl: './user-dialog.component.scss',
 })
 export class UserDialogComponent {
-  userForm: FormGroup;
+  userForm: FormGroup<{
+    firstName: FormControl<string | null>;
+    lastName: FormControl<string | null>;
+    email: FormControl<string | null>;
+    password: FormControl<string | null>;
+    role: FormControl<string | null>;
+  }>;
 
   constructor(
     private matDialogRef: MatDialogRef<UserDialogComponent>,
@@ -23,11 +46,11 @@ export class UserDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data?: UserDialogData
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: [null, [Validators.required, nameValidator]],
-      lastName: [null, [nameValidator]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.minLength(8)]],
-      role: [null, [Validators.required]],
+      firstName: [null as string | null, [Validators.required, nameValidator]],
+      lastName: [null as string | null, [nameValidator]],
+      email: [null as string | null, [Validators.required, Validators.email]],
+      password: [null as string | null, [Validators.minLength(8)]],
+      role: [null as string | null, [Validators.required]],
     });
     this.patchForm();
   }

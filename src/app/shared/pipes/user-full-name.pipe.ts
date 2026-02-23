@@ -4,6 +4,7 @@ import { User } from '../../features/dashboard/users/models';
 
 @Pipe({
   name: 'userFullName',
+  standalone: true,
 })
 export class UserFullNamePipe implements PipeTransform {
   transform(value: User, transform?: 'uppercase'): string {

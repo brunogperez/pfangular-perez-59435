@@ -1,20 +1,21 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { AuthData } from '../../features/auth/models/index';
 import { User } from '../../features/dashboard/users/models';
-import { MockProvider } from 'ng-mocks';
-import { NavigationExtras, Router } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 const mockAuthData: AuthData = {
   email: 'fakeuser@mail.com',
   password: '123123',
 };
+
 const mockUser: User = {
-  id: 'sdgakmn123',
+  _id: 'sdgakmn123',
   firstName: 'Faker',
   lastName: 'User',
   email: 'fakeuser@mail.com',
@@ -27,143 +28,154 @@ const mockUser: User = {
 describe('AuthService', () => {
   let service: AuthService;
   let httpController: HttpTestingController;
-  let router: Router;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AuthService,
-        MockProvider(Router, {
-          navigate: (comands: any[], extras?: NavigationExtras) => {
-            return new Promise((res) => res(true));
-          },
-        }),
       ],
     });
     httpController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(AuthService);
-    router = TestBed.inject(Router);
     localStorage.clear();
+  });
+
+  afterEach(() => {
+    httpController.verify();
   });
 
   it('El servicio debe ser definido', () => {
     expect(service).toBeTruthy();
   });
-  it('Debe realizarse el login y establecer el token en localStorage', (done) => {
+
+  it('Debe realizarse el login y retornar el usuario', (done) => {
     service.login(mockAuthData).subscribe({
       next: (user) => {
         expect(user).toEqual(mockUser);
-        expect(localStorage.getItem('token')).toEqual(mockUser.token);
         done();
       },
     });
     const mockRequest = httpController.expectOne({
-      url: `${service['apiURL']}/users?email=${mockAuthData.email}&password=${mockAuthData.password}`,
-      method: 'GET',
+      url: `${environment.apiBaseURL}/api/users/login`,
+      method: 'POST',
     });
-    mockRequest.flush([mockUser]);
+    expect(mockRequest.request.body).toEqual({
+      email: mockAuthData.email,
+      password: mockAuthData.password,
+    });
+    mockRequest.flush(mockUser);
   });
 
-  it('Debe retornar un error al realizar un login inválido', (done) => {
+  it('Debe retornar un error con status 400 (credenciales inválidas)', (done) => {
     service.login(mockAuthData).subscribe({
       error: (err) => {
         expect(err).toBeInstanceOf(Error);
-        expect(err['message']).toBe('Los datos son inválidos');
+        expect(err.message).toBe('Email o password incorrectos');
         done();
       },
     });
     const mockRequest = httpController.expectOne({
-      url: `${service['apiURL']}/users?email=${mockAuthData.email}&password=${mockAuthData.password}`,
-      method: 'GET',
+      url: `${environment.apiBaseURL}/api/users/login`,
+      method: 'POST',
     });
-    //mockRequest.flush([], { status: 401, statusText: 'Unauthorized' });
-    mockRequest.flush([]);
+    mockRequest.flush(
+      { error: 'Email o password incorrectos' },
+      { status: 400, statusText: 'Bad Request' }
+    );
   });
 
-  it('El logOut debe remover el token del localStorage', (done) => {
+  it('Debe retornar un error de conexión con status 0', (done) => {
     service.login(mockAuthData).subscribe({
-      next: (user) => {
-        expect(user).toEqual(mockUser);
-        expect(localStorage.getItem('token')).toEqual(mockUser.token);
+      error: (err) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toBe('No se pudo conectar con el servidor');
         done();
       },
     });
     const mockRequest = httpController.expectOne({
-      url: `${service['apiURL']}/users?email=${mockAuthData.email}&password=${mockAuthData.password}`,
-      method: 'GET',
+      url: `${environment.apiBaseURL}/api/users/login`,
+      method: 'POST',
     });
-
-    mockRequest.flush([mockUser]);
-    service.logout();
-    expect(localStorage.getItem('token')).toBeNull();
+    mockRequest.error(new ProgressEvent('error'), {
+      status: 0,
+      statusText: 'Unknown Error',
+    });
   });
 
-  it('El logOut debe deshabilitar un usuario autenticado', (done) => {
-    service.login(mockAuthData).subscribe();
-    const mockRequest = httpController.expectOne({
-      url: `${service['apiURL']}/users?email=${mockAuthData.email}&password=${mockAuthData.password}`,
-      method: 'GET',
-    });
-
-    mockRequest.flush([mockUser]);
-
-    service.logout();
-    service.authUser$.subscribe({
-      next: (user) => {
-        expect(user).toBeNull();
+  it('Debe retornar un error con status 404', (done) => {
+    service.login(mockAuthData).subscribe({
+      error: (err) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toBe(
+          'Endpoint no encontrado - Verifica la URL del backend'
+        );
         done();
       },
     });
+    const mockRequest = httpController.expectOne({
+      url: `${environment.apiBaseURL}/api/users/login`,
+      method: 'POST',
+    });
+    mockRequest.flush(
+      { error: 'Not Found' },
+      { status: 404, statusText: 'Not Found' }
+    );
   });
 
-  it('El logOut debe redirigir al usuario a la ruta /auth/login', () => {
-    const spyOnNavigate = spyOn(router, 'navigate');
-    service.logout();
-    expect(spyOnNavigate).toHaveBeenCalledOnceWith(['auth', 'login']);
-  });
-
-  it('Debe retornar TRUE si el usuario está autenticado', () => {
-    const mockUsers: User[] = [
-      {
-        id: 'sdgakmn123',
-        firstName: 'Faker',
-        lastName: 'User',
-        email: 'fakeuser@mail.com',
-        password: '123123',
-        createdAt: new Date(),
-        role: 'user',
-        token: 'nj2k345bk2nj34n234nj2knokljn2okl3',
+  it('Debe retornar error interno del servidor para otros errores', (done) => {
+    service.login(mockAuthData).subscribe({
+      error: (err) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toBe('Error interno del servidor');
+        done();
       },
-    ];
-
-    const token = 'nj2k345bk2nj34n234nj2knokljn2okl3';
-
-    localStorage.setItem('token', token);
-
-    service.verifyToken().subscribe((isAuth) => {
-      expect(isAuth).toBeTrue();
     });
-
-    const req = httpController.expectOne(
-      `${service['apiURL']}/users?token=${token}`
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(mockUsers); // Ahora enviamos un array en vez de un objeto único
+    const mockRequest = httpController.expectOne({
+      url: `${environment.apiBaseURL}/api/users/login`,
+      method: 'POST',
+    });
+    mockRequest.flush(null, {
+      status: 500,
+      statusText: 'Internal Server Error',
+    });
   });
 
-  it('Debe retornar FALSE si el usuario no está autenticado', () => {
-    const mockUsers: User[] = [];
-    const token = 'mockToken';
-    localStorage.setItem('token', token);
+  it('verifyToken debe retornar el usuario si el token es válido', (done) => {
+    localStorage.setItem('token', 'nj2k345bk2nj34n234nj2knokljn2okl3');
 
-    service.verifyToken().subscribe((isAuth) => {
-      expect(isAuth).toBeFalse();
+    service.verifyToken().subscribe((user) => {
+      expect(user).toEqual(mockUser);
+      done();
     });
 
     const req = httpController.expectOne(
-      `${service['apiURL']}/users?token=${token}`
+      `${environment.apiBaseURL}/api/users/profile`
     );
     expect(req.request.method).toBe('GET');
-    req.flush(mockUsers);
+    req.flush(mockUser);
+  });
+
+  it('verifyToken debe retornar null si el token es inválido', (done) => {
+    localStorage.setItem('token', 'invalidToken');
+
+    service.verifyToken().subscribe((user) => {
+      expect(user).toBeNull();
+      done();
+    });
+
+    const req = httpController.expectOne(
+      `${environment.apiBaseURL}/api/users/profile`
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(null, { status: 401, statusText: 'Unauthorized' });
+  });
+
+  it('verifyToken debe retornar null si no hay token en localStorage', (done) => {
+    service.verifyToken().subscribe((user) => {
+      expect(user).toBeNull();
+      done();
+    });
   });
 });

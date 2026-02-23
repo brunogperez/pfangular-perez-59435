@@ -13,12 +13,35 @@ import { InscriptionDialogComponent } from './inscription-dialog/inscription-dia
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from './store/inscription.actions';
 import { selectorInscriptions } from './store/inscription.selectors';
-import Swal from 'sweetalert2';
 import { ClientActions } from '../clients/store/client.actions';
 import { selectorClients } from '../clients/store/client.selectors';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { UserFullNamePipe } from '../../../shared/pipes/user-full-name.pipe';
+import { AgePipe } from '../../../shared/pipes/age.pipe';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-inscriptions',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    MatTableModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatIconModule,
+    UserFullNamePipe,
+    AgePipe,
+  ],
   templateUrl: './inscriptions.component.html',
   styleUrl: './inscriptions.component.scss',
 })
@@ -36,7 +59,7 @@ export class InscriptionsComponent implements OnInit {
   clients$!: Observable<Client[]>;
   inscriptions$: Observable<Inscription[]>;
 
-  constructor(private matDialog: MatDialog, private store: Store) {
+  constructor(private matDialog: MatDialog, private store: Store, private notificationService: NotificationService) {
     this.clients$ = this.store.select(selectorClients);
     this.inscriptions$ = this.store.select(selectorInscriptions);
   }
@@ -59,18 +82,9 @@ export class InscriptionsComponent implements OnInit {
     this.matDialog.open(InscriptionDialogComponent, { data: { inscription } });
   }
 
-  onDelete(id: string) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'No podrás revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.store.dispatch(InscriptionActions.deleteInscription({ id }));
-      }
-    });
+  async onDelete(id: string) {
+    if (await this.notificationService.confirmDelete('esta inscripción')) {
+      this.store.dispatch(InscriptionActions.deleteInscription({ id }));
+    }
   }
 }

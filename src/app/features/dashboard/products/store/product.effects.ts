@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 import { ProductActions } from './product.actions';
 import { Action } from '@ngrx/store';
 import { ProductsService } from '../../../../core/services/products.service'
-import Swal from 'sweetalert2';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Injectable()
 export class ProductEffects {
@@ -26,12 +26,13 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private notificationService: NotificationService,
   ) {
     this.loadProducts$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(ProductActions.loadProducts),
-        concatMap((action) =>
+        concatMap(() =>
           this.productsService.getProducts().pipe(
             map((res) => ProductActions.loadProductsSuccess({ data: res })),
             catchError((error) =>
@@ -60,7 +61,11 @@ export class ProductEffects {
 
     this.loadProductsAfterUpdate$ = createEffect(() => {
       return this.actions$.pipe(
-        ofType(ProductActions.updateProductSuccess),
+        ofType(
+          ProductActions.createProductSuccess,
+          ProductActions.updateProductSuccess,
+          ProductActions.deleteProductSuccess
+        ),
         map(() => ProductActions.loadProducts())
       );
     });
@@ -71,10 +76,11 @@ export class ProductEffects {
         mergeMap(({ product }) =>
           this.productsService.createProduct(product).pipe(
             map((newProduct) => {
+              this.notificationService.showSuccess('Producto creado exitosamente.');
               return ProductActions.createProductSuccess({ product: newProduct });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el producto.', 'error');
+              this.notificationService.showError('No se pudo crear el producto.');
               return of(ProductActions.createProductFailure({ error }));
             })
           )
@@ -90,12 +96,13 @@ export class ProductEffects {
           this.productsService.updateProductById(id, update).pipe(
             map((product) => {
               const updatedProduct = product[0];
+              this.notificationService.showSuccess('Producto actualizado exitosamente.');
               return ProductActions.updateProductSuccess({
                 product: updatedProduct,
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el producto.', 'error');
+              this.notificationService.showError('No se pudo actualizar el producto.');
               return of(ProductActions.updateProductFailure({ error }));
             })
           )
@@ -109,19 +116,11 @@ export class ProductEffects {
         switchMap(({ id }) =>
           this.productsService.removeProductById(id).pipe(
             map((res) => {
-              Swal.fire(
-                '¡Eliminado!',
-                'El producto ha sido eliminado.',
-                'success'
-              );
+              this.notificationService.showSuccess('El producto ha sido eliminado.', '¡Eliminado!');
               return ProductActions.deleteProductSuccess({ data: res });
             }),
             catchError((error) => {
-              Swal.fire(
-                'Error',
-                'Hubo un problema al eliminar el producto.',
-                'error'
-              );
+              this.notificationService.showError('Hubo un problema al eliminar el producto.');
               return of(ProductActions.deleteProductFailure({ error }));
             })
           )

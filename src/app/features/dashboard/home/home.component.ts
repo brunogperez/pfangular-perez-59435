@@ -1,5 +1,10 @@
 import { Component, model, OnInit } from '@angular/core';
 import { WeatherService } from '../../../core/services/weather.service';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 export interface Tile {
   cols: number;
@@ -9,6 +14,14 @@ export interface Tile {
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [
+    MatGridListModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDatepickerModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -39,8 +52,8 @@ export class HomeComponent implements OnInit {
           };
         }
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
+        this.weatherData = { current: { temperature: 0, winddirection: 0 }, rain: 0 };
       },
     });
   }

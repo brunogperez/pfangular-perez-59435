@@ -1,18 +1,20 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Store } from '@ngrx/store';
 import { inject } from '@angular/core';
 import { map } from 'rxjs';
+import { selectAuthUser } from '../../store/selectors/auth.selectors';
 
 export const roleGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const store = inject(Store);
   const router = inject(Router);
 
-  return authService.isAdmin().pipe(
-    map((isAdmin) => {
-      if (!isAdmin) {
-        router.navigate(['dashboard', 'home']);
+  return store.select(selectAuthUser).pipe(
+    map((user) => {
+      if (user && user.role === 'admin') {
+        return true;
       }
-      return isAdmin;
+      router.navigate(['dashboard', 'home']);
+      return false;
     })
   );
 };

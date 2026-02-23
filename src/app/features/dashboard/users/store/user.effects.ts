@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 import { UserActions } from './user.actions';
 import { Action } from '@ngrx/store';
 import { UsersService } from '../../../../core/services/users.service';
-import Swal from 'sweetalert2';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Injectable()
 export class UserEffects {
@@ -23,11 +23,15 @@ export class UserEffects {
   updateUsers$: Actions<Action<string>>;
   createUsers$: Actions<Action<string>>;
 
-  constructor(private actions$: Actions, private usersService: UsersService) {
+  constructor(
+    private actions$: Actions,
+    private usersService: UsersService,
+    private notificationService: NotificationService,
+  ) {
     this.loadUsers$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(UserActions.loadUsers),
-        concatMap((action) =>
+        concatMap(() =>
           this.usersService.getUsers().pipe(
             map((res) => UserActions.loadUsersSuccess({ data: res })),
             catchError((error) => of(UserActions.loadUsersFailure({ error })))
@@ -52,7 +56,11 @@ export class UserEffects {
 
     this.loadUsersAfterUpdate$ = createEffect(() => {
       return this.actions$.pipe(
-        ofType(UserActions.updateUserSuccess),
+        ofType(
+          UserActions.createUserSuccess,
+          UserActions.updateUserSuccess,
+          UserActions.deleteUserSuccess
+        ),
         map(() => UserActions.loadUsers())
       );
     });
@@ -63,11 +71,11 @@ export class UserEffects {
         mergeMap(({ user }) =>
           this.usersService.createUser(user).pipe(
             map((newUser) => {
-              Swal.fire('Éxito', 'Usuario creado exitosamente.', 'success');
+              this.notificationService.showSuccess('Usuario creado exitosamente.');
               return UserActions.createUserSuccess({ user: newUser });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el usuario.', 'error');
+              this.notificationService.showError('No se pudo crear el usuario.');
               return of(UserActions.createUserFailure({ error }));
             })
           )
@@ -83,13 +91,13 @@ export class UserEffects {
           this.usersService.updateUserById(id, update).pipe(
             map((user) => {
               const updatedUser = user[0];
-              Swal.fire('Éxito', 'Usuario actualizado exitosamente.', 'success');
+              this.notificationService.showSuccess('Usuario actualizado exitosamente.');
               return UserActions.updateUserSuccess({
                 user: updatedUser,
               });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el usuario.', 'error');
+              this.notificationService.showError('No se pudo actualizar el usuario.');
               return of(UserActions.updateUserFailure({ error }));
             })
           )
@@ -103,24 +111,11 @@ export class UserEffects {
         switchMap(({ id }) =>
           this.usersService.removeUserById(id).pipe(
             map((res) => {
-              Swal.fire(
-                '¡Eliminado!',
-                'El usuario ha sido eliminado.',
-                'success'
-              );
-              Swal.fire(
-                '¡Eliminado!',
-                'El usuario ha sido eliminado.',
-                'success'
-              );
+              this.notificationService.showSuccess('El usuario ha sido eliminado.', '¡Eliminado!');
               return UserActions.deleteUserSuccess({ data: res });
             }),
             catchError((error) => {
-              Swal.fire(
-                'Error',
-                'Hubo un problema al eliminar el usuario.',
-                'error'
-              );
+              this.notificationService.showError('Hubo un problema al eliminar el usuario.');
               return of(UserActions.deleteUserFailure({ error }));
             })
           )

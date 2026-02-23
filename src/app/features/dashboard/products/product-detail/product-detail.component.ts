@@ -9,13 +9,33 @@ import { Inscription } from '../../inscriptions/models';
 import { Client } from '../../clients/models';
 import { selectorClients } from '../../clients/store/client.selectors';
 import { ClientActions } from '../../clients/store/client.actions';
-import Swal from 'sweetalert2';
 import { ProductActions } from '../store/product.actions';
 import { selectProductById } from '../store/product.selectors';
-
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserFullNamePipe } from '../../../../shared/pipes/user-full-name.pipe';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-product-detail',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    UserFullNamePipe,
+  ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
@@ -29,7 +49,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   clientsByProduct$: Observable<Client[]>;
   clients$: Observable<Client[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store) {
+  constructor(private activatedRoute: ActivatedRoute, private store: Store, private notificationService: NotificationService) {
     this.productId = this.activatedRoute.snapshot.params['id'];
     this.clients$ = this.store.select(selectorClients);
     this.inscriptions$ = this.store.select(selectorInscriptions);
@@ -66,35 +86,24 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.store.dispatch(ProductActions.loadProductById({ id: this.productId }));
       // Initialize product$ after dispatching the load action
       this.product$ = this.store.select(selectProductById(this.productId));
-    } else {
-      console.warn('No product ID found in route parameters');
     }
   }
 
   onDeleteInscription(clientId: string) {
-    this.inscriptionsByProduct$.pipe(take(1)).subscribe((inscriptions: Inscription[]) => {
+    this.inscriptionsByProduct$.pipe(take(1)).subscribe(async (inscriptions: Inscription[]) => {
       const inscription = inscriptions.find(
         (i) => i.clientId === clientId && i.productId === this.productId
       );
 
       if (!inscription) return;
 
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'No podrás revertir esta acción',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.store.dispatch(
-            InscriptionActions.deleteInscription({
-              id: inscription.id,
-            })
-          );
-        }
-      });
+      if (await this.notificationService.confirmDelete('esta inscripción')) {
+        this.store.dispatch(
+          InscriptionActions.deleteInscription({
+            id: inscription.id,
+          })
+        );
+      }
     });
   }
 

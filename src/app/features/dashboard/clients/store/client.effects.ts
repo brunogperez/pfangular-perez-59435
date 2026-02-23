@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { ClientActions } from './client.actions';
 import { ClientsService } from '../../../../core/services/clients.service';
 import { Action } from '@ngrx/store';
-import Swal from 'sweetalert2';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Injectable()
 export class ClientEffects {
@@ -23,6 +23,7 @@ export class ClientEffects {
   constructor(
     private actions$: Actions,
     private clientsService: ClientsService,
+    private notificationService: NotificationService,
   ) {
     this.loadClients$ = createEffect(() => {
       return this.actions$.pipe(
@@ -33,7 +34,7 @@ export class ClientEffects {
               return ClientActions.loadClientsSuccess({ clients });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo cargar la lista de clientes.', 'error');
+              this.notificationService.showError('No se pudo cargar la lista de clientes.');
               return of(ClientActions.loadClientsFailure({ error: error.message }));
             })
           )
@@ -50,7 +51,7 @@ export class ClientEffects {
               return ClientActions.loadClientByIdSuccess({ client });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo cargar el cliente.', 'error');
+              this.notificationService.showError('No se pudo cargar el cliente.');
               return of(ClientActions.loadClientByIdFailure({ error: error.message }));
             })
           )
@@ -75,11 +76,11 @@ export class ClientEffects {
         mergeMap(({ client }) =>
           this.clientsService.createClient(client).pipe(
             map((createdClient) => {
-              Swal.fire('Éxito', 'Cliente creado exitosamente.', 'success');
+              this.notificationService.showSuccess('Cliente creado exitosamente.');
               return ClientActions.createClientSuccess({ client: createdClient });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo crear el cliente.', 'error');
+              this.notificationService.showError('No se pudo crear el cliente.');
               return of(ClientActions.createClientFailure({ error: error.message }));
             })
           )
@@ -93,11 +94,11 @@ export class ClientEffects {
         mergeMap(({ id, update }) =>
           this.clientsService.updateClient(id, update).pipe(
             map((updatedClient) => {
-              Swal.fire('Éxito', 'Cliente actualizado exitosamente.', 'success');
+              this.notificationService.showSuccess('Cliente actualizado exitosamente.');
               return ClientActions.updateClientSuccess({ client: updatedClient });
             }),
             catchError((error) => {
-              Swal.fire('Error', 'No se pudo actualizar el cliente.', 'error');
+              this.notificationService.showError('No se pudo actualizar el cliente.');
               return of(ClientActions.updateClientFailure({ error: error.message }));
             })
           )
@@ -111,22 +112,13 @@ export class ClientEffects {
         mergeMap(({ id }) =>
           this.clientsService.deleteClient(id).pipe(
             map(() => {
-              Swal.fire('Éxito', 'Cliente eliminado exitosamente.', 'success');
+              this.notificationService.showSuccess('El cliente ha sido eliminado correctamente.', '¡Eliminado!');
               return ClientActions.deleteClientSuccess({ id });
             }),
-            map(() => {
-              Swal.fire({
-                title: ' Eliminado!',
-                text: 'El cliente ha sido eliminado correctamente',
-                icon: 'success',
-                confirmButtonText: 'Ok',
-              });
-              return ClientActions.deleteClientSuccess({ id });
-            }),
-
-            catchError((error) =>
-              of(ClientActions.deleteClientFailure({ error: error.message }))
-            )
+            catchError((error) => {
+              this.notificationService.showError('No se pudo eliminar el cliente.');
+              return of(ClientActions.deleteClientFailure({ error: error.message }));
+            })
           )
         )
       )

@@ -6,9 +6,22 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectorUserById } from '../store/user.selectors';
 import { UserActions } from '../store/user.actions';
+import { CommonModule } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { UserFullNamePipe } from '../../../../shared/pipes/user-full-name.pipe';
 
 @Component({
   selector: 'app-user-detail',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatIconModule,
+    UserFullNamePipe,
+  ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })

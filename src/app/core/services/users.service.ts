@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { concatMap, delay, map, Observable, of } from 'rxjs';
+import { concatMap, Observable } from 'rxjs';
 import { User } from '../../features/dashboard/users/models';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { generateRandomString } from '../../shared/utils';
 
@@ -21,39 +21,23 @@ export class UsersService {
     });
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  }
-
   getUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(`${this.apiBaseURL}/api/users`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.httpClient.get<User[]>(`${this.apiBaseURL}/api/users`);
   }
 
   getUserById(id: string): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiBaseURL}/api/users/${id}`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.httpClient.get<User>(`${this.apiBaseURL}/api/users/${id}`);
   }
 
   updateUserById(id: string, update: Partial<User>) {
     return this.httpClient
-      .patch<User>(`${this.apiBaseURL}/api/users/${id}`, update, {
-        headers: this.getAuthHeaders()
-      })
+      .patch<User>(`${this.apiBaseURL}/api/users/${id}`, update)
       .pipe(concatMap(() => this.getUsers()));
   }
 
   removeUserById(id: string): Observable<User[]> {
     return this.httpClient
-      .delete<User>(`${this.apiBaseURL}/api/users/${id}`, {
-        headers: this.getAuthHeaders()
-      })
+      .delete<User>(`${this.apiBaseURL}/api/users/${id}`)
       .pipe(concatMap(() => this.getUsers()));
   }
 }

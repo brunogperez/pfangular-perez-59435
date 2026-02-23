@@ -1,14 +1,19 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Inscription } from '../models';
-import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { Product } from '../../products/models';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
 import { Store } from '@ngrx/store';
 import { InscriptionActions } from '../store/inscription.actions';
 import { selectProduct } from '../../products/store/product.selectors';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 interface InscriptionDialogData {
   inscription?: Inscription;
@@ -16,11 +21,24 @@ interface InscriptionDialogData {
 
 @Component({
   selector: 'app-inscription-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+  ],
   templateUrl: './inscription-dialog.component.html',
   styleUrl: './inscription-dialog.component.scss',
 })
 export class InscriptionDialogComponent {
-  inscriptionForm: FormGroup;
+  inscriptionForm: FormGroup<{
+    clientId: FormControl<string | null>;
+    productId: FormControl<string | null>;
+  }>;
   products$: Observable<Product[]>;
 
   constructor(
@@ -28,12 +46,13 @@ export class InscriptionDialogComponent {
     private formBuilder: FormBuilder,
     private inscriptionService: InscriptionService,
     private store: Store,
+    private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data?: InscriptionDialogData
   ) {
     this.products$ = this.store.select(selectProduct);
     this.inscriptionForm = this.formBuilder.group({
-      clientId: [{ value: '', disabled: true }],
-      productId: [null, Validators.required],
+      clientId: [{ value: '' as string | null, disabled: true }],
+      productId: [null as string | null, Validators.required],
     });
     this.inscriptionForm.patchValue({
       clientId: data?.inscription?.id,
@@ -56,19 +75,18 @@ export class InscriptionDialogComponent {
       const productId = formValues.productId;
 
       this.inscriptionService
-        .isClientEnrolled(clientId, productId)
+        .isClientEnrolled(clientId!, productId!)
         .subscribe((isEnrolled) => {
           if (isEnrolled) {
-            Swal.fire(
-              'Atención',
+            this.notificationService.showError(
               'El cliente ya tiene asignado este producto.',
-              'info'
+              'Atención'
             );
           } else {
             this.store.dispatch(
               InscriptionActions.createInscription({
-                clientId,
-                productId,
+                clientId: clientId!,
+                productId: productId!,
               })
             );
             this.matDialogRef.close();

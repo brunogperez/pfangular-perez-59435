@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { InscriptionActions } from './inscription.actions';
 import { InscriptionService } from '../../../../core/services/inscriptions.service';
 import { Action } from '@ngrx/store';
-import Swal from 'sweetalert2';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Injectable()
 export class InscriptionEffects {
@@ -24,15 +24,15 @@ export class InscriptionEffects {
 
   constructor(
     private actions$: Actions,
-    private inscriptionService: InscriptionService
+    private inscriptionService: InscriptionService,
+    private notificationService: NotificationService,
   ) {
     this.loadInscriptions$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(InscriptionActions.loadInscriptions),
-        concatMap((action) =>
+        concatMap(() =>
           this.inscriptionService.getInscriptions().pipe(
             map((res) => {
-              Swal.fire('Éxito', 'Inscripciones cargadas exitosamente.', 'success');
               return InscriptionActions.loadInscriptionsSuccess({ data: res });
             }),
             catchError((error) =>
@@ -49,7 +49,6 @@ export class InscriptionEffects {
         mergeMap((action) =>
           this.inscriptionService.getInscriptionsByProduct(action.productId).pipe(
             map((data) => {
-              Swal.fire('Éxito', 'Inscripciones del curso cargadas exitosamente.', 'success');
               return InscriptionActions.loadInscriptionsByProductSuccess({ data });
             }),
             catchError((error) =>
@@ -71,7 +70,7 @@ export class InscriptionEffects {
             })
             .pipe(
               map((data) => {
-                Swal.fire('Éxito', 'Inscripción creada exitosamente.', 'success');
+                this.notificationService.showSuccess('Inscripción creada exitosamente.');
                 return InscriptionActions.createInscriptionSuccess({ data });
               }),
               catchError((error) =>
@@ -95,26 +94,15 @@ export class InscriptionEffects {
         switchMap(({ id }) =>
           this.inscriptionService.deleteInscription(id).pipe(
             map((res) => {
-              Swal.fire(
-                '¡Eliminado!',
-                'La inscripción ha sido eliminada.',
-                'success'
-              );
+              this.notificationService.showSuccess('La inscripción ha sido eliminada.', '¡Eliminado!');
               return InscriptionActions.deleteInscriptionSuccess({ data: res });
             }),
             catchError((error) => {
-              Swal.fire(
-                'Error',
-                'Hubo un problema al eliminar la inscripción.',
-                'error'
-              );
+              this.notificationService.showError('Hubo un problema al eliminar la inscripción.');
               return of(InscriptionActions.deleteInscriptionFailure({ error }));
             })
           )
-        ),
-        switchMap(() => {
-          return of(InscriptionActions.loadInscriptions());
-        })
+        )
       );
     });
 
