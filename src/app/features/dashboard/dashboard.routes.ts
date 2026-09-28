@@ -1,87 +1,94 @@
 import { Routes } from '@angular/router';
-import { roleGuard } from '../../core/guards/role.guard';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { clientFeature } from './clients/store/client.reducer';
-import { ClientEffects } from './clients/store/client.effects';
-import { userFeature } from './users/store/user.reducer';
-import { UserEffects } from './users/store/user.effects';
-import { productFeature } from './products/store/product.reducer';
-import { ProductEffects } from './products/store/product.effects';
-import { inscriptionFeature } from './inscriptions/store/inscription.reducer';
-import { InscriptionEffects } from './inscriptions/store/inscription.effects';
 import { HomeComponent } from './home/home.component';
-import { ClientsComponent } from './clients/clients.component';
-import { ClientDetailComponent } from './clients/client-detail/client-detail.component';
-import { UsersComponent } from './users/users.component';
-import { UserDetailComponent } from './users/user-detail/user-detail.component';
-import { ProductsComponent } from './products/products.component';
-import { ProductDetailComponent } from './products/product-detail/product-detail.component';
-import { InscriptionsComponent } from './inscriptions/inscriptions.component';
+import { ResellersComponent } from './resellers/resellers.component';
+import { EndCustomersComponent } from './end-customers/end-customers.component';
+import { PlansComponent } from './plans/plans.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { CreditsComponent } from './credits/credits.component';
+import {
+  resellersFeatureName,
+  resellersReducer,
+} from '../../store/reducers/resellers.reducer';
+import { ResellersEffects } from '../../store/effects/resellers.effects';
+import {
+  endCustomersFeatureName,
+  endCustomersReducer,
+} from '../../store/reducers/end-customers.reducer';
+import { EndCustomersEffects } from '../../store/effects/end-customers.effects';
+import {
+  plansFeatureName,
+  plansReducer,
+} from '../../store/reducers/plans.reducer';
+import { PlansEffects } from '../../store/effects/plans.effects';
+import {
+  subscriptionsFeatureName,
+  subscriptionsReducer,
+} from '../../store/reducers/subscriptions.reducer';
+import { SubscriptionsEffects } from '../../store/effects/subscriptions.effects';
+import {
+  creditsFeatureName,
+  creditsReducer,
+} from '../../store/reducers/credits.reducer';
+import { CreditsEffects } from '../../store/effects/credits.effects';
+import { CreditsDetailComponent } from './credits/credits-detail/credits-detail.component';
+import { roleGuard } from '../../core/guards';
 
 export const DASHBOARD_ROUTES: Routes = [
+  { path: 'home', component: HomeComponent },
   {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
-    path: 'users',
-    canActivate: [roleGuard],
+    path: 'resellers',
+    component: ResellersComponent,
+    canActivate: [roleGuard(['admin'])],
     providers: [
-      provideState(userFeature),
-      provideEffects(UserEffects),
-    ],
-    children: [
-      { path: '', component: UsersComponent },
-      { path: ':id/detail', component: UserDetailComponent },
+      provideState(resellersFeatureName, resellersReducer),
+      provideEffects(ResellersEffects),
     ],
   },
   {
-    path: 'clients',
+    path: 'end-customers',
+    component: EndCustomersComponent,
     providers: [
-      provideState(clientFeature),
-      provideEffects(ClientEffects),
-      provideState(inscriptionFeature),
-      provideEffects(InscriptionEffects),
-      provideState(productFeature),
-      provideEffects(ProductEffects),
-    ],
-    children: [
-      { path: '', component: ClientsComponent },
-      { path: ':id/detail', component: ClientDetailComponent },
+      provideState(endCustomersFeatureName, endCustomersReducer),
+      provideEffects(EndCustomersEffects),
     ],
   },
   {
-    path: 'products',
+    path: 'plans',
+    component: PlansComponent,
+    canActivate: [roleGuard(['admin'])],
     providers: [
-      provideState(productFeature),
-      provideEffects(ProductEffects),
-      provideState(inscriptionFeature),
-      provideEffects(InscriptionEffects),
-      provideState(clientFeature),
-      provideEffects(ClientEffects),
-    ],
-    children: [
-      { path: '', component: ProductsComponent },
-      { path: ':id/detail', component: ProductDetailComponent },
+      provideState(plansFeatureName, plansReducer),
+      provideEffects(PlansEffects),
     ],
   },
   {
-    path: 'inscriptions',
+    path: 'subscriptions',
+    component: SubscriptionsComponent,
     providers: [
-      provideState(inscriptionFeature),
-      provideEffects(InscriptionEffects),
-      provideState(clientFeature),
-      provideEffects(ClientEffects),
-      provideState(productFeature),
-      provideEffects(ProductEffects),
-    ],
-    children: [
-      { path: '', component: InscriptionsComponent },
+      provideState(subscriptionsFeatureName, subscriptionsReducer),
+      provideEffects(SubscriptionsEffects),
     ],
   },
   {
-    path: '**',
-    redirectTo: 'home',
+    path: 'credits',
+    component: CreditsComponent,
+    canActivate: [roleGuard(['admin'])],
+    providers: [
+      provideState(creditsFeatureName, creditsReducer),
+      provideEffects(CreditsEffects),
+    ],
   },
+  {
+    path: 'credits/:id',
+    component: CreditsDetailComponent,
+    canActivate: [roleGuard(['admin'])],
+    providers: [
+      provideState(creditsFeatureName, creditsReducer),
+      provideEffects(CreditsEffects),
+    ],
+  },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' },
 ];

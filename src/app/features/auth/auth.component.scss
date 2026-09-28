@@ -1,9 +1,26 @@
-.auth{
-    display: flex;
-    height: 100vh;
-    background: url("/z12.webp");
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    align-items: center;
+/* Entrada "Operator" — boot de consola. Siempre oscuro (no sigue el toggle). */
+.auth {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% -10%, oklch(0.24 0.03 250) 0%, transparent 60%),
+    oklch(0.14 0.012 250);
+}
+
+/* grilla técnica tenue de fondo */
+.auth-grid {
+  position: absolute;
+  inset: -2px;
+  background-image:
+    linear-gradient(oklch(0.5 0.02 250 / .06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.5 0.02 250 / .06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 35%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 50% 35%, #000 0%, transparent 75%);
+  pointer-events: none;
 }

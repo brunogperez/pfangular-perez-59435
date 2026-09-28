@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-import { AuthData } from '../models';
+import { AuthData } from '../../../core/models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AuthActions } from '../../../store/actions/auth.actions';

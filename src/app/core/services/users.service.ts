@@ -1,43 +1,35 @@
-import { Injectable } from '@angular/core';
-import { concatMap, Observable } from 'rxjs';
-import { User } from '../../features/dashboard/users/models';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { User } from '../models';
 import { environment } from '../../../environments/environment';
-import { generateRandomString } from '../../shared/utils';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class UsersService {
-  private apiBaseURL = environment.apiBaseURL;
+  private http = inject(HttpClient);
+  private base = `${environment.apiBaseURL}/api/users`;
 
-  constructor(private httpClient: HttpClient) {}
-
-  createUser(data: Omit<User, 'id'>): Observable<User> {
-    return this.httpClient.post<User>(`${this.apiBaseURL}/api/users`, {
-      ...data,
-      createdAt: new Date().toISOString(),
-      token: generateRandomString(15),
-    });
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(this.base);
   }
 
-  getUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(`${this.apiBaseURL}/api/users`);
+  getById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.base}/${id}`);
   }
 
-  getUserById(id: string): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiBaseURL}/api/users/${id}`);
+  create(user: Partial<User>): Observable<User> {
+    return this.http.post<User>(this.base, user);
   }
 
-  updateUserById(id: string, update: Partial<User>) {
-    return this.httpClient
-      .patch<User>(`${this.apiBaseURL}/api/users/${id}`, update)
-      .pipe(concatMap(() => this.getUsers()));
+  update(id: string, update: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.base}/${id}`, update);
   }
 
-  removeUserById(id: string): Observable<User[]> {
-    return this.httpClient
-      .delete<User>(`${this.apiBaseURL}/api/users/${id}`)
-      .pipe(concatMap(() => this.getUsers()));
+  patch(id: string, update: Partial<User>): Observable<{ success: boolean; data: User }> {
+    return this.http.patch<{ success: boolean; data: User }>(`${this.base}/${id}`, update);
+  }
+
+  delete(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.base}/${id}`);
   }
 }

@@ -1,7 +1,8 @@
 export { AuthService } from './auth.service';
-export { ClientsService } from './clients.service';
-export { UsersService } from './users.service';
-export { ProductsService } from './products.service';
-export { InscriptionService } from './inscriptions.service';
 export { NotificationService } from './notification.service';
-export { WeatherService } from './weather.service';
+export { UsersService } from './users.service';
+export { ResellersService } from './resellers.service';
+export { EndCustomersService } from './end-customers.service';
+export { PlansService } from './plans.service';
+export { SubscriptionsService } from './subscriptions.service';
+export { CreditTransactionsService } from './credit-transactions.service';

@@ -1,6 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { User } from '../../features/dashboard/users/models';
-import { AuthData } from '../../features/auth/models';
+import { AuthData, User } from '../../core/models';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',

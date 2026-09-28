@@ -1,53 +1,55 @@
-<mat-drawer-container class="example-container" autosize>
-  <!-- SECCION IZQUIERDA (PARTE INTERIOR DEL SIDEBAR) -->
-  <mat-drawer #drawer class="example-sidenav bg-table" mode="over">
-    <mat-nav-list>
-      <a mat-list-item routerLink="home">Inicio</a>
-      <a mat-list-item routerLink="users" *ngIf="isAdmin$ | async">Usuarios</a>
-      <a mat-list-item routerLink="clients">Clientes</a>
-      <a mat-list-item routerLink="products">Productos</a>
-      <a mat-list-item routerLink="inscriptions">Inscripciones</a>
-      <a mat-list-item (click)="logout()">
-        <p class="logout" style="margin-bottom: 0%;"> <span><mat-icon class="mat-icon-logout"> logout </mat-icon></span> Cerrar sesión</p>
-      </a>
-    </mat-nav-list>
-  </mat-drawer>
-
-  <!-- SECCION DERECHA DEL CONTENIDO -->
-  <div class="example-sidenav-content">
-    <div>
-      <mat-toolbar class="d-flex justify-content-between w-100 h-100 p-3" style="background-color: transparent">
-        <div>
-          <button
-            (click)="drawer.toggle()"
-            mat-icon-button
-            class="example-icon"
-          >
-            <mat-icon>menu</mat-icon>
-          </button>
-          <img
-            src="https://imgs.search.brave.com/-z7s6ujc_aY_XB31ZNmL9RL98KX-d9fgx6s4MeMp3Wc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/aWNvbnNjb3V0LmNv/bS9pY29uL3ByZW1p/dW0vcG5nLTI1Ni10/aHVtYi9jb250cm9s/LXBhbmVsLWljb24t/ZG93bmxvYWQtaW4t/c3ZnLXBuZy1naWYt/ZmlsZS1mb3JtYXRz/LS1kYXNoYm9hcmQt/c2V0dGluZy1hZG1p/bi1jb21wdXRlci13/ZWItaG9zdGluZy1w/YWNrLWRlc2lnbi1k/ZXZlbG9wbWVudC1p/Y29ucy0xMDgwMTY3/OS5wbmc_Zj13ZWJw/Jnc9MTI4"
-            alt="Logo del panel"
-          />
-        </div>
-        <div
-          class="d-flex gap-3 align-items-center mx-5"
-          *ngIf="authUser$ | async; let authUser"
-        >
-          <mat-icon> person </mat-icon>
-          <p class="my-auto textColor" *ngIf="isAdmin$ | async">
-            {{ authUser.role | uppercase }}
-          </p>
-          <p class="my-auto">
-            {{ authUser.firstName | titlecase }}
-            {{ authUser.lastName | titlecase }}
-          </p>
-        </div>
-      </mat-toolbar>
-
-      <h3 class="route-display text-center m-3">{{ currentRouteName }}</h3>
+<mat-drawer-container class="dashboard-shell" autosize>
+  <mat-drawer #drawer class="dashboard-sidenav" mode="side" opened>
+    <div class="brand">
+      <mat-icon>satellite_alt</mat-icon>
+      <span>Reseller Panel</span>
     </div>
 
-    <router-outlet />
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let item of navItems$ | async"
+        [routerLink]="item.path"
+        routerLinkActive="active-link"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <a mat-list-item (click)="logout()" class="logout-item">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Cerrar sesión</span>
+      </a>
+    </div>
+  </mat-drawer>
+
+  <div class="dashboard-content">
+    <mat-toolbar color="primary" class="dashboard-toolbar">
+      <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="route-title">{{ currentRouteName }}</span>
+      <span class="spacer"></span>
+      <button
+        mat-icon-button
+        class="theme-toggle"
+        (click)="theme.toggle()"
+        [matTooltip]="theme.isDark() ? 'Modo claro' : 'Modo oscuro'"
+        aria-label="Cambiar tema"
+      >
+        <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <div class="user-info" *ngIf="authUser$ | async as user">
+        <mat-icon>person</mat-icon>
+        <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+        <span class="user-role" *ngIf="roleLabel$ | async as roleLabel">{{ roleLabel }}</span>
+      </div>
+    </mat-toolbar>
+
+    <main class="dashboard-main">
+      <router-outlet />
+    </main>
   </div>
 </mat-drawer-container>

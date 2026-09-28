@@ -1,30 +1,284 @@
-/* You can add global styles to this file, and also import other style files */
+/* ════════════════════════════════════════════════════════════════════
+   Sistema de diseño "Operator" (consola NOC) — identidad global.
+   Tokens semánticos: :root = "Día" (claro), body.dark-theme = "Noche".
+   El default debe quedar SIN .dark-theme (lo testea ui-dashboard.spec).
+   Identidad: Archivo + JetBrains Mono, acento ámbar, secciones ruled.
+   ════════════════════════════════════════════════════════════════════ */
 
-html,
-body {
-  height: 100%;
+:root {
+  --bg: oklch(0.965 0.004 250);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.945 0.005 250);
+  --border: oklch(0.88 0.006 255);
+  --border-soft: oklch(0.92 0.005 255);
+  --ink: oklch(0.26 0.02 255);
+  --ink-dim: oklch(0.44 0.018 255);
+  --ink-mute: oklch(0.56 0.016 255);
+  --accent: oklch(0.78 0.15 72);          /* relleno ámbar */
+  --accent-ink: oklch(0.50 0.135 56);     /* texto ámbar (≥4.5:1 sobre claro) */
+  --accent-soft: oklch(0.95 0.045 78);
+  --on-accent: oklch(0.22 0.03 70);
+  --cyan: oklch(0.52 0.10 220);
+  --good: oklch(0.50 0.12 150);
+  --good-soft: oklch(0.94 0.045 150);
+  --warn: oklch(0.53 0.15 50);
+  --warn-soft: oklch(0.94 0.06 65);
+  --crit: oklch(0.52 0.18 25);
+  --crit-soft: oklch(0.95 0.05 25);
+
+  --font-ui: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px oklch(0.5 0.02 255 / .05), 0 12px 30px -18px oklch(0.4 0.03 255 / .28);
 }
+
+body.dark-theme {
+  --bg: oklch(0.16 0.012 250);
+  --surface: oklch(0.21 0.015 250);
+  --surface-2: oklch(0.19 0.014 250);
+  --border: oklch(0.30 0.02 250);
+  --border-soft: oklch(0.26 0.018 250);
+  --ink: oklch(0.93 0.01 250);
+  --ink-dim: oklch(0.74 0.015 250);
+  --ink-mute: oklch(0.60 0.018 250);
+  --accent: oklch(0.80 0.15 72);
+  --accent-ink: oklch(0.82 0.14 74);
+  --accent-soft: oklch(0.30 0.06 72);
+  --on-accent: oklch(0.18 0.03 70);
+  --cyan: oklch(0.78 0.11 210);
+  --good: oklch(0.74 0.14 150);
+  --good-soft: oklch(0.30 0.05 150);
+  --warn: oklch(0.74 0.16 55);
+  --warn-soft: oklch(0.30 0.07 50);
+  --crit: oklch(0.68 0.19 25);
+  --crit-soft: oklch(0.30 0.06 25);
+  --shadow: 0 1px 2px oklch(0 0 0 / .4), 0 14px 34px -18px oklch(0 0 0 / .65);
+}
+
+/* ── base ──────────────────────────────────────────────────────────── */
+html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+.mat-typography { font-family: var(--font-ui); }
+h1, h2, h3, h4, h5 { font-family: var(--font-ui); letter-spacing: -.01em; }
+
+/* utilidad: cifras tabulares monoespaciadas */
+.mono, .card-value, .num { font-family: var(--font-mono); font-feature-settings: "tnum" 1; }
+
+::selection { background: var(--accent-soft); color: var(--on-accent); }
+
+/* ── superficies base ──────────────────────────────────────────────── */
+.dashboard-main, .mat-drawer-container, .home-container, .page {
+  background: var(--bg);
+  color: var(--ink);
 }
 
-/* Tema oscuro para SweetAlert2 */
-.swal2-popup {
-  background-color: #333;
-  color: #fff;
+/* ── Material: cards / paneles ─────────────────────────────────────── */
+.mat-mdc-card {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
 }
 
-.swal2-title {
-  color: #fff;
+/* ── Material: tablas (densas, cifras mono) ────────────────────────── */
+.mat-mdc-table { background: transparent !important; }
+.mat-mdc-header-row { background: transparent !important; }
+.mat-mdc-header-cell {
+  color: var(--ink-mute) !important;
+  font-family: var(--font-ui);
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border) !important;
+}
+.mat-mdc-cell {
+  color: var(--ink) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+.mat-mdc-row:hover .mat-mdc-cell { background: var(--surface-2) !important; }
+/* columnas numéricas en mono */
+.mat-column-credits, .mat-column-price, .mat-column-balance, .mat-column-amount,
+.mat-column-balanceAfter, .mat-column-end, .mat-column-subs { font-family: var(--font-mono); }
+
+/* flecha de ordenamiento visible + ámbar cuando la columna está activa */
+.mat-sort-header-arrow { color: var(--ink-dim) !important; }
+.mat-sort-header-sorted .mat-sort-header-arrow,
+[aria-sort="ascending"] .mat-sort-header-arrow,
+[aria-sort="descending"] .mat-sort-header-arrow { color: var(--accent-ink) !important; }
+
+/* columna de acciones: botones SIEMPRE en una fila horizontal.
+   nowrap evita que la auto-layout de la tabla los apile al angostar la columna;
+   vertical-align:middle mata el escalonado por baseline de los inline-block. */
+td.mat-column-actions { white-space: nowrap; }
+.mat-column-actions .mat-mdc-icon-button { vertical-align: middle; }
+
+/* ── Material: toolbar (topbar) ────────────────────────────────────── */
+.mat-toolbar.mat-primary, .dashboard-toolbar {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-bottom: 1px solid var(--border);
+  box-shadow: none !important;
+}
+.dashboard-toolbar .mat-icon { color: var(--ink-dim); }
+
+/* ── Material: botones ─────────────────────────────────────────────── */
+.mat-mdc-raised-button.mat-primary, .mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-color: var(--accent);
+  --mdc-filled-button-label-text-color: var(--on-accent);
+  --mdc-protected-button-container-color: var(--accent);
+  --mdc-protected-button-label-text-color: var(--on-accent);
+  background-color: var(--accent) !important;
+  color: var(--on-accent) !important;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+.mat-mdc-button.mat-primary, .mat-mdc-icon-button.mat-primary,
+.mat-mdc-stroked-button.mat-primary { color: var(--accent-ink) !important; }
+.mat-mdc-stroked-button {
+  border-color: var(--border) !important;
+  color: var(--ink) !important;
+  border-radius: var(--radius-sm);
+}
+.mat-mdc-icon-button { color: var(--ink-dim); }
+.mat-mdc-button.mat-warn, .mat-mdc-icon-button.mat-warn { color: var(--crit) !important; }
+
+/* ── Material: form fields / selects / inputs ──────────────────────── */
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: var(--surface-2);
+  /* focus a ámbar (la paleta), no al primary índigo default de MDC:
+     outline + indicator del filled + label flotante + caret + flecha del select */
+  --mdc-outlined-text-field-focus-outline-color: var(--accent);
+  --mdc-outlined-text-field-focus-label-text-color: var(--accent-ink);
+  --mdc-outlined-text-field-caret-color: var(--accent);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--accent);
+  --mdc-filled-text-field-focus-label-text-color: var(--accent-ink);
+  --mdc-filled-text-field-caret-color: var(--accent);
+  --mat-select-focused-arrow-color: var(--accent);
+}
+.mat-mdc-text-field-wrapper { background: var(--surface-2) !important; border-radius: var(--radius-sm) !important; }
+.mat-mdc-form-field, .mat-mdc-select-value, .mdc-text-field__input,
+.mat-mdc-input-element { color: var(--ink) !important; }
+.mat-mdc-form-field-label, .mdc-floating-label, .mat-mdc-select-placeholder,
+.mat-mdc-form-field-icon-prefix .mat-icon { color: var(--ink-mute) !important; }
+.mdc-text-field__input::placeholder { color: var(--ink-mute) !important; opacity: 1; }
+.mat-mdc-select-arrow { color: var(--ink-mute) !important; }
+
+/* overlays (panels de select / menú) viven fuera del componente */
+.mat-mdc-select-panel, .mat-mdc-menu-panel, .cdk-overlay-pane .mat-mdc-autocomplete-panel {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm) !important;
+}
+.mat-mdc-option { color: var(--ink) !important; }
+.mat-mdc-option:hover, .mat-mdc-option.mdc-list-item--selected { background: var(--surface-2) !important; }
+.mat-mdc-option .mdc-list-item__primary-text { color: var(--ink) !important; }
+
+/* ── Material: chips ───────────────────────────────────────────────── */
+/* el fondo ámbar lo lleva SOLO el host + overflow:hidden recorta las capas
+   MDC internas (el __cell venía con radius 0 y tapaba las esquinas redondeadas). */
+.mat-mdc-chip {
+  --mdc-chip-label-text-color: var(--on-accent);
+  background: var(--accent) !important;
+  color: var(--on-accent) !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+}
+.mat-mdc-chip, .mdc-evolution-chip__cell {
+  font-family: var(--font-mono);
+  font-size: 11px !important;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.mdc-evolution-chip__cell { background: transparent !important; }
+.mat-mdc-chip .mdc-evolution-chip__text-label { color: var(--on-accent) !important; }
+
+/* ── Material: paginator / slide-toggle / spinner ──────────────────── */
+.mat-mdc-paginator { background: transparent !important; color: var(--ink-dim) !important; }
+.mat-mdc-paginator-icon { fill: var(--ink-dim) !important; }
+.mdc-switch--selected .mdc-switch__handle-track + .mdc-switch__handle::after,
+.mdc-switch.mdc-switch--selected .mdc-switch__track::after { background: var(--accent) !important; }
+.mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: var(--accent); }
+
+/* ── Material: dialogs (chrome común a TODOS los modales) ───────────── */
+.mat-mdc-dialog-surface, .mdc-dialog__surface {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--border);
+  border-radius: 14px !important;
+  box-shadow: 0 30px 60px -28px oklch(0 0 0 / .6) !important;
+  overflow: hidden;
+}
+/* título: barra superior con punto-acento, mono kicker opcional */
+.mat-mdc-dialog-container .mdc-dialog__title,
+.mat-mdc-dialog-title {
+  color: var(--ink) !important;
+  font-family: var(--font-ui);
+  font-weight: 700 !important;
+  font-size: 1.12rem !important;
+  letter-spacing: -.01em;
+  padding: 1.15rem 1.5rem 1rem !important;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: center; gap: .6rem;
+}
+.mat-mdc-dialog-container .mdc-dialog__title::before,
+.mat-mdc-dialog-title::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex: none;
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 20%, transparent);
+}
+.mat-mdc-dialog-container .mdc-dialog__title::after,
+.mat-mdc-dialog-title::after { content: none !important; }   /* anula la línea MDC default */
+.mat-mdc-dialog-content, .mdc-dialog__content {
+  color: var(--ink-dim) !important;
+  padding: 1.25rem 1.5rem !important;
+  font-family: var(--font-ui);
+}
+.mat-mdc-dialog-actions {
+  padding: .9rem 1.5rem !important;
+  border-top: 1px solid var(--border-soft);
+  gap: .5rem;
 }
 
-.swal2-styled.swal2-confirm {
-  background-color: #444;
-  color: #fff;
+/* ── badges de estado (usados por los componentes lista) ───────────── */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; letter-spacing: .03em;
+  padding: .2rem .5rem; border-radius: 5px;
 }
+.badge.ok, .badge.active { background: var(--good-soft); color: var(--good); }
+.badge.off, .badge.cancelled, .badge.expired { background: var(--crit-soft); color: var(--crit); }
+.badge.suspended { background: var(--warn-soft); color: var(--warn); }
 
-.swal2-styled.swal2-cancel {
-  background-color: #666;
-  color: #fff;
+.muted, .empty, .meta, .biz, .bar-label .muted, .hint { color: var(--ink-mute) !important; }
+
+/* ── skeletons ─────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border-soft) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: var(--radius-sm);
 }
+.skeleton-row { height: 44px; margin: 8px 0; }
+@keyframes skeleton-loading {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+
+/* ── SweetAlert2 — alinear con la identidad en Noche ───────────────── */
+body.dark-theme .swal2-popup { background-color: oklch(0.21 0.015 250); color: var(--ink); }
+body.dark-theme .swal2-title { color: var(--ink); }
+.swal2-styled.swal2-confirm { background-color: var(--accent) !important; color: var(--on-accent) !important; }
+.swal2-styled.swal2-cancel { background-color: var(--surface-2) !important; color: var(--ink) !important; }

@@ -1,89 +1,115 @@
-<mat-grid-list cols="3" rowHeight="16vh">
-  <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card class="p-4 rounded rounded-4 bg-table">
-      <div id="weather_wrapper ">
-        <div class="weatherCard">
-          <div class="currentTemp">
-            <span class="temp">{{ weatherData.current.temperature }}°C</span>
-            <span class="location">Mendoza</span>
-          </div>
-          <div class="currentWeather">
-            <div class="conditions">
-              <mat-icon class="custom-icon"> sunny </mat-icon>
-            </div>
-            <div class="info">
-              <span class="rain">{{ weatherData.rain }} mm</span>
-              <span class="wind"
-                >{{ weatherData.current.winddirection }} km/h</span
-              >
-            </div>
-          </div>
+<div class="home-container">
+  <h2 class="page-title">{{ isAdminView ? 'Resumen general' : 'Mi resumen' }}</h2>
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="cards-grid">
+      <mat-card
+        *ngFor="let card of cards"
+        class="dashboard-card"
+        [class.clickable]="card.route"
+        (click)="navigate(card.route)"
+      >
+        <div class="card-icon">
+          <mat-icon>{{ card.icon }}</mat-icon>
         </div>
-      </div>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="1" [rowspan]="4">
-    <div class="col-9 me-5">
-      <mat-card class="align-items-start bg-table rounded p-4 m-2">
-        <div class="agenda-widget">
-          <p>Agenda de eventos</p>
-          <ul class="events">
-            <li>
-              <p><strong>Evento:</strong> Fin de clases</p>
-              <p><strong>Fecha:</strong> 29/11/2024</p>
-            </li>
-          </ul>
-          <button mat-button>Ver más eventos</button>
+        <div class="card-content">
+          <div class="card-value">{{ card.value }}</div>
+          <div class="card-label">{{ card.label }}</div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="widgets-row">
+      <mat-card class="widget" *ngIf="serviceRows.length">
+        <h3>
+          <mat-icon>bar_chart</mat-icon>
+          Ingresos por servicio
+        </h3>
+        <div class="bars">
+          <div class="bar-row" *ngFor="let r of serviceRows">
+            <div class="bar-label">
+              <strong>{{ r.type }}</strong>
+              <span class="muted">— {{ r.count }} subs</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="r.pct"></div>
+              <span class="bar-value">${{ r.revenue.toFixed(2) }}</span>
+            </div>
+          </div>
         </div>
       </mat-card>
 
-      <div class="col-8 m-auto">
-        <mat-card class="m-2 bg-table">
-          <mat-calendar></mat-calendar>
-        </mat-card>
-      </div>
+      <mat-card class="widget" *ngIf="topResellers.length">
+        <h3>
+          <mat-icon>emoji_events</mat-icon>
+          Top resellers por ingresos
+        </h3>
+        <ol class="top-list">
+          <li *ngFor="let r of topResellers; let i = index" (click)="goToReseller(r.id)">
+            <span class="rank" [class.podium]="i < 3">#{{ i + 1 }}</span>
+            <span class="name">{{ r.label }}</span>
+            <span class="meta">{{ r.subsCount }} subs</span>
+            <span class="amount">${{ r.revenue.toFixed(2) }}</span>
+          </li>
+        </ol>
+      </mat-card>
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card class="learning-path bg-table border-2 m-5">
-      <div class="communication-widget">
-        <div class="notifications">
-          <h2>Notificaciones</h2>
-          <ul>
-            <li>
-              <strong>Recordatorio:</strong> Inscripciones abiertas para
-              talleres extracurriculares.
-              <span class="date">19/11/2024</span>
-            </li>
-            <li>
-              <strong>Examen programado:</strong> Examen final de "Historia" el
-              25/11/2024.
-              <span class="date">Anunciado: 17/11/2024</span>
-            </li>
-            <li>
-              <strong>Aviso:</strong> La institución estará cerrada el
-              20/11/2024 por mantenimiento.
-              <span class="date">Publicado: 16/11/2024</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="3" [rowspan]="1">
-    <div class="extra-info bg-table rounded p-4">
-      <div>
-        <mat-icon>web</mat-icon>
-        <p>Webinars</p>
-      </div>
-      <div>
-        <mat-icon>card_giftcard</mat-icon>
-        <p>Beneficios</p>
-      </div>
-      <div>
-        <mat-icon>signal_cellular_alt</mat-icon>
-        <p>Estado de la Plataforma</p>
-      </div>
+
+    <div class="widgets-row">
+      <mat-card class="widget">
+        <h3>
+          <mat-icon>schedule</mat-icon>
+          Próximas a vencer (≤14 días)
+        </h3>
+        <table class="compact-table" *ngIf="expiringRows.length">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Plan</th>
+              <th>Vence</th>
+              <th class="num">Días</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of expiringRows">
+              <td>{{ row.customer }}</td>
+              <td>
+                <mat-chip [highlighted]="true" disableRipple class="srv-chip">{{ row.service }}</mat-chip>
+                {{ row.plan }}
+              </td>
+              <td>{{ row.endDate | date:'dd/MM/yyyy':'UTC' }}</td>
+              <td class="num" [class.warn]="row.daysRemaining <= 7" [class.expired]="row.daysRemaining <= 0">
+                {{ row.daysRemaining }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="!expiringRows.length" class="empty">Sin suscripciones próximas a vencer.</p>
+      </mat-card>
+
+      <mat-card class="widget critical" *ngIf="isAdminView">
+        <h3>
+          <mat-icon>warning</mat-icon>
+          Saldos críticos (&lt; {{ threshold }} cr)
+        </h3>
+        <ul class="critical-list" *ngIf="lowCreditResellers.length">
+          <li *ngFor="let r of lowCreditResellers" (click)="goToReseller(r._id || r.id || '')">
+            <span class="name">
+              {{ r.firstName }} {{ r.lastName }}
+              <span class="biz" *ngIf="r.businessName">— {{ r.businessName }}</span>
+            </span>
+            <span class="credits" [class.zero]="r.credits === 0">{{ r.credits }} cr</span>
+          </li>
+        </ul>
+        <p *ngIf="!lowCreditResellers.length" class="empty good">
+          <mat-icon>check_circle</mat-icon>
+          Todos los resellers con saldo OK.
+        </p>
+      </mat-card>
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+</div>
